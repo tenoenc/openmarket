@@ -1,0 +1,14 @@
+rootProject.name = 'openmarket'
+
+// 실행 모듈
+include 'api-server'
+
+// 공통 모듈
+include 'common'
+
+// 비즈니스 도메인 모듈
+include 'user'
+include 'deal'
+include 'order'
+include 'store'
+include 'system'
