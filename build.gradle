@@ -52,19 +52,3 @@ configure(subprojects.findAll { it.name in ['user', 'deal', 'order', 'store', 's
         implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     }
 }
-
-project(':api-server') {
-    bootJar.enabled = true
-    jar.enabled = false
-
-    dependencies {
-        implementation project(':common')
-        implementation project(':user')
-        implementation project(':deal')
-        implementation project(':order')
-        implementation project(':store')
-        implementation project(':system')
-
-        implementation 'org.springframework.boot:spring-boot-starter-web'
-    }
-}

@@ -1,0 +1,16 @@
+bootJar { enabled = true }
+jar { enabled = false }
+
+dependencies {
+    implementation project(':common')
+    implementation project(':user')
+    implementation project(':deal')
+    implementation project(':order')
+    implementation project(':store')
+    implementation project(':system')
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    implementation 'org.flywaydb:flyway-core'
+    implementation 'org.flywaydb:flyway-mysql'
+}
