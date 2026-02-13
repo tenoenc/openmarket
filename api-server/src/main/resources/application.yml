@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: openmarket-api
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:${MYSQL_PORT:3306}/${MYSQL_DATABASE:openmarket}?serverTimezone=${TZ:Asia/Seoul}&characterEncoding=UTF-8
+    username: ${MYSQL_USER:openmarket}
+    password: ${MYSQL_PASSWORD:1234}
+
+    jpa:
+      open-in-view: false
+      hibernate:
+        ddl-auto: validate # Flyway가 스키마를 관리하므로 Hibernate는 검증만 수행
+      properties:
+        hibernate:
+          format_sql: true
+          show_sql: true
+
+    # Flyway Configuration
+    flyway:
+      enabled: true
+      baseline-on-migrate: true # 기존 데이터가 있어도 실행
+      locations: classpath:db/migration # SQL 파일 위치
