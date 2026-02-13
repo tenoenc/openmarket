@@ -38,4 +38,4 @@ out/
 
 ### Docker & Environment ###
 .env
-.docker/data/
+docker/data/
