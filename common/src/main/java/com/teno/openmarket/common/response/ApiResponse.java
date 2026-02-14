@@ -96,7 +96,7 @@ public class ApiResponse<T> {
     }
 
     /**
-     * 불변 객체의 특정 필드만 변경한 복사본 생성 (Wither Method)
+     * 모듈명 주입 (Wither Method)
      */
     public ApiResponse<T> withModule(String moduleName) {
         return ApiResponse.<T>builder()
@@ -108,6 +108,23 @@ public class ApiResponse<T> {
                 .module(moduleName)
                 .timestamp(this.timestamp)
                 .requestId(this.requestId)
+                .traceId(this.traceId)
+                .build();
+    }
+
+    /**
+     * 헤더의 X-Request-ID 주입 (Wither Method)
+     */
+    public ApiResponse<T> withRequestId(String requestId) {
+        return ApiResponse.<T>builder()
+                .result(this.result)
+                .data(this.data)
+                .message(this.message)
+                .errorCode(this.errorCode)
+                .errors(this.errors)
+                .module(this.module)
+                .timestamp(this.timestamp)
+                .requestId(requestId)
                 .traceId(this.traceId)
                 .build();
     }
