@@ -17,6 +17,7 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'checkstyle'
 
     java {
         toolchain {
@@ -34,6 +35,12 @@ subprojects {
 
     test {
         useJUnitPlatform()
+    }
+
+    checkstyle {
+        toolVersion = '10.12.5'
+        configFile = rootProject.file("config/checkstyle/checkstyle.xml")
+        ignoreFailures = false // 규칙 위반 시 빌드를 실패시킴 (에러 발생)
     }
 }
 
