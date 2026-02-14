@@ -81,11 +81,6 @@ subprojects {
     }
 }
 
-project(':common') {
-    bootJar.enabled = false
-    jar.enabled = true
-}
-
 configure(subprojects.findAll { it.name in ['user', 'deal', 'order', 'store', 'system'] }) {
     bootJar.enabled = false
     jar.enabled = true
