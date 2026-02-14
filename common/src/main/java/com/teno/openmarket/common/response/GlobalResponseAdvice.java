@@ -29,19 +29,30 @@ public class GlobalResponseAdvice implements ResponseBodyAdvice<Object> {
                                   Class<? extends HttpMessageConverter<?>> selectedConverterType,
                                   ServerHttpRequest request, ServerHttpResponse response) {
 
-        // ApiResponse 타입인 경우 모듈명만 주입
-        if (body instanceof ApiResponse<?> apiResponse) {
-            return apiResponse.withModule(applicationName);
+        List<String> headerValues = request.getHeaders().get("X-Request-ID");
+        String requestIdHeader = (headerValues != null && !headerValues.isEmpty()) ? headerValues.get(0) : null;
+
+        ApiResponse<?> apiResponse;
+
+
+        if (body instanceof ApiResponse<?>) {
+            // ApiResponse 타입인 경우 모듈명만 주입
+            apiResponse = (ApiResponse<?>) body;
+        } else if (body instanceof List<?>) {
+            // List 타입인 경우 ListWrapper로 감싸고 + ApiResponse로 감싸고 + 모듈명 주입
+            apiResponse = ApiResponse.success(ListWrapper.of((List<?>) body));
+        } else {
+            // 그 외인 경우 ApiResponse로 감싸고 + 모듈명 주입
+            // (단, String을 직접 리턴하는 경우 StringHttpMessageConverter와 충돌 날 수 있음)
+            apiResponse = ApiResponse.success(body);
         }
 
-        // List 타입인 경우 ListWrapper로 감싸고 + ApiResponse로 감싸고 + 모듈명 주입
-        if (body instanceof List<?>) {
-            return ApiResponse.success(ListWrapper.of((List<?>) body))
-                    .withModule(applicationName);
+        apiResponse = apiResponse.withModule(applicationName);
+
+        if (requestIdHeader != null) {
+            apiResponse = apiResponse.withRequestId(requestIdHeader);
         }
 
-        // 그 외인 경우 ApiResponse로 감싸고 + 모듈명 주입
-        // (단, String을 직접 리턴하는 경우 StringHttpMessageConverter와 충돌 날 수 있음)
-        return ApiResponse.success(body).withModule(applicationName);
+        return apiResponse;
     }
 }
