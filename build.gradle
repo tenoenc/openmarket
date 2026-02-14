@@ -15,9 +15,11 @@ allprojects {
 
 subprojects {
     apply plugin: 'java'
+    apply plugin: 'java-library'
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'checkstyle'
+    apply plugin: 'jacoco'
 
     java {
         toolchain {
@@ -35,12 +37,47 @@ subprojects {
 
     test {
         useJUnitPlatform()
+        finalizedBy jacocoTestReport
     }
 
     checkstyle {
         toolVersion = '10.12.5'
         configFile = rootProject.file("config/checkstyle/checkstyle.xml")
         ignoreFailures = false // 규칙 위반 시 빌드를 실패시킴 (에러 발생)
+    }
+
+    jacocoTestReport {
+        dependsOn test
+        reports {
+            xml.required = true // CI 연동용
+            html.required = true // 개발자 확인용
+        }
+    }
+
+    jacocoTestCoverageVerification {
+        violationRules {
+            rule {
+                enabled = true
+                element = 'CLASS'
+                // 커버리지 체크 제외 대상
+                excludes = [
+                    '**.*Application*',
+                    '**.*Config*',
+                    '**.*Dto*',
+                    '**.*Request*',
+                    '**.*Response*',
+                    '**.*Exception*',
+                    '**/Q*'
+                ]
+
+                // 커버리지 기준 설정
+                limit {
+                    counter = 'LINE' // 라인 커버리지 기준
+                    value = 'COVEREDRATIO'
+                    minimum = 0.30
+                }
+            }
+        }
     }
 }
 
