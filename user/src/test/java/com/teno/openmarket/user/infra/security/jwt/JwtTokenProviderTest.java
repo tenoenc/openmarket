@@ -72,12 +72,19 @@ class JwtTokenProviderTest {
     @Test
     @DisplayName("만료된 토큰을 검증하면 false를 반환해야 한다")
     void should_ReturnFalse_When_TokenIsExpired() {
+        // given
         String expiredToken = Jwts.builder()
                 .subject("1")
                 .issuedAt(new Date(System.currentTimeMillis() - 10000))
                 .expiration(new Date(System.currentTimeMillis() - 1000)) // 이미 만료됨
                 .signWith(secretKey)
                 .compact();
+
+        // when
+        boolean isValid = jwtTokenProvider.validateToken(expiredToken);
+
+        // then
+        assertThat(isValid).isFalse();
     }
 
     @Test

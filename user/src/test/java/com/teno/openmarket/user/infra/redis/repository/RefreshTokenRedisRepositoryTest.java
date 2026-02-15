@@ -1,6 +1,6 @@
 package com.teno.openmarket.user.infra.redis.repository;
 
-import com.teno.openmarket.user.infra.config.RedisConfig;
+import com.teno.openmarket.user.infra.redis.config.RedisConfig;
 import com.teno.openmarket.user.infra.redis.entity.RefreshToken;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
