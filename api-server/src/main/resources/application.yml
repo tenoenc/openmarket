@@ -22,3 +22,8 @@ spring:
       enabled: true
       baseline-on-migrate: true # 기존 데이터가 있어도 실행
       locations: classpath:db/migration # SQL 파일 위치
+
+jwt:
+  secret-key: "teno-openmarket-local-dev-secret-key-signature-value"
+  access-exp: 1800000 # 30분
+  refresh-exp: 1209600000 # 14일
