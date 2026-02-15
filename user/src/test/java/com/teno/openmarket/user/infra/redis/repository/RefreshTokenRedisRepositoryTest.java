@@ -98,7 +98,7 @@ class RefreshTokenRedisRepositoryTest {
 
     @Test
     @DisplayName("저장된 RefreshToken은 설정된 TTL을 가지고 있어야 한다")
-    void should_HaveCorrectTTL_When_Saved() {
+    void should_HaveCorrectTtl_When_Saved() {
         // given
         Long userId = 3L;
         RefreshToken refreshToken = RefreshToken.builder()
