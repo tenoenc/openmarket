@@ -1,6 +1,8 @@
 package com.teno.openmarket.api.controller;
 
 import com.teno.openmarket.common.config.JacksonConfig;
+import com.teno.openmarket.common.error.GlobalErrorCode;
+import com.teno.openmarket.common.exception.BusinessException;
 import com.teno.openmarket.common.exception.GlobalExceptionHandler;
 import com.teno.openmarket.common.response.ApiResponse;
 import com.teno.openmarket.common.response.GlobalResponseAdvice;
@@ -68,10 +70,16 @@ public class ApiResponseTest {
         public ApiResponse<Void> testValidation(@Valid @RequestBody TestRequest request) {
             return ApiResponse.success();
         }
+
+        // 비즈니스 예외 발생 테스트
+        @GetMapping("/test/response/business-error")
+        public ApiResponse<Void> testBusinessError() {
+            throw new BusinessException(GlobalErrorCode.DEAL_OUT_OF_STOCK);
+        }
     }
 
     @Test
-    @DisplayName("성공 응답: BigDecimal은 String으로 변환되고, 모듈명은 설정값과 일치해야 한다")
+    @DisplayName("단건 데이터 응답 시 BigDecimal은 String으로 변환되고, 모듈명은 설정값과 일치해야 한다")
     void should_SerializeBigDecimalToString_When_ReturningSingleData() throws Exception {
         mockMvc.perform(get("/test/response/single"))
                 .andDo(print())
@@ -83,7 +91,7 @@ public class ApiResponseTest {
     }
 
     @Test
-    @DisplayName("리스트 응답: List<T> 반환 시 자동으로 { items: [] } 형태로 래핑되어야 한다")
+    @DisplayName("리스트 응답 시 List<T> 반환 시 자동으로 { items: [] } 형태로 래핑되어야 한다")
     void should_WrapListInItemsField_When_ReturningList() throws Exception {
         mockMvc.perform(get("/test/response/list"))
                 .andDo(print())
@@ -95,7 +103,7 @@ public class ApiResponseTest {
     }
 
     @Test
-    @DisplayName("헤더: X-Request-ID 헤더가 있으면 응답의 requestId로 바인딩되어야 한다")
+    @DisplayName("X-Request-ID 헤더가 있으면 응답의 requestId로 바인딩되어야 한다")
     void should_BindRequestId_When_HeaderIsPresent() throws Exception {
         String clientRequestId = "req-custom-1234";
 
@@ -107,7 +115,7 @@ public class ApiResponseTest {
     }
 
     @Test
-    @DisplayName("유효성 검사 실패: errors 배열에 필드명과 사유가 포함되어야 한다")
+    @DisplayName("유효성 검사 실패 시 errors 배열에 필드명과 사유가 포함되어야 한다")
     void should_ReturnErrorList_When_ValidationFails() throws Exception {
         String invalidJson = "{\"name\": \"\"}";
 
@@ -115,10 +123,21 @@ public class ApiResponseTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(invalidJson))
                 .andDo(print())
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.result").value("FAIL"))
                 .andExpect(jsonPath("$.errors").isArray())
                 .andExpect(jsonPath("$.errors.[0].field").value("name"))
                 .andExpect(jsonPath("$.errors.[0].reason").value("이름은 필수입니다"));
+    }
+
+    @Test
+    @DisplayName("비즈니스 예외 발생 시 정의된 ErrorCode와 메시지가 JSON에 매핑되어야 한다")
+    void should_ReturnCorrectErrorCode_When_BusinessExceptionThrown() throws Exception {
+        mockMvc.perform(get("/test/response/business-error"))
+                .andDo(print())
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.result").value("FAIL"))
+                .andExpect(jsonPath("$.errorCode").value("DEAL_OUT_OF_STOCK"))
+                .andExpect(jsonPath("$.message").value("재고가 모두 소진되었습니다."));
     }
 }
