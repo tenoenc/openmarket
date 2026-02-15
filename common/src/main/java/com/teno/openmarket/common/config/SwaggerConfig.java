@@ -5,13 +5,23 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.springdoc.core.utils.SpringDocUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.awt.print.Pageable;
 
 @Configuration
 public class SwaggerConfig {
 
     private static final String JWT_SCHEME_NAME = "BearerAuth";
+
+    static {
+        SpringDocUtils.getConfig().replaceWithClass(Pageable.class, SwaggerPageable.class);
+
+        // TODO: 추후 문서에서 숨겨야 할 타입들 추가
+        // SpringDocUtils.getConfig().addRequestWrapperToIgnore(SomeType.class);
+    }
 
     @Bean
     public OpenAPI openApi() {
