@@ -1,0 +1,94 @@
+package com.teno.openmarket.user.infra.redis.repository;
+
+import com.teno.openmarket.user.infra.config.RedisConfig;
+import com.teno.openmarket.user.infra.redis.entity.RefreshToken;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.test.autoconfigure.data.redis.DataRedisTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
+
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+@DataRedisTest
+@Import(RedisConfig.class)
+@Testcontainers
+class RefreshTokenRedisRepositoryTest {
+
+    // 테스트를 위한 가짜 메인 설정 정의
+    @SpringBootApplication
+    static class TestConfig {
+    }
+
+    // Redis 컨테이너 실행 (Docker 필수)
+    @Container
+    static final GenericContainer<?> REDIS_CONTAINER =
+            new GenericContainer<>(DockerImageName.parse("redis:7.2-alpine"))
+                    .withExposedPorts(6379);
+
+    // 동적으로 할당된 컨테이너 포트를 Spring 설정에 바인딩
+    @DynamicPropertySource
+    static void redisProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.data.redis.host", REDIS_CONTAINER::getHost);
+        registry.add("spring.data.redis.port", () -> String.valueOf(REDIS_CONTAINER.getFirstMappedPort()));
+    }
+
+    @Autowired
+    private RefreshTokenRedisRepository refreshTokenRedisRepository;
+
+    @Test
+    @DisplayName("RefreshToken을 저장하고 userId로 조회할 수 있어야 한다")
+    void should_SaveAndFind_When_ValidRefreshToken() {
+        // given
+        Long userId = 1L;
+        String tokenValue = "test-refresh-token-value";
+        long expiration = 10000L;
+
+        RefreshToken refreshToken = RefreshToken.builder()
+                .userId(userId)
+                .token(tokenValue)
+                .role("ROLE_USER")
+                .expiration(expiration)
+                .build();
+
+        // when
+        refreshTokenRedisRepository.save(refreshToken);
+
+        // then
+        RefreshToken found = refreshTokenRedisRepository.findById(userId).orElseThrow();
+        assertThat(found.getUserId()).isEqualTo(userId);
+        assertThat(found.getToken()).isEqualTo(tokenValue);
+        assertThat(found.getRole()).isEqualTo("ROLE_USER");
+    }
+
+    @Test
+    @DisplayName("@Indexed가 붙은 token 값으로도 조회가 가능해야 한다")
+    void should_FindByToken_When_TokenIsIndexed() {
+        // given
+        Long userId = 2L;
+        String tokenValue = "indexed-token-value";
+        RefreshToken refreshToken = RefreshToken.builder()
+                .userId(userId)
+                .token(tokenValue)
+                .expiration(10000L)
+                .build();
+
+        refreshTokenRedisRepository.save(refreshToken);
+
+        // when
+        Optional<RefreshToken> found = refreshTokenRedisRepository.findByToken(tokenValue);
+
+        // then
+        assertThat(found).isPresent();
+        assertThat(found.get().getUserId()).isEqualTo(userId);
+    }
+}
