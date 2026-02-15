@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.autoconfigure.data.redis.DataRedisTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.GenericContainer;
@@ -23,6 +24,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Import(RedisConfig.class)
 @Testcontainers
 class RefreshTokenRedisRepositoryTest {
+
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
 
     // 테스트를 위한 가짜 메인 설정 정의
     @SpringBootApplication
@@ -90,5 +94,29 @@ class RefreshTokenRedisRepositoryTest {
         // then
         assertThat(found).isPresent();
         assertThat(found.get().getUserId()).isEqualTo(userId);
+    }
+
+    @Test
+    @DisplayName("저장된 RefreshToken은 설정된 TTL을 가지고 있어야 한다")
+    void should_HaveCorrectTTL_When_Saved() {
+        // given
+        Long userId = 3L;
+        RefreshToken refreshToken = RefreshToken.builder()
+                .userId(userId)
+                .token("ttl-check-token")
+                .role("ROLE_USER")
+                .expiration(14L * 1000) // 이 값과 별개로 @RedisHash 설정을 검증
+                .build();
+
+        refreshTokenRedisRepository.save(refreshToken);
+
+        // when
+        Long remainingTtl = redisTemplate.getExpire("rt:" + userId);
+
+        // then
+        assertThat(remainingTtl).isNotNull();
+        // 14초로 설정했으므로, 저장 직후에는 13~14 사이여야 함
+        assertThat(remainingTtl).isGreaterThan(13L);
+        assertThat(remainingTtl).isLessThanOrEqualTo(14L);
     }
 }
