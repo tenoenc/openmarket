@@ -1,4 +1,4 @@
-package com.teno.openmarket.user.infra.config;
+package com.teno.openmarket.user.infra.redis.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
