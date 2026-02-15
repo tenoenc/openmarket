@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -45,5 +46,14 @@ public class SecurityConfigTest {
         // /api/v1/auth/login 은 permitAll 이어야 함
         mockMvc.perform(get("/api/v1/auth/login"))
                 .andExpect(status().is(404)); // 401이 아니어야 함
+    }
+
+    @Test
+    @WithMockUser
+    @DisplayName("인증된 사용자는 보호된 리소스에 접근할 수 있다 (404)")
+    void should_Return404_When_AccessingSecuredResource_WithToken() throws Exception {
+        // /api/v1/users/me 는 인증이 필요하다고 가정
+        mockMvc.perform(get("/api/v1/users/me"))
+                .andExpect(status().isNotFound());
     }
 }
