@@ -113,7 +113,7 @@ public class ApiResponse<T> {
     }
 
     /**
-     * 헤더의 X-Request-ID 주입 (Wither Method)
+     * X-Request-ID 주입 (Wither Method)
      */
     public ApiResponse<T> withRequestId(String requestId) {
         return ApiResponse.<T>builder()
@@ -126,6 +126,23 @@ public class ApiResponse<T> {
                 .timestamp(this.timestamp)
                 .requestId(requestId)
                 .traceId(this.traceId)
+                .build();
+    }
+
+    /**
+     * Trace ID 주입 (Wither Method)
+     */
+    public ApiResponse<T> withTraceId(String traceId) {
+        return ApiResponse.<T>builder()
+                .result(this.result)
+                .data(this.data)
+                .message(this.message)
+                .errorCode(this.errorCode)
+                .errors(this.errors)
+                .module(this.module)
+                .timestamp(this.timestamp)
+                .requestId(this.requestId)
+                .traceId(traceId)
                 .build();
     }
 
