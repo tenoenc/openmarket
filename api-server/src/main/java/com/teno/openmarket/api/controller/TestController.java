@@ -4,22 +4,36 @@ import com.teno.openmarket.common.annotation.ApiErrorCodeExamples;
 import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.exception.BusinessException;
 import com.teno.openmarket.common.response.ApiResponse;
+import com.teno.openmarket.common.response.ListWrapper;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.awt.print.Pageable;
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 public class TestController {
 
     public enum TestCategory {
         ELECTRONICS, FASHION, FOOD
+    }
+
+    @Data
+    @AllArgsConstructor
+    @Schema(description = "테스트 응답 DTO")
+    public static class TestDto {
+        @Schema(description = "아이디", example = "1")
+        private Long id;
+        private String name;
     }
 
     @GetMapping("/response/error")
@@ -56,5 +70,16 @@ public class TestController {
             @RequestParam(name = "search") String search
     ) {
         return ApiResponse.success("검증용 API: " + search);
+    }
+
+    @GetMapping("/wrapper-test")
+    @Operation(summary = "공통 응답 래퍼 테스트",
+            description = "ApiResponse<T>가 실제 데이터 구조를 어떻게 감싸서 보여주는지 확인합니다.")
+    public ApiResponse<ListWrapper<TestDto>> wrapperTest() {
+        List<TestDto> list = List.of(
+            new TestDto(1L, "Teno1"),
+            new TestDto(2L, "Teno2")
+        );
+        return ApiResponse.success(list);
     }
 }

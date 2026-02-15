@@ -1,6 +1,7 @@
 package com.teno.openmarket.common.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,16 +18,34 @@ import java.util.UUID;
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Schema(description = "공통 응답 포맷")
 public class ApiResponse<T> {
 
+    @Schema(description = "결과 상태", allowableValues = {"SUCCESS", "FAIL"}, example = "SUCCESS")
     private final ResultType result;
+
+    @Schema(description = "응답 데이터 (성공 시 데이터, 실패 시 null)")
     private final T data;
+
+    @Schema(description = "에러 메시지 (실패 시에만 포함)", example = "서버 내부 오류가 발생했습니다.")
     private final String message;
+
+    @Schema(description = "에러 코드 (실패 시에만 포함)", example = "SYSTEM_ERROR")
     private final String errorCode;
+
+    @Schema(description = "검증 에러 목록 (유효성 검사 실패 시에만 포함)")
     private final List<ValidationError> errors;
+
+    @Schema(description = "응답을 생성한 모듈명", example = "openmarket-api")
     private final String module;
+
+    @Schema(description = "응답 생성 시각", example = "2026-02-15T15:30:00+09:00")
     private final ZonedDateTime timestamp;
+
+    @Schema(description = "HTTP 요청 고유 ID (X-Request-ID 헤더 값)", example = "8b1a2c3d")
     private final String requestId;
+
+    @Schema(description = "로그 추적용 ID (MDC TraceId)", example = "8b1a2c3d")
     private final String traceId;
 
     /**
