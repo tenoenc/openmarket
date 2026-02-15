@@ -6,6 +6,8 @@ import io.jsonwebtoken.security.Keys;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
@@ -97,5 +99,29 @@ class JwtTokenProviderTest {
         assertThat(claims).isNotNull();
         assertThat(claims.getSubject()).isEqualTo("1");
         assertThat(claims.get("role")).isEqualTo("ROLE_USER");
+    }
+
+    @Test
+    @DisplayName("유효한 토큰으로 인증 객체(Authentication)를 조회해야 한다")
+    void should_ReturnAuthentication_When_TokenIsValid() {
+        // given
+        Long userId = 100L;
+        String role = "ROLE_SELLER";
+        String token = jwtTokenProvider.createAccessToken(userId, role);
+
+        // when
+        Authentication authentication = jwtTokenProvider.getAuthentication(token);
+
+        // then
+        assertThat(authentication).isNotNull();
+        // 1. 권한 검증
+        assertThat(authentication.getAuthorities()).hasSize(1);
+        assertThat(authentication.getAuthorities().iterator().next().getAuthority()).isEqualTo("ROLE_SELLER");
+
+        // 2. Principal(사용자 정보) 검증
+        Object principal = authentication.getPrincipal();
+        assertThat(principal).isInstanceOf(UserDetails.class);
+        assertThat(((UserDetails) principal).getUsername()).isEqualTo("100"); // Subject == UserId
+
     }
 }

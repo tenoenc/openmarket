@@ -8,11 +8,17 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 /**
  * JWT(Json Web Token) 생성 및 검증 공급자
@@ -121,5 +127,31 @@ public class JwtTokenProvider {
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
+    }
+
+    /**
+     * 인증 객체(Authentication) 조회
+     * <p>
+     * 토큰에서 사용자 정보(PK, Role)를 추출하여 SecurityContext에 저장할 Authentication 객체를 생성합니다.
+     * <br>
+     * 성능을 위해 DB 조회를 생략하고 토큰의 Claims만으로 Principal을 구성합니다.
+     *
+     * @param token 검증된 JWT Access Token
+     * @return SecurityContext에 저장될 Authentication 객체
+     */
+    public Authentication getAuthentication(String token) {
+        // 1. 토큰에서 Claims 추출
+        Claims claims = getClaims(token);
+
+        // 2. 권한 정보 추출
+        String role = claims.get("role", String.class);
+        List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(role));
+
+        // 3. UserDetails 객체 생성 (비밀번호는 모르므로 빈 문자열 처리)
+        // Principal로 사용할 객체입니다. @AuthenticationPrincipal로 꺼내 쓸 수 있습니다.
+        User principal = new User(claims.getSubject(), "", authorities);
+
+        // 4. Authentication 객체 반환
+        return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
 }
