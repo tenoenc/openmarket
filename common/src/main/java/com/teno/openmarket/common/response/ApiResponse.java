@@ -26,7 +26,7 @@ import java.util.UUID;
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Schema(description = "공통 응답 포맷")
+@Schema
 public class ApiResponse<T> {
 
     /**
