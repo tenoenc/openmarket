@@ -5,11 +5,15 @@ import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.exception.BusinessException;
 import com.teno.openmarket.common.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.awt.print.Pageable;
+import java.security.Principal;
 
 @RestController
 public class TestController {
@@ -19,7 +23,8 @@ public class TestController {
     }
 
     @GetMapping("/response/error")
-    @Operation(summary = "에러 응답 자동화 테스트", description = "커스텀 애노테이션을 통해 에러 예시가 자동으로 문서화되는지 확인합니다.")
+    @Operation(summary = "에러 응답 자동화 테스트",
+            description = "커스텀 애노테이션을 통해 에러 예시가 자동으로 문서화되는지 확인합니다.")
     @ApiErrorCodeExamples({
         GlobalErrorCode.DEAL_OUT_OF_STOCK,
         GlobalErrorCode.DEAL_NOT_OPEN,
@@ -38,5 +43,18 @@ public class TestController {
             Pageable pageable
     ) {
         return ApiResponse.success("테스트 통과: " + category + ", " + pageable);
+    }
+
+    @GetMapping("/exclusion-test")
+    @Operation(summary = "파라미터 제외 테스트",
+            description = "HttpServletRequest, HttpSession, Principal 등이 문서에서 숨겨지는지 확인합니다.")
+    public ApiResponse<String> exclusionTest(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            HttpSession session,
+            Principal principal,
+            @RequestParam(name = "search") String search
+    ) {
+        return ApiResponse.success("검증용 API: " + search);
     }
 }
