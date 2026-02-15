@@ -39,3 +39,7 @@ out/
 ### Docker & Environment ###
 .env
 docker/data/
+
+### Logback ###
+*/logs/
+/logs/

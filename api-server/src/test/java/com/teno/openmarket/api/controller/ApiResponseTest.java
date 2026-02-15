@@ -4,6 +4,7 @@ import com.teno.openmarket.common.config.JacksonConfig;
 import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.exception.BusinessException;
 import com.teno.openmarket.common.exception.GlobalExceptionHandler;
+import com.teno.openmarket.common.filter.MdcLoggingFilter;
 import com.teno.openmarket.common.response.ApiResponse;
 import com.teno.openmarket.common.response.GlobalResponseAdvice;
 import com.teno.openmarket.common.response.ListWrapper;
@@ -29,15 +30,17 @@ import java.util.Map;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 
 @WebMvcTest(controllers = ApiResponseTest.TestController.class)
 @Import({
     GlobalResponseAdvice.class,
     GlobalExceptionHandler.class,
     JacksonConfig.class,
-    ApiResponseTest.TestController.class
+    ApiResponseTest.TestController.class,
+    MdcLoggingFilter.class
 })
 @TestPropertySource(properties = "spring.application.name=test-api-server")
 public class ApiResponseTest {
@@ -120,8 +123,8 @@ public class ApiResponseTest {
         String invalidJson = "{\"name\": \"\"}";
 
         mockMvc.perform(post("/test/response/validation")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(invalidJson))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(invalidJson))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.result").value("FAIL"))
@@ -139,5 +142,33 @@ public class ApiResponseTest {
                 .andExpect(jsonPath("$.result").value("FAIL"))
                 .andExpect(jsonPath("$.errorCode").value("DEAL_OUT_OF_STOCK"))
                 .andExpect(jsonPath("$.message").value("재고가 모두 소진되었습니다."));
+    }
+
+    @Test
+    @DisplayName("클라이언트가 X-Request-ID를 보내면 응답 헤더와 바디에 그대로 반환되어야 한다 (Echo)")
+    void should_EchoTraceId_When_ClientProvidesRequestId() throws Exception {
+        // given
+        String clientRequestId = "req-client-custom-id";
+
+        // when & then
+        mockMvc.perform(get("/test/response/single")
+                        .header("X-Request-ID", clientRequestId))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(header().string("X-Request-ID", clientRequestId))
+                .andExpect(jsonPath("$.traceId").value(clientRequestId))
+                .andExpect(jsonPath("$.requestId").value(clientRequestId));
+    }
+
+    @Test
+    @DisplayName("헤더 없이 요청하면 서버가 새로운 UUID를 생성하여 반환해야 한다")
+    void should_GenerateNewTraceId_When_HeaderIsMissing() throws Exception {
+        // when & then
+        mockMvc.perform(get("/test/response/single"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(header().exists("X-Request-ID"))
+                .andExpect(jsonPath("$.traceId").exists())
+                .andExpect(jsonPath("$.traceId").isNotEmpty());
     }
 }

@@ -1,6 +1,7 @@
 package com.teno.openmarket.common.response;
 
 import lombok.RequiredArgsConstructor;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
@@ -29,8 +30,7 @@ public class GlobalResponseAdvice implements ResponseBodyAdvice<Object> {
                                   Class<? extends HttpMessageConverter<?>> selectedConverterType,
                                   ServerHttpRequest request, ServerHttpResponse response) {
 
-        List<String> headerValues = request.getHeaders().get("X-Request-ID");
-        String requestIdHeader = (headerValues != null && !headerValues.isEmpty()) ? headerValues.get(0) : null;
+        String traceId = MDC.get("traceId");
 
         ApiResponse<?> apiResponse;
 
@@ -49,8 +49,9 @@ public class GlobalResponseAdvice implements ResponseBodyAdvice<Object> {
 
         apiResponse = apiResponse.withModule(applicationName);
 
-        if (requestIdHeader != null) {
-            apiResponse = apiResponse.withRequestId(requestIdHeader);
+        if (traceId != null) {
+            apiResponse = apiResponse.withRequestId(traceId)
+                    .withTraceId(traceId);
         }
 
         return apiResponse;
