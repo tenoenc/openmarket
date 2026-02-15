@@ -5,11 +5,15 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springdoc.core.utils.SpringDocUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.awt.print.Pageable;
+import java.security.Principal;
 
 @Configuration
 public class SwaggerConfig {
@@ -17,10 +21,17 @@ public class SwaggerConfig {
     private static final String JWT_SCHEME_NAME = "BearerAuth";
 
     static {
-        SpringDocUtils.getConfig().replaceWithClass(Pageable.class, SwaggerPageable.class);
+        SpringDocUtils.getConfig()
+            // Pageable 인터페이스를 SwaggerPageable(단순화 클래스)로 대체해서 보여줌
+            .replaceWithClass(Pageable.class, SwaggerPageable.class)
 
-        // TODO: 추후 문서에서 숨겨야 할 타입들 추가
-        // SpringDocUtils.getConfig().addRequestWrapperToIgnore(SomeType.class);
+            // 컨트롤러 파라미터에 있어도 문서에서는 아예 무시
+            .addRequestWrapperToIgnore(
+                Principal.class,
+                HttpSession.class,
+                HttpServletRequest.class,
+                HttpServletResponse.class
+            );
     }
 
     @Bean
