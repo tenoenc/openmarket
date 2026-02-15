@@ -39,3 +39,11 @@ out/
 ### Docker & Environment ###
 .env
 docker/data/
+
+/user/logs/
+/system/logs/
+/store/logs/
+/order/logs/
+/deal/logs/
+/common/logs/
+/api-server/logs/
