@@ -23,19 +23,7 @@ import java.time.LocalDateTime;
 @Getter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public abstract class BaseTimeEntity {
-
-    /**
-     * 생성일자
-     * <p>
-     * 엔티티가 처음 생성되어 저장될 때의 일시입니다.
-     * <ul>
-     * <li>{@link CreatedDate}: {@code persist} 이벤트 발생 시 현재 시각을 자동으로 할당합니다.</li>
-     * </ul>
-     */
-    @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+public abstract class BaseTimeEntity extends BaseCreatedTimeEntity {
 
     /**
      * 수정일자
