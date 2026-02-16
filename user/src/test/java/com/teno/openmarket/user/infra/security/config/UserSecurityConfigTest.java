@@ -20,8 +20,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest
-@Import({SecurityConfig.class, JwtAuthenticationEntryPoint.class, JwtAuthenticationFilter.class})
-public class SecurityConfigTest {
+@Import({UserSecurityConfig.class, JwtAuthenticationEntryPoint.class, JwtAuthenticationFilter.class})
+public class UserSecurityConfigTest {
 
     @SpringBootApplication
     static class TestConfig {

@@ -1,5 +1,6 @@
 package com.teno.openmarket.api.controller;
 
+import com.teno.openmarket.api.config.TestSecurityConfig;
 import com.teno.openmarket.common.config.JacksonConfig;
 import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.exception.BusinessException;
@@ -13,8 +14,7 @@ import jakarta.validation.constraints.NotBlank;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
@@ -36,14 +36,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 
-@WebMvcTest(
-    controllers = ApiResponseTest.TestController.class,
-    excludeAutoConfiguration = {
-        SecurityAutoConfiguration.class,
-        SecurityFilterAutoConfiguration.class
-    }
-)
+@WebMvcTest(controllers = ApiResponseTest.TestController.class)
 @Import({
+    TestSecurityConfig.class, // 테스트용 보안 설정만 적용
     GlobalResponseAdvice.class,
     GlobalExceptionHandler.class,
     JacksonConfig.class,
@@ -52,6 +47,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 })
 @TestPropertySource(properties = "spring.application.name=test-api-server")
 public class ApiResponseTest {
+
+    @SpringBootApplication
+    static class TestApp { }
 
     @Autowired
     private MockMvc mockMvc;
