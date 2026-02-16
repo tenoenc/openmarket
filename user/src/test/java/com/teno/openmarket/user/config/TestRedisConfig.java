@@ -11,7 +11,6 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @TestConfiguration
-@EnableRedisRepositories(basePackages = "com.teno.openmarket.user.feature.auth.redis") // 리포지토리 스캔 범위 지정
 public class TestRedisConfig {
 
     @Value("${spring.data.redis.host:localhost}")
