@@ -9,10 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -27,8 +30,18 @@ public class SecurityConfigTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @MockitoBean
     private JwtTokenProvider jwtTokenProvider;
+
+    @Test
+    @DisplayName("Security 설정이 로드되면 PasswordEncoder는 BCrypt 구현체여야 한다")
+    void should_UseBCryptStrategy_When_SecurityConfigIsLoaded() {
+        assertThat(passwordEncoder).isNotNull();
+        assertThat(passwordEncoder).isInstanceOf(BCryptPasswordEncoder.class);
+    }
 
     @Test
     @DisplayName("인증되지 않은 사용자는 보호된 리소스에 접근할 수 없다 (401)")
