@@ -154,4 +154,8 @@ public class JwtTokenProvider {
         // 4. Authentication 객체 반환
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
+
+    public Long getAccessTokenValidityInMilliseconds() {
+        return accessExp;
+    }
 }
