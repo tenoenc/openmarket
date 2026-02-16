@@ -1,6 +1,6 @@
 package com.teno.openmarket.user.infra.redis.repository;
 
-import com.teno.openmarket.user.infra.redis.entity.RefreshToken;
+import com.teno.openmarket.user.feature.auth.redis.RefreshToken;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;
