@@ -1,4 +1,4 @@
-package com.teno.openmarket.api.config;
+package com.teno.openmarket.common.config;
 
 import org.junit.jupiter.api.Order;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -7,7 +7,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
 @TestConfiguration
-public class TestSecurityConfig {
+public class TestCommonSecurityConfig {
 
     // 테스트 편의를 위해 모든 요청을 허용하는 필터 체인
     @Bean

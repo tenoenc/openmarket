@@ -1,6 +1,6 @@
-package com.teno.openmarket.api.controller;
+package com.teno.openmarket.common.controller;
 
-import com.teno.openmarket.api.config.TestSecurityConfig;
+import com.teno.openmarket.common.config.TestCommonSecurityConfig;
 import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.exception.BusinessException;
 import com.teno.openmarket.common.response.ApiResponse;
@@ -30,10 +30,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 
 @Import({
-    TestSecurityConfig.class, // 테스트용 보안 설정만 적용
+    TestCommonSecurityConfig.class, // 테스트용 보안 설정만 적용
     ApiResponseTest.TestController.class,
 })
-@TestPropertySource(properties = "spring.application.name=test-api-server")
+@TestPropertySource(properties = "spring.application.name=test-common")
 public class ApiResponseTest extends BaseControllerTest {
 
     record TestRequest(@NotBlank(message = "이름은 필수입니다") String name) {}
