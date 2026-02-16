@@ -22,4 +22,6 @@ dependencies {
 
     // Lombok이 만든 Builder/Getter를 MapStruct가 인식하게 해주는 연결고리
     annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+
+    testImplementation(testFixtures(project(":common")))
 }

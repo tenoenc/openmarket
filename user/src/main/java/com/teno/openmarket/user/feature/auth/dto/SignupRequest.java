@@ -28,7 +28,7 @@ public class SignupRequest {
      * <p>
      * 시스템 내에서 고유한 식별자로 사용됩니다.
      */
-    @Schema
+    @Schema(example = "user@example.com")
     @NotBlank(message = "이메일은 필수 입력값입니다.")
     @Email(message = "올바른 이메일 형식이 아닙니다.")
     private String email;

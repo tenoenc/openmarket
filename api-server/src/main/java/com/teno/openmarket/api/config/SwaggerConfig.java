@@ -1,4 +1,4 @@
-package com.teno.openmarket.common.config;
+package com.teno.openmarket.api.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
