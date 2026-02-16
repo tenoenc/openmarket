@@ -1,4 +1,4 @@
-package com.teno.openmarket.common.config;
+package com.teno.openmarket.api.config;
 
 import com.teno.openmarket.common.annotation.ApiErrorCodeExamples;
 import com.teno.openmarket.common.error.GlobalErrorCode;
