@@ -1,7 +1,7 @@
 package com.teno.openmarket.user.infra.redis.repository;
 
-import com.teno.openmarket.user.infra.redis.config.RedisConfig;
-import com.teno.openmarket.user.infra.redis.entity.RefreshToken;
+import com.teno.openmarket.user.config.TestRedisConfig;
+import com.teno.openmarket.user.feature.auth.redis.RefreshToken;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +21,9 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataRedisTest
-@Import(RedisConfig.class)
+@Import(TestRedisConfig.class)
 @Testcontainers
 class RefreshTokenRedisRepositoryTest {
-
-    @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
 
     // 테스트를 위한 가짜 메인 설정 정의
     @SpringBootApplication
@@ -45,6 +42,9 @@ class RefreshTokenRedisRepositoryTest {
         registry.add("spring.data.redis.host", REDIS_CONTAINER::getHost);
         registry.add("spring.data.redis.port", () -> String.valueOf(REDIS_CONTAINER.getFirstMappedPort()));
     }
+
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Autowired
     private RefreshTokenRedisRepository refreshTokenRedisRepository;

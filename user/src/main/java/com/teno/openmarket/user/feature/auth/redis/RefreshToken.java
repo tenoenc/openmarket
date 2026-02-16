@@ -1,4 +1,4 @@
-package com.teno.openmarket.user.infra.redis.entity;
+package com.teno.openmarket.user.feature.auth.redis;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

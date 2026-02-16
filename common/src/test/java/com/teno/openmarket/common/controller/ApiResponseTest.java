@@ -1,25 +1,18 @@
-package com.teno.openmarket.api.controller;
+package com.teno.openmarket.common.controller;
 
-import com.teno.openmarket.common.config.JacksonConfig;
+import com.teno.openmarket.common.config.TestCommonSecurityConfig;
 import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.exception.BusinessException;
-import com.teno.openmarket.common.exception.GlobalExceptionHandler;
-import com.teno.openmarket.common.filter.MdcLoggingFilter;
 import com.teno.openmarket.common.response.ApiResponse;
-import com.teno.openmarket.common.response.GlobalResponseAdvice;
 import com.teno.openmarket.common.response.ListWrapper;
+import com.teno.openmarket.test.support.BaseControllerTest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,25 +29,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 
-@WebMvcTest(
-    controllers = ApiResponseTest.TestController.class,
-    excludeAutoConfiguration = {
-        SecurityAutoConfiguration.class,
-        SecurityFilterAutoConfiguration.class
-    }
-)
 @Import({
-    GlobalResponseAdvice.class,
-    GlobalExceptionHandler.class,
-    JacksonConfig.class,
+    TestCommonSecurityConfig.class, // 테스트용 보안 설정만 적용
     ApiResponseTest.TestController.class,
-    MdcLoggingFilter.class
 })
-@TestPropertySource(properties = "spring.application.name=test-api-server")
-public class ApiResponseTest {
-
-    @Autowired
-    private MockMvc mockMvc;
+@TestPropertySource(properties = "spring.application.name=test-common")
+public class ApiResponseTest extends BaseControllerTest {
 
     record TestRequest(@NotBlank(message = "이름은 필수입니다") String name) {}
 
@@ -96,7 +76,7 @@ public class ApiResponseTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.result").value("SUCCESS"))
-                .andExpect(jsonPath("$.module").value("test-api-server"))
+                .andExpect(jsonPath("$.module").value("test-common"))
                 .andExpect(jsonPath("$.data.amount").value("1000.50"))
                 .andExpect(jsonPath("$.data.amount").isString());
     }
