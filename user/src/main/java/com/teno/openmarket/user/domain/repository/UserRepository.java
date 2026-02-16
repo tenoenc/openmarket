@@ -1,0 +1,14 @@
+package com.teno.openmarket.user.domain.repository;
+
+import com.teno.openmarket.user.domain.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+/**
+ * [사용자 리포지토리]
+ * <p>
+ * User 애그리거트 루트(Aggregate Root)를 위한 도메인 리포지토리 인터페이스입니다.
+ */
+public interface UserRepository extends JpaRepository<Long, User> {
+
+    boolean existsByEmail(String email);
+}
