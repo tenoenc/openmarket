@@ -76,7 +76,7 @@ public class ApiResponseTest extends BaseControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.result").value("SUCCESS"))
-                .andExpect(jsonPath("$.module").value("test-api-server"))
+                .andExpect(jsonPath("$.module").value("test-common"))
                 .andExpect(jsonPath("$.data.amount").value("1000.50"))
                 .andExpect(jsonPath("$.data.amount").isString());
     }
