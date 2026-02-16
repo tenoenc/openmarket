@@ -2,7 +2,11 @@ package com.teno.openmarket.user.feature.auth.service;
 
 import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.exception.BusinessException;
+import com.teno.openmarket.user.domain.entity.Term;
+import com.teno.openmarket.user.domain.entity.TermAgreement;
 import com.teno.openmarket.user.domain.entity.User;
+import com.teno.openmarket.user.domain.repository.TermAgreementRepository;
+import com.teno.openmarket.user.domain.repository.TermRepository;
 import com.teno.openmarket.user.domain.repository.UserRepository;
 import com.teno.openmarket.user.domain.vo.Role;
 import com.teno.openmarket.user.feature.auth.dto.SignupCommand;
@@ -20,17 +24,24 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceTest {
+public class SignupServiceTest {
 
     @InjectMocks
     private SignupService signupService;
 
     @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private TermRepository termRepository;
+
+    @Mock
+    private TermAgreementRepository termAgreementRepository;
 
     @Mock
     private PasswordEncoder passwordEncoder;
@@ -89,5 +100,70 @@ public class UserServiceTest {
                 .isInstanceOf(BusinessException.class)
                 .extracting("errorCode")
                 .isEqualTo(GlobalErrorCode.USER_ALREADY_EXISTS);
+    }
+
+    @Test
+    @DisplayName("필수 약관에 동의하지 않으면 예외가 발생해야 한다")
+    void should_ThrowBusinessException_When_MandatoryTermsAreNotAgreed() {
+        // given
+        SignupCommand command = SignupCommand.builder()
+                .email("test@teno.com")
+                .termIds(List.of(1L))
+                .build();
+
+        Term mandatoryTerm1 = Term.builder().id(1L).isRequired(true).build();
+        Term mandatoryTerm2 = Term.builder().id(2L).isRequired(true).build();
+
+        // 필수 약관은 2개라고 가정
+        given(termRepository.findAllByIsRequiredTrue())
+                .willReturn(List.of(mandatoryTerm1, mandatoryTerm2));
+
+        // when & then
+        assertThatThrownBy(() -> signupService.signup(command))
+                .isInstanceOf(BusinessException.class)
+                .hasFieldOrPropertyWithValue("errorCode", GlobalErrorCode.USER_TERMS_REQUIRED);
+    }
+
+    @Test
+    @DisplayName("정상 가입 시 회원 정보와 약관 동의 이력이 모두 저장되어야 한다")
+    void should_SaveUserAndAgreements_When_ValidSignupRequest() {
+        // given
+        SignupCommand command = SignupCommand.builder()
+                .email("test@teno.com")
+                .password("password")
+                .name("테스터")
+                .phone("010-1234-5678")
+                .termIds(List.of(1L, 2L))
+                .build();
+
+        Term mandatoryTerm1 = Term.builder().id(1L).isRequired(true).build();
+        Term mandatoryTerm2 = Term.builder().id(2L).isRequired(true).build();
+
+        given(termRepository.findAllByIsRequiredTrue())
+                .willReturn(List.of(mandatoryTerm1, mandatoryTerm2));
+
+        given(userRepository.existsByEmail(any())).willReturn(false);
+        given(passwordEncoder.encode(any())).willReturn("encoded_password");
+
+        User savedUser = User.builder().id(100L).email("test@teno.com").build();
+        given(userRepository.save(any(User.class))).willReturn(savedUser);
+
+        // when
+        Long userId = signupService.signup(command);
+
+        // then
+        assertThat(userId).isEqualTo(100L);
+
+        // 1. 유저 저장 검증
+        verify(userRepository).save(any(User.class));
+
+        // 2. 약관 동의 이력 저장 검증
+        verify(termAgreementRepository).saveAll(argThat(agreements -> {
+            List<TermAgreement> list = (List<TermAgreement>) agreements;
+            return list.size() == 2
+                    && list.stream().anyMatch(a -> a.getTermId() == 1L)
+                    && list.stream().anyMatch(a -> a.getTermId() == 2L)
+                    && list.stream().anyMatch(a -> a.getUser().getId() == 100L);
+        }));
     }
 }

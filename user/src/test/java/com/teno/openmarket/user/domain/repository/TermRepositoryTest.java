@@ -17,7 +17,7 @@ class TermRepositoryTest extends BaseRepositoryTest {
 
     @Test
     @DisplayName("필수 약관 목록만 정확히 조회되어야 한다")
-    void should_RetrieveRequiredTerms_When_Finding() {
+    void should_RetrieveMandatoryTerms_When_Finding() {
         // given
         Term mandatoryTerm1 = Term.builder()
                 .title("서비스 이용약관")

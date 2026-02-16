@@ -37,7 +37,7 @@ public class SignupController {
     @PostMapping("/signup")
     @Operation(summary = "회원 가입 요청")
     @ApiErrorCodeExamples({
-        GlobalErrorCode.SYSTEM_INVALID_INPUT,
+        GlobalErrorCode.USER_TERMS_REQUIRED,
         GlobalErrorCode.USER_ALREADY_EXISTS
     })
     public ApiResponse<Void> signup(@RequestBody @Valid SignupRequest request) {

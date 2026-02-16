@@ -74,7 +74,9 @@ public enum GlobalErrorCode implements ErrorCode {
     USER_PASSWORD_SAME(HttpStatus.BAD_REQUEST, "현재 비밀번호와 동일하게 변경할 수 없습니다.", ErrorAction.TOAST),
     USER_ADDRESS_LIMIT(HttpStatus.BAD_REQUEST, "배송지는 최대 5개까지만 등록 가능합니다.", ErrorAction.TOAST),
     USER_ADDRESS_DEFAULT(HttpStatus.BAD_REQUEST, "기본 배송지는 삭제할 수 없습니다.", ErrorAction.TOAST),
-    USER_HAS_ACTIVE_STORE(HttpStatus.BAD_REQUEST, "운영 중인 상점이 있어 탈퇴할 수 없습니다.", ErrorAction.DIALOG);
+    USER_HAS_ACTIVE_STORE(HttpStatus.BAD_REQUEST, "운영 중인 상점이 있어 탈퇴할 수 없습니다.", ErrorAction.DIALOG),
+    // [추가됨] (#14)
+    USER_TERMS_REQUIRED(HttpStatus.BAD_REQUEST, "필수 약관에 모두 동의해야 합니다.", ErrorAction.TOAST);
 
     private final HttpStatus status;
     private final String message;
