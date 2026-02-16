@@ -59,8 +59,8 @@ public class SwaggerArchitectureTest {
     static final ArchRule controllers_should_be_named_ending_with_controller = classes()
             .that().areAnnotatedWith(REST_CONTROLLER)
             .and(not(reside_in_test_folder))
-            .should().haveSimpleNameEndingWith("Controller")
-            .because("컨트롤러 클래스는 명확한 식별을 위해 'Controller'로 이름이 끝나야 합니다.");
+            .should().haveSimpleNameEndingWith("Api")
+            .because("컨트롤러 클래스는 명확한 식별을 위해 'Api'로 이름이 끝나야 합니다.");
 
     // [규칙 4] Map 반환 금지
     @ArchTest
