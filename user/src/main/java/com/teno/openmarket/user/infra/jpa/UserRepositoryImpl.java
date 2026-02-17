@@ -11,7 +11,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
 
-    private UserJpaRepository jpaRepository;
+    private final UserJpaRepository jpaRepository;
 
     @Override
     public User save(User user) {

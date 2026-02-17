@@ -26,7 +26,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * </ul>
  */
 @Configuration
-@EnableRedisRepositories
+@EnableRedisRepositories(basePackages = "com.teno.openmarket")
 public class RedisConfig {
 
     @Value("${spring.data.redis.host}")
