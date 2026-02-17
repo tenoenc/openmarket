@@ -1,11 +1,9 @@
 package com.teno.openmarket.user.feature.signup;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.teno.openmarket.test.support.BaseControllerTest;
 import com.teno.openmarket.user.config.TestUserSecurityConfig;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
@@ -25,9 +23,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest
 @Import({SignupApi.class, TestUserSecurityConfig.class})
 class SignupApiTest extends BaseControllerTest {
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @MockitoBean
     private SignupService signupService;

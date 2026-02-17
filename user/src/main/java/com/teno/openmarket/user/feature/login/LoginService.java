@@ -27,7 +27,6 @@ public class LoginService {
      * 이메일과 비밀번호를 검증하여 사용자를 인증하고, 성공 시 JWT 기반의 Access Token과 Refresh Token을 발급합니다.
      * </p>
      *
-     * 처리 프로세스
      * <ol>
      * <li>자격 증명 검증: 이메일 존재 여부와 비밀번호 일치 여부를 확인합니다.
      * 보안을 위해 실패 사유는 구분하지 않고 {@code USER_LOGIN_FAILED}로 통일합니다.</li>
@@ -59,12 +58,15 @@ public class LoginService {
         String accessToken = jwtTokenProvider.createAccessToken(user.getId(), user.getRole().name());
         String refreshTokenValue = jwtTokenProvider.createRefreshToken(user.getId());
 
-        Long expiresIn = jwtTokenProvider.getAccessTokenValidityInMilliseconds();
+        Long accessExpiresIn = jwtTokenProvider.getAccessTokenValidityInMilliseconds();
+        Long refreshExpiresIn = jwtTokenProvider.getRefreshTokenValidityInMilliseconds();
 
         // 4. Refresh Token 저장 (RTR)
         RefreshToken refreshToken = RefreshToken.builder()
                 .userId(user.getId())
                 .token(refreshTokenValue)
+                .role(user.getRole().name())
+                .expiration(refreshExpiresIn)
                 .build();
 
         refreshTokenRepository.save(refreshToken);
@@ -73,7 +75,7 @@ public class LoginService {
         return TokenResponse.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshTokenValue)
-                .expiresIn(expiresIn)
+                .expiresIn(accessExpiresIn)
                 .build();
     }
 }

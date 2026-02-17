@@ -168,6 +168,18 @@ public class JwtTokenProvider {
     }
 
     /**
+     * Refresh Token 유효 시간 조회
+     * <p>
+     * Redis에 저장되는 Refresh Token 엔티티의 TTL(Time To Live) 설정을 위해
+     * 프로퍼티에 정의된 만료 시간(밀리초)을 반환합니다.
+     *
+     * @return Refresh Token 유효 시간 (ms)
+     */
+    public Long getRefreshTokenValidityInMilliseconds() {
+        return refreshExp;
+    }
+
+    /**
      * 토큰 식별자(Subject) 추출
      * <p>
      * 토큰의 Payload(Claims)를 파싱하여 Subject에 저장된 사용자 고유 ID(PK)를 반환합니다.

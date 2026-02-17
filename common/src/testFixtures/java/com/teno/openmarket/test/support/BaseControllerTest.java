@@ -1,5 +1,6 @@
 package com.teno.openmarket.test.support;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.teno.openmarket.common.config.JacksonConfig;
 import com.teno.openmarket.common.exception.GlobalExceptionHandler;
 import com.teno.openmarket.common.filter.MdcLoggingFilter;
@@ -22,6 +23,9 @@ import org.springframework.test.web.servlet.MockMvc;
 public abstract class BaseControllerTest {
     @Autowired
     protected MockMvc mockMvc;
+
+    @Autowired
+    protected ObjectMapper objectMapper;
 
     @SpringBootApplication(scanBasePackages = "none")
     public static class TestApp {
