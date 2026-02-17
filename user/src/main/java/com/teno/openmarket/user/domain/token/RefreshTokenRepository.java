@@ -23,4 +23,6 @@ public interface RefreshTokenRepository {
      * @return 해당 토큰을 가진 RefreshToken 엔티티 (존재하지 않으면 Empty)
      */
     Optional<RefreshToken> findByToken(String token);
+
+    void delete(RefreshToken token);
 }

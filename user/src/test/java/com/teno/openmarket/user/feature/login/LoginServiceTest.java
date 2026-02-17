@@ -11,6 +11,7 @@ import com.teno.openmarket.user.infra.security.JwtTokenProvider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -81,7 +82,7 @@ public class LoginServiceTest {
     }
 
     @Test
-    @DisplayName("로그인 성공 시 AccessToken과 RefreshToken이 발급되고, RefreshToken이 저장되어야 한다")
+    @DisplayName("로그인 성공 시 AccessToken과 RefreshToken이 발급되고, 저장소에 만룍시간과 권한이 올바르게 저장된다")
     void should_ReturnTokensAndSaveRefreshToken_When_LoginSuccessful() {
         // given
         LoginCommand command = LoginCommand.builder()
@@ -101,6 +102,9 @@ public class LoginServiceTest {
         given(jwtTokenProvider.createAccessToken(user.getId(), user.getRole().name())).willReturn("access_token");
         given(jwtTokenProvider.createRefreshToken(user.getId())).willReturn("refresh_token");
 
+        given(jwtTokenProvider.getRefreshTokenValidityInMilliseconds())
+                .willReturn(1209600000L); // 14일
+
         // when
         TokenResponse response = loginService.login(command);
 
@@ -108,6 +112,14 @@ public class LoginServiceTest {
         assertThat(response.getAccessToken()).isEqualTo("access_token");
         assertThat(response.getRefreshToken()).isEqualTo("refresh_token");
 
-        verify(refreshTokenRepository).save(any(RefreshToken.class));
+        ArgumentCaptor<RefreshToken> captor = ArgumentCaptor.forClass(RefreshToken.class);
+        verify(refreshTokenRepository).save(captor.capture());
+
+        RefreshToken savedToken = captor.getValue();
+        assertThat(savedToken.getUserId()).isEqualTo(user.getId());
+        assertThat(savedToken.getToken()).isEqualTo("refresh_token");
+        assertThat(savedToken.getRole()).isEqualTo("ROLE_USER");
+        assertThat(savedToken.getExpiration()).isEqualTo(1209600000L);
+
     }
 }

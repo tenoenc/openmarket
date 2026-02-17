@@ -100,7 +100,7 @@ class JwtTokenProviderTest {
                 .compact();
 
         // when
-        Claims claims = jwtTokenProvider.getClaims(token);
+        Claims claims = jwtTokenProvider.parseClaims(token);
 
         // then
         assertThat(claims).isNotNull();

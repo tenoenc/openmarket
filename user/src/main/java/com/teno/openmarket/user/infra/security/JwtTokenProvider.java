@@ -98,7 +98,7 @@ public class JwtTokenProvider {
      */
     public boolean validateToken(String token) {
         try {
-            getClaims(token);
+            parseClaims(token);
             return true;
         } catch (SecurityException | MalformedJwtException exception) {
             log.warn("잘못된 JWT 서명입니다.");
@@ -121,7 +121,7 @@ public class JwtTokenProvider {
      * @return 추출된 Claims 객체
      * @throws JwtException 토큰이 유효하지 않거나 만료된 경우
      */
-    public Claims getClaims(String token) {
+    public Claims parseClaims(String token) {
         return Jwts.parser()
                 .verifyWith(secretKey)
                 .build()
@@ -141,7 +141,7 @@ public class JwtTokenProvider {
      */
     public Authentication getAuthentication(String token) {
         // 1. 토큰에서 Claims 추출
-        Claims claims = getClaims(token);
+        Claims claims = parseClaims(token);
 
         // 2. 권한 정보 추출
         String role = claims.get("role", String.class);
@@ -155,7 +155,56 @@ public class JwtTokenProvider {
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
 
+    /**
+     * Access Token 유효 시간 조회
+     * <p>
+     * 토큰 발급 시 설정된 만료 시간(밀리초 단위)을 반환합니다.
+     * 클라이언트에게 만료 시간을 알려주기 위해 사용됩니다.
+     *
+     * @return Access Token 유효 시간 (ms)
+     */
     public Long getAccessTokenValidityInMilliseconds() {
         return accessExp;
+    }
+
+    /**
+     * Refresh Token 유효 시간 조회
+     * <p>
+     * Redis에 저장되는 Refresh Token 엔티티의 TTL(Time To Live) 설정을 위해
+     * 프로퍼티에 정의된 만료 시간(밀리초)을 반환합니다.
+     *
+     * @return Refresh Token 유효 시간 (ms)
+     */
+    public Long getRefreshTokenValidityInMilliseconds() {
+        return refreshExp;
+    }
+
+    /**
+     * 토큰 식별자(Subject) 추출
+     * <p>
+     * 토큰의 Payload(Claims)를 파싱하여 Subject에 저장된 사용자 고유 ID(PK)를 반환합니다.
+     * 내부적으로 서명 검증을 수행하므로, 유효하지 않은 토큰일 경우 예외가 발생합니다.
+     *
+     * @param token 파싱할 JWT 토큰 문자열
+     * @return 토큰에 포함된 사용자 ID (Long)
+     * @throws io.jsonwebtoken.JwtException 토큰 파싱 실패 또는 만료 시
+     */
+    public Long resolveUserId(String token) {
+        String subject = parseClaims(token).getSubject();
+        return Long.parseLong(subject);
+    }
+
+    /**
+     * 토큰 권한 정보(Role) 추출
+     * <p>
+     * 토큰의 Claims에서 커스텀 키("role")에 해당하는 값을 문자열로 추출합니다.
+     * 내부적으로 서명 검증을 수행하므로, 유효하지 않은 토큰일 경우 예외가 발생합니다.
+     *
+     * @param token 파싱할 JWT 토큰 문자열
+     * @return 권한 정보 문자열
+     * @throws io.jsonwebtoken.JwtException 토큰 파싱 실패 또는 만료 시
+     */
+    public String resolveRole(String token) {
+        return parseClaims(token).get("role", String.class);
     }
 }
