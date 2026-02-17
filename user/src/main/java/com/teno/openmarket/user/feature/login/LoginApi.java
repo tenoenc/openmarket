@@ -34,8 +34,8 @@ public class LoginApi {
     @PostMapping("/login")
     @Operation(summary = "로그인 요청")
     @ApiErrorCodeExamples({
-            GlobalErrorCode.SYSTEM_INVALID_INPUT,
-            GlobalErrorCode.USER_LOGIN_FAILED
+        GlobalErrorCode.SYSTEM_INVALID_INPUT,
+        GlobalErrorCode.USER_LOGIN_FAILED
     })
     public ApiResponse<TokenResponse> login(@RequestBody @Valid LoginRequest request) {
         LoginCommand command = loginMapper.toCommand(request);
