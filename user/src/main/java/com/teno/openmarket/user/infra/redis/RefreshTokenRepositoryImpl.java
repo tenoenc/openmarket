@@ -33,4 +33,9 @@ public class RefreshTokenRepositoryImpl implements RefreshTokenRepository {
     public Optional<RefreshToken> findByToken(String token) {
         return redisRepository.findByToken(token);
     }
+
+    @Override
+    public void delete(RefreshToken token) {
+        redisRepository.delete(token);
+    }
 }
