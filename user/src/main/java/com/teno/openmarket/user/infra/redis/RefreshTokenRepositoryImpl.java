@@ -38,4 +38,9 @@ public class RefreshTokenRepositoryImpl implements RefreshTokenRepository {
     public void delete(RefreshToken token) {
         redisRepository.delete(token);
     }
+
+    @Override
+    public void deleteById(Long userId) {
+        redisRepository.deleteById(userId);
+    }
 }

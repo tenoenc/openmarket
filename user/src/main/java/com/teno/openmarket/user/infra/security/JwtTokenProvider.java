@@ -207,4 +207,20 @@ public class JwtTokenProvider {
     public String resolveRole(String token) {
         return parseClaims(token).get("role", String.class);
     }
+
+    /**
+     * 토큰 남은 유효 시간 계산 (ms)
+     * <p>
+     * 토큰의 Claims에서 Expiration를 추출하고 현재 시간과의 차이를 계산하여 남은 유효 시간을 반환합니다.
+     * 내부적으로 서명 검증을 수행하므로, 유효하지 않은 토큰일 경우 예외가 발생합니다.
+     *
+     * @param token 파싱할 JWT 토큰 문자열
+     * @return 남은 유효 시간
+     * @throws io.jsonwebtoken.JwtException 토큰 파싱 실패 또는 만료 시
+     */
+    public Long calculateRemainingValidityInMilliseconds(String token) {
+        Date expiration = parseClaims(token).getExpiration();
+        long now = new Date().getTime();
+        return expiration.getTime() - now;
+    }
 }
