@@ -8,6 +8,7 @@ import com.teno.openmarket.user.infra.security.JwtTokenProvider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -46,19 +47,21 @@ public class ReissueServiceTest {
         // 1. 토큰에서 사용자 ID 추출
         given(jwtTokenProvider.validateToken(oldRefreshToken)).willReturn(true);
         given(jwtTokenProvider.resolveUserId(oldRefreshToken)).willReturn(userId);
-        given(jwtTokenProvider.resolveRole(oldRefreshToken)).willReturn(role);
 
         // 2. Redis에 저장된 토큰 조회 (정상 존재)
         RefreshToken storedToken = RefreshToken.builder()
                 .userId(userId)
                 .token(oldRefreshToken)
+                .role(role)
                 .build();
         given(refreshTokenRepository.findByToken(oldRefreshToken)).willReturn(Optional.of(storedToken));
 
         // 3. 새 토큰 발급
         given(jwtTokenProvider.createAccessToken(eq(userId), eq(role))).willReturn("new_access_token");
         given(jwtTokenProvider.createRefreshToken(userId)).willReturn("new_refresh_token");
+
         given(jwtTokenProvider.getAccessTokenValidityInMilliseconds()).willReturn(1800000L);
+        given(jwtTokenProvider.getRefreshTokenValidityInMilliseconds()).willReturn(1209600000L);
 
         // when
         TokenResponse response = reissueService.reissue(command);
@@ -72,7 +75,14 @@ public class ReissueServiceTest {
         verify(refreshTokenRepository).delete(storedToken);
 
         // 3. 새 토큰 저장 검증
-        verify(refreshTokenRepository).save(any(RefreshToken.class));
+        ArgumentCaptor<RefreshToken> captor = ArgumentCaptor.forClass(RefreshToken.class);
+        verify(refreshTokenRepository).save(captor.capture());
+
+        RefreshToken newToken = captor.getValue();
+        assertThat(newToken.getUserId()).isEqualTo(userId);
+        assertThat(newToken.getToken()).isEqualTo("new_refresh_token");
+        assertThat(newToken.getRole()).isEqualTo(role);
+        assertThat(newToken.getExpiration()).isEqualTo(1209600000L);
     }
 
     @Test
