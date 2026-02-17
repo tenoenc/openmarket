@@ -7,7 +7,7 @@ import com.teno.openmarket.user.domain.term.TermAgreement;
 import com.teno.openmarket.user.domain.term.TermAgreementRepository;
 import com.teno.openmarket.user.domain.term.TermRepository;
 import com.teno.openmarket.user.domain.user.User;
-import com.teno.openmarket.user.infra.jpa.UserJpaRepository;
+import com.teno.openmarket.user.domain.user.UserRepository;
 import com.teno.openmarket.user.domain.user.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class SignupService {
 
-    private final UserJpaRepository userJpaRepository;
+    private final UserRepository userRepository;
     private final TermRepository termRepository;
     private final TermAgreementRepository termAgreementRepository;
     private final PasswordEncoder passwordEncoder;
@@ -37,7 +37,7 @@ public class SignupService {
     @Transactional
     public Long signup(SignupCommand command) {
         // 1. 이메일 중복 검사
-        if (userJpaRepository.existsByEmail(command.getEmail())) {
+        if (userRepository.existsByEmail(command.getEmail())) {
             throw new BusinessException(GlobalErrorCode.USER_ALREADY_EXISTS);
         }
 
@@ -56,7 +56,7 @@ public class SignupService {
                 .role(Role.ROLE_USER)
                 .build();
 
-        User savedUser = userJpaRepository.save(user);
+        User savedUser = userRepository.save(user);
 
         // 5. 약관 동의 이력 저장
         saveTermAgreements(savedUser, command.getTermIds());

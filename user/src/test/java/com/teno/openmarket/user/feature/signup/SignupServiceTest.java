@@ -7,7 +7,7 @@ import com.teno.openmarket.user.domain.term.TermAgreement;
 import com.teno.openmarket.user.domain.term.TermAgreementRepository;
 import com.teno.openmarket.user.domain.term.TermRepository;
 import com.teno.openmarket.user.domain.user.User;
-import com.teno.openmarket.user.infra.jpa.UserJpaRepository;
+import com.teno.openmarket.user.domain.user.UserRepository;
 import com.teno.openmarket.user.domain.user.Role;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,7 +34,7 @@ public class SignupServiceTest {
     private SignupService signupService;
 
     @Mock
-    private UserJpaRepository userJpaRepository;
+    private UserRepository userRepository;
 
     @Mock
     private TermRepository termRepository;
@@ -57,9 +57,9 @@ public class SignupServiceTest {
                 .termIds(List.of(1L, 2L))
                 .build();
 
-        given(userJpaRepository.existsByEmail(command.getEmail())).willReturn(false);
+        given(userRepository.existsByEmail(command.getEmail())).willReturn(false);
         given(passwordEncoder.encode(command.getPassword())).willReturn("encoded_password_value");
-        given(userJpaRepository.save(any(User.class)))
+        given(userRepository.save(any(User.class)))
                 .willAnswer(invocation -> {
                     User user = invocation.getArgument(0);
                     return user;
@@ -70,7 +70,7 @@ public class SignupServiceTest {
 
         // then
         ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
-        verify(userJpaRepository).save(userCaptor.capture()); // save()가 호출되는 시점에 해당 객체를 낚아챔
+        verify(userRepository).save(userCaptor.capture()); // save()가 호출되는 시점에 해당 객체를 낚아챔
 
         User savedUser = userCaptor.getValue(); // 낚아챈 객체를 꺼내옴
         assertThat(savedUser.getEmail()).isEqualTo(command.getEmail());
@@ -92,7 +92,7 @@ public class SignupServiceTest {
                 .termIds(List.of(1L))
                 .build();
 
-        given(userJpaRepository.existsByEmail(command.getEmail())).willReturn(true);
+        given(userRepository.existsByEmail(command.getEmail())).willReturn(true);
 
         // when & then
         assertThatThrownBy(() -> signupService.signup(command))
@@ -141,11 +141,11 @@ public class SignupServiceTest {
         given(termRepository.findAllByIsRequiredTrue())
                 .willReturn(List.of(mandatoryTerm1, mandatoryTerm2));
 
-        given(userJpaRepository.existsByEmail(any())).willReturn(false);
+        given(userRepository.existsByEmail(any())).willReturn(false);
         given(passwordEncoder.encode(any())).willReturn("encoded_password");
 
         User savedUser = User.builder().id(100L).email("test@teno.com").build();
-        given(userJpaRepository.save(any(User.class))).willReturn(savedUser);
+        given(userRepository.save(any(User.class))).willReturn(savedUser);
 
         // when
         Long userId = signupService.signup(command);
@@ -154,7 +154,7 @@ public class SignupServiceTest {
         assertThat(userId).isEqualTo(100L);
 
         // 1. 유저 저장 검증
-        verify(userJpaRepository).save(any(User.class));
+        verify(userRepository).save(any(User.class));
 
         // 2. 약관 동의 이력 저장 검증
         verify(termAgreementRepository).saveAll(argThat(agreements -> {
