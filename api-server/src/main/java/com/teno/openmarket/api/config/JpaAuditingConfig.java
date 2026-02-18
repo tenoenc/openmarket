@@ -1,4 +1,4 @@
-package com.teno.openmarket.common.config;
+package com.teno.openmarket.api.config;
 
 import jakarta.persistence.EntityListeners;
 import org.springframework.context.annotation.Configuration;
