@@ -1,8 +1,7 @@
-package com.teno.openmarket.user.infra.security;
+package com.teno.openmarket.common.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.teno.openmarket.common.error.GlobalErrorCode;
-import com.teno.openmarket.user.domain.token.TokenBlacklistRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,7 +29,7 @@ import static org.mockito.Mockito.verify;
 public class JwtAuthenticationFilterTest {
 
     @Mock private JwtTokenProvider jwtTokenProvider;
-    @Mock private TokenBlacklistRepository tokenBlacklistRepository;
+    @Mock private TokenBlacklistValidator tokenBlacklistValidator;
     @Mock private ObjectMapper objectMapper;
 
     @Mock private HttpServletRequest request;
@@ -46,7 +45,7 @@ public class JwtAuthenticationFilterTest {
 
         jwtAuthenticationFilter = new JwtAuthenticationFilter(
                 jwtTokenProvider,
-                tokenBlacklistRepository,
+                tokenBlacklistValidator,
                 objectMapper
         );
 
@@ -63,7 +62,7 @@ public class JwtAuthenticationFilterTest {
         given(request.getHeader("Authorization")).willReturn("Bearer " + validToken);
         given(jwtTokenProvider.validateToken(validToken)).willReturn(true);
 
-        given(tokenBlacklistRepository.existsByAccessToken(validToken)).willReturn(false);
+        given(tokenBlacklistValidator.existsByAccessToken(validToken)).willReturn(false);
 
         Authentication authentication = mock(Authentication.class);
         given(jwtTokenProvider.getAuthentication(validToken)).willReturn(authentication);
@@ -85,7 +84,7 @@ public class JwtAuthenticationFilterTest {
         given(jwtTokenProvider.validateToken(blacklistedToken)).willReturn(true);
 
         // 블랙리스트에 있다고 설정 -> 예외 발생 유도
-        given(tokenBlacklistRepository.existsByAccessToken(blacklistedToken)).willReturn(true);
+        given(tokenBlacklistValidator.existsByAccessToken(blacklistedToken)).willReturn(true);
 
         given(objectMapper.writeValueAsString(any())).willReturn("{}");
 
@@ -124,7 +123,7 @@ public class JwtAuthenticationFilterTest {
         // 3. 토큰 검증 로직은 호출되지 않아야 함
         verify(jwtTokenProvider, never()).validateToken(Mockito.anyString());
         // 4. 블랙리스트 검사도 하지 않아야 함
-        verify(tokenBlacklistRepository, never()).existsByAccessToken(anyString());
+        verify(tokenBlacklistValidator, never()).existsByAccessToken(anyString());
     }
 
     @Test
@@ -144,6 +143,6 @@ public class JwtAuthenticationFilterTest {
         // 2. 다음 필터로 넘어가야 함
         verify(filterChain).doFilter(request, response);
         // 3. 유효하지 않으면 블랙리스트 검사는 스킵해야 함
-        verify(tokenBlacklistRepository, never()).existsByAccessToken(anyString());
+        verify(tokenBlacklistValidator, never()).existsByAccessToken(anyString());
     }
 }

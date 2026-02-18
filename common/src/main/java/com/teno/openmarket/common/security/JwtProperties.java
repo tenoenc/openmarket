@@ -1,4 +1,4 @@
-package com.teno.openmarket.user.infra.security;
+package com.teno.openmarket.common.security;
 
 import lombok.Getter;
 import lombok.Setter;

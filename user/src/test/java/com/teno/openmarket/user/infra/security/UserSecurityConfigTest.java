@@ -1,6 +1,9 @@
 package com.teno.openmarket.user.infra.security;
 
-import com.teno.openmarket.user.domain.token.TokenBlacklistRepository;
+import com.teno.openmarket.common.security.JwtAuthenticationEntryPoint;
+import com.teno.openmarket.common.security.JwtAuthenticationFilter;
+import com.teno.openmarket.common.security.JwtTokenProvider;
+import com.teno.openmarket.common.security.TokenBlacklistValidator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +38,7 @@ public class UserSecurityConfigTest {
     private JwtTokenProvider jwtTokenProvider;
 
     @MockitoBean
-    private TokenBlacklistRepository tokenBlacklistRepository;
+    private TokenBlacklistValidator tokenBlacklistValidator;
 
     @Test
     @DisplayName("Security 설정이 로드되면 PasswordEncoder는 BCrypt 구현체여야 한다")
