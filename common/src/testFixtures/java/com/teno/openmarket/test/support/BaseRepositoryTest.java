@@ -1,5 +1,6 @@
 package com.teno.openmarket.test.support;
 
+import com.teno.openmarket.test.config.TestJpaConfig;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -15,16 +16,8 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @DataJpaTest // JPA 관련 빈만 로드
 @Testcontainers
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) // H2 사용 금지 (실제 DB 사용)
-@ContextConfiguration(classes = BaseRepositoryTest.TestApp.class)
 @Import(TestJpaConfig.class)
 public abstract class BaseRepositoryTest {
-
-    @SpringBootApplication(scanBasePackages = "none")
-    @EntityScan(basePackages = "com.teno.openmarket")
-    @EnableJpaRepositories(basePackages = "com.teno.openmarket")
-    public static class TestApp {
-
-    }
 
     // 모든 테스트가 공유하는 하나의 MySQL 컨테이너
     static final MySQLContainer<?> MYSQL_CONTAINER;

@@ -63,7 +63,10 @@ public class SystemSecurityConfig {
             );
         // 6. URL별 권한 설정
         http.authorizeHttpRequests(auth -> auth
-            .requestMatchers("/api/v1/system/health").permitAll()
+            .requestMatchers(
+                "/api/v1/system/health",
+                "/api/v1/system/server-time"
+            ).permitAll()
             .anyRequest().authenticated()
         );
 
