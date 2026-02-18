@@ -23,6 +23,23 @@ public class FileService {
     private static final List<String> ALLOWED_EXTENSIONS = Arrays.asList("jpg", "jpeg", "png", "webp", "gif");
     private static final long MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
+    /**
+     * 이미지 파일 업로드 처리
+     * <p>
+     * 전달받은 {@link MultipartFile}의 유효성을 검증하고, UUID 기반의 고유한 파일명을 생성하여
+     * 저장소(S3 등)에 업로드합니다.
+     *
+     * @param file      업로드할 이미지 파일 (필수, 이미지 타입이어야 함)
+     * @param directory 파일이 저장될 경로 (예: "products", "banners")
+     * @return 업로드된 파일의 접근 URL 및 메타데이터가 담긴 {@link FileUploadResponse}
+     * @throws BusinessException 다음의 경우 발생
+     * <ul>
+     * <li>파일이 비어있거나 null인 경우 (INVALID_INPUT)</li>
+     * <li>파일 크기가 허용치({@value #MAX_FILE_SIZE} bytes)를 초과한 경우 (FILE_SIZE_LIMIT)</li>
+     * <li>지원하지 않는 확장자이거나 MIME 타입이 이미지가 아닌 경우 (FILE_TYPE_ERROR)</li>
+     * <li>파일 저장소 업로드 중 I/O 에러가 발생한 경우 (FILE_UPLOAD_FAILED)</li>
+     * </ul>
+     */
     public FileUploadResponse uploadImage(MultipartFile file, String directory) {
         validateFile(file);
 
