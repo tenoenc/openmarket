@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -53,6 +54,9 @@ public abstract class BaseIntegrationTest {
 
         flyway.migrate();
     }
+
+    @Autowired
+    protected JdbcTemplate jdbcTemplate;
 
     @Autowired
     protected RedisTemplate<String, Object> redisTemplate;
