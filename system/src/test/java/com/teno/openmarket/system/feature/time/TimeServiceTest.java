@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
@@ -44,5 +45,23 @@ public class TimeServiceTest {
         );
 
         assertThat(response.getServerTime()).isEqualTo(expectedKstTime.toLocalDateTime());
+    }
+
+    @Test
+    @DisplayName("서버 로컬 시간이 현재여도, Redis가 반환하는 과거/미래 시간을 정확히 따라야 한다")
+    void should_IgnoreSystemTimeAndFollowRedisTime_When_ServerTimeIsRequested() {
+        // given
+        long pastEpochMillis = 946684800000L; // 2000-01-01 00:00:00 (KST)
+
+        given(timeRepository.getServerTimeMillis()).willReturn(pastEpochMillis);
+
+        // when
+        ServerTimeResponse response = timeService.getServerTime();
+
+        // then
+        assertThat(response.getServerTime().getYear()).isEqualTo(2000);
+
+        // then
+        assertThat(response.getServerTime()).isNotEqualTo(LocalDateTime.now());
     }
 }
