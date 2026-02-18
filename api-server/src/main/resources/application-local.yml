@@ -1,0 +1,11 @@
+cloud:
+  aws:
+    s3:
+      bucket: openmarket-storage
+    region:
+      static: ap-northeast-2
+    credentials:
+      access-key: ${AWS_ACCESS_KEY_ID}
+      secret-key: ${AWS_SECRET_ACCESS_KEY}
+    stack:
+      auto: false # CloudFormation 감시 해제 (속도 향상)

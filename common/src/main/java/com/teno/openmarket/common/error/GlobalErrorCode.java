@@ -22,6 +22,8 @@ public enum GlobalErrorCode implements ErrorCode {
     SYSTEM_FILE_TYPE_ERROR(HttpStatus.BAD_REQUEST, "지원하지 않는 파일 형식입니다.", ErrorAction.TOAST),
     SYSTEM_SETTLEMENT_DUPLICATED(HttpStatus.CONFLICT, "이미 지급 요청된 정산 건입니다.", ErrorAction.TOAST),
     SYSTEM_SETTLEMENT_ZERO(HttpStatus.BAD_REQUEST, "지급할 정산 금액이 없습니다.", ErrorAction.TOAST),
+    // [추가됨] (#20)
+    SYSTEM_FILE_UPLOAD_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드 중 오류가 발생했습니다.", ErrorAction.DIALOG),
 
     // STORE (상점 및 상품)
     STORE_NOT_FOUND(HttpStatus.NOT_FOUND, "업체를 찾을 수 없습니다.", ErrorAction.TOAST),

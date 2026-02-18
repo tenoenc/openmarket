@@ -8,11 +8,14 @@ dependencies {
 
     testFixturesApi 'org.springframework.boot:spring-boot-starter-test'
     testFixturesApi 'org.springframework.boot:spring-boot-testcontainers'
-    testFixturesApi 'org.testcontainers:mysql:1.21.4'
-    testFixturesApi 'org.testcontainers:junit-jupiter:1.21.4'
+    testFixturesApi 'org.testcontainers:mysql'
+    testFixturesApi 'org.testcontainers:junit-jupiter'
     testFixturesApi 'org.springframework.boot:spring-boot-starter-data-jpa'
     testFixturesApi 'com.mysql:mysql-connector-j'
     testFixturesApi 'org.springframework.boot:spring-boot-starter-data-redis'
+    testFixturesApi platform('software.amazon.awssdk:bom:2.41.31')
+    testFixturesApi 'software.amazon.awssdk:s3'
+    testFixturesApi "org.testcontainers:localstack"
     testImplementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
