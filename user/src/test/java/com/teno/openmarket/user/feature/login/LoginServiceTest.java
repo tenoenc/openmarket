@@ -7,7 +7,7 @@ import com.teno.openmarket.user.domain.token.RefreshTokenRepository;
 import com.teno.openmarket.user.domain.user.Role;
 import com.teno.openmarket.user.domain.user.User;
 import com.teno.openmarket.user.domain.user.UserRepository;
-import com.teno.openmarket.user.infra.security.JwtTokenProvider;
+import com.teno.openmarket.common.security.JwtTokenProvider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

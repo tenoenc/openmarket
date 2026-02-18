@@ -1,5 +1,7 @@
 package com.teno.openmarket.user.infra.security;
 
+import com.teno.openmarket.common.security.JwtAuthenticationEntryPoint;
+import com.teno.openmarket.common.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

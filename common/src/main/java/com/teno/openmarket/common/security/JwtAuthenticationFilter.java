@@ -1,4 +1,4 @@
-package com.teno.openmarket.user.infra.security;
+package com.teno.openmarket.common.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.teno.openmarket.common.error.ErrorCode;
@@ -6,7 +6,6 @@ import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.exception.BusinessException;
 import com.teno.openmarket.common.response.ApiResponse;
 import com.teno.openmarket.common.response.ResultType;
-import com.teno.openmarket.user.domain.token.TokenBlacklistRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,7 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     public static final String BEARER_PREFIX = "Bearer ";
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final TokenBlacklistRepository tokenBlacklistRepository;
+    private final TokenBlacklistValidator tokenBlacklistValidator;
     private final ObjectMapper objectMapper;
 
     @Override
@@ -45,7 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             // 2. 토큰 유효성 검사 (유효하면 인증 정보 저장)
             if (StringUtils.hasText(token) && jwtTokenProvider.validateToken(token)) {
                 // 2-1. 블랙리스트(로그아웃) 여부 확인
-                if (tokenBlacklistRepository.existsByAccessToken(token)) {
+                if (tokenBlacklistValidator.existsByAccessToken(token)) {
                     // 이미 로그아웃된 토큰이므로 인증 거부
                     throw new BusinessException(GlobalErrorCode.USER_LOGOUT);
                 }

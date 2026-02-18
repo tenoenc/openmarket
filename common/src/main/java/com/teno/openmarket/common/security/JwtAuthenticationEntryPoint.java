@@ -1,4 +1,4 @@
-package com.teno.openmarket.user.infra.security;
+package com.teno.openmarket.common.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.teno.openmarket.common.error.ErrorCode;

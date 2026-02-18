@@ -1,4 +1,4 @@
-package com.teno.openmarket.user.infra.security;
+package com.teno.openmarket.common.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
