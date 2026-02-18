@@ -1,7 +1,7 @@
 cloud:
   aws:
     s3:
-      bucket: teno-openmarket-storage
+      bucket: openmarket-storage
     region:
       static: ap-northeast-2
     credentials:
