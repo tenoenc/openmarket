@@ -87,7 +87,7 @@ subprojects {
     }
 }
 
-configure(subprojects.findAll { it.name in ['deal', 'order', 'store', 'system'] }) {
+configure(subprojects.findAll { it.name in ['deal', 'order', 'store'] }) {
     bootJar.enabled = false
     jar.enabled = true
 
