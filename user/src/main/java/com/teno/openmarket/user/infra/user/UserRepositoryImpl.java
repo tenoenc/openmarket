@@ -1,4 +1,4 @@
-package com.teno.openmarket.user.infra.jpa;
+package com.teno.openmarket.user.infra.user;
 
 import com.teno.openmarket.user.domain.user.User;
 import com.teno.openmarket.user.domain.user.UserRepository;

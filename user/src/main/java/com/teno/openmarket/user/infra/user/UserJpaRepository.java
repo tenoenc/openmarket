@@ -1,8 +1,7 @@
-package com.teno.openmarket.user.infra.jpa;
+package com.teno.openmarket.user.infra.user;
 
 import com.teno.openmarket.user.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 

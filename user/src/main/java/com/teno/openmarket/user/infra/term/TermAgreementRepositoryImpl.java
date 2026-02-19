@@ -1,4 +1,4 @@
-package com.teno.openmarket.user.infra.jpa;
+package com.teno.openmarket.user.infra.term;
 
 import com.teno.openmarket.user.domain.term.TermAgreement;
 import com.teno.openmarket.user.domain.term.TermAgreementRepository;

@@ -1,7 +1,7 @@
 package com.teno.openmarket.user.domain.term;
 
 import com.teno.openmarket.test.support.BaseRepositoryTest;
-import com.teno.openmarket.user.infra.jpa.TermRepositoryImpl;
+import com.teno.openmarket.user.infra.term.TermRepositoryImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

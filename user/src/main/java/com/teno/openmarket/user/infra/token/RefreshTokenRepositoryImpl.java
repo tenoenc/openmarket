@@ -1,4 +1,4 @@
-package com.teno.openmarket.user.infra.redis;
+package com.teno.openmarket.user.infra.token;
 
 import com.teno.openmarket.user.domain.token.RefreshToken;
 import com.teno.openmarket.user.domain.token.RefreshTokenRepository;
