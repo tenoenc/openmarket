@@ -28,7 +28,7 @@ class ReissueApiTest extends BaseControllerTest {
 
     @Test
     @DisplayName("유효한 Refresh Token으로 재발급 요청 시 200 OK와 새 토큰을 반환한다")
-    void reissue_Success() throws Exception {
+    void should_ReturnOkAndNewToken_When_RefreshTokenIsValid() throws Exception {
         // given
         ReissueRequest request = new ReissueRequest("valid_refresh_token");
         ReissueCommand command = new ReissueCommand("valid_refresh_token");

@@ -147,9 +147,9 @@ public class JwtTokenProvider {
         String role = claims.get("role", String.class);
         List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(role));
 
-        // 3. UserDetails 객체 생성 (비밀번호는 모르므로 빈 문자열 처리)
-        // Principal로 사용할 객체입니다. @AuthenticationPrincipal로 꺼내 쓸 수 있습니다.
-        User principal = new User(claims.getSubject(), "", authorities);
+        // 3. Long 타입의 principal 추출
+        // Principal로 사용할 userId입니다. @AuthenticationPrincipal로 꺼내 쓸 수 있습니다.
+        long principal = Long.parseLong(claims.getSubject());
 
         // 4. Authentication 객체 반환
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);

@@ -16,7 +16,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest
 @Import({LoginApi.class, TestUserSecurityConfig.class})
 class LoginApiTest extends BaseControllerTest {
 

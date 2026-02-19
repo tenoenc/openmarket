@@ -1,6 +1,5 @@
 package com.teno.openmarket.user.integration;
 
-import com.teno.openmarket.test.support.BaseIntegrationTest;
 import com.teno.openmarket.user.domain.user.Role;
 import com.teno.openmarket.user.domain.user.User;
 import com.teno.openmarket.user.domain.user.UserRepository;
@@ -11,7 +10,7 @@ import org.springframework.data.redis.core.ValueOperations;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class IntegrationEnvironmentTest extends BaseIntegrationTest {
+public class IntegrationEnvironmentTest extends UserIntegrationTest {
 
     @Autowired
     private UserRepository userRepository;

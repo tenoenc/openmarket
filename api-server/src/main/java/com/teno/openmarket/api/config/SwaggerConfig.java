@@ -40,7 +40,7 @@ public class SwaggerConfig {
                 .info(new Info()
                         .title("OpenMarket API")
                         .description("오픈마켓 서비스 API 명세서\n\n" + "본 문서는 코드를 기반으로 자동 생성됩니다.")
-                        .version("v0.0.1"))
+                        .version("v0.1.0"))
 
                 // 1. JWT 설정 (Authorize 버튼)
                 .addSecurityItem(new SecurityRequirement().addList(JWT_SCHEME_NAME))

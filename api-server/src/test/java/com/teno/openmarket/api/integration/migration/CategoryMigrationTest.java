@@ -3,6 +3,8 @@ package com.teno.openmarket.api.integration.migration;
 import com.teno.openmarket.api.integration.ApiIntegrationTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
 import java.util.Map;
@@ -10,6 +12,9 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CategoryMigrationTest extends ApiIntegrationTest {
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Test
     @DisplayName("V2 마이그레이션 실행 후 카테고리 초기 데이터가 존재해야 한다")
