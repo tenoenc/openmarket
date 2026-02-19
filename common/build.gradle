@@ -18,8 +18,10 @@ dependencies {
     testFixturesApi "org.testcontainers:localstack"
     testFixturesApi 'org.flywaydb:flyway-core'
     testFixturesApi 'org.flywaydb:flyway-mysql'
+    testFixturesApi 'org.springframework.security:spring-security-test'
     testImplementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.data:spring-data-jpa'
+    implementation 'jakarta.persistence:jakarta.persistence-api'
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
     api 'io.jsonwebtoken:jjwt-api:0.12.3'

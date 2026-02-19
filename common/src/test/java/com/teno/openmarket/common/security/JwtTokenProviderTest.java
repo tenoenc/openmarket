@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
@@ -126,9 +125,9 @@ class JwtTokenProviderTest {
         assertThat(authentication.getAuthorities().iterator().next().getAuthority()).isEqualTo("ROLE_SELLER");
 
         // 2. Principal(사용자 정보) 검증
-        Object principal = authentication.getPrincipal();
-        assertThat(principal).isInstanceOf(UserDetails.class);
-        assertThat(((UserDetails) principal).getUsername()).isEqualTo("100"); // Subject == UserId
+        long principal = (long) authentication.getPrincipal();
+        assertThat(principal).isGreaterThan(0L);
+        assertThat(principal).isEqualTo(100L); // Subject == UserId
 
     }
 }

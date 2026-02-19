@@ -1,12 +1,9 @@
-package com.teno.openmarket.api.integration;
+package com.teno.openmarket.user.integration;
 
 import com.teno.openmarket.test.support.BaseIntegrationTest;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.AfterEach;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -14,21 +11,13 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.MySQLContainer;
-import org.testcontainers.containers.localstack.LocalStackContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
-import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
-import software.amazon.awssdk.regions.Region;
-import software.amazon.awssdk.services.s3.S3Client;
 
 import java.util.Set;
 
-@Testcontainers
 @Transactional
-@ContextConfiguration(classes = {ApiIntegrationTest.TestS3Config.class})
-public abstract class ApiIntegrationTest extends BaseIntegrationTest {
+@ContextConfiguration(classes = {IntegrationTestRedisConfig.class, IntegrationTestJpaConfig.class})
+public abstract class UserIntegrationTest extends BaseIntegrationTest {
 
     private static final String REDIS_IMAGE = "redis:7.0.8-alpine";
     private static final String MYSQL_IMAGE = "mysql:8.0";
@@ -36,8 +25,6 @@ public abstract class ApiIntegrationTest extends BaseIntegrationTest {
 
     static final MySQLContainer<?> MYSQL_CONTAINER;
     static final GenericContainer<?> REDIS_CONTAINER;
-    @Container
-    static final LocalStackContainer LOCALSTACK;
 
     static {
         MYSQL_CONTAINER = new MySQLContainer<>(DockerImageName.parse(MYSQL_IMAGE))
@@ -49,9 +36,6 @@ public abstract class ApiIntegrationTest extends BaseIntegrationTest {
         REDIS_CONTAINER = new GenericContainer<>(DockerImageName.parse(REDIS_IMAGE))
                 .withExposedPorts(6379)
                 .withReuse(true);
-
-        LOCALSTACK = new LocalStackContainer(LOCALSTACK_IMAGE)
-                .withServices(LocalStackContainer.Service.S3);
 
         MYSQL_CONTAINER.start();
         REDIS_CONTAINER.start();
@@ -80,27 +64,6 @@ public abstract class ApiIntegrationTest extends BaseIntegrationTest {
         // Redis 설정 바인딩
         registry.add("spring.data.redis.host", REDIS_CONTAINER::getHost);
         registry.add("spring.data.redis.port", () -> REDIS_CONTAINER.getMappedPort(6379));
-
-        // LocalStack 설정 바인딩
-        registry.add("cloud.aws.s3.bucket", () -> "test-bucket");
-        registry.add("cloud.aws.region.static", LOCALSTACK::getRegion);
-        registry.add("cloud.aws.credentials.access-key", LOCALSTACK::getAccessKey);
-        registry.add("cloud.aws.credentials.secret-key", LOCALSTACK::getSecretKey);
-    }
-
-    @TestConfiguration
-    static class TestS3Config {
-        @Bean
-        @Primary
-        public S3Client apiS3Client() {
-            return S3Client.builder()
-                    .endpointOverride(LOCALSTACK.getEndpointOverride(LocalStackContainer.Service.S3))
-                    .credentialsProvider(StaticCredentialsProvider.create(
-                            AwsBasicCredentials.create(LOCALSTACK.getAccessKey(), LOCALSTACK.getSecretKey())
-                    ))
-                    .region(Region.of(LOCALSTACK.getRegion()))
-                    .build();
-        }
     }
 
     /**

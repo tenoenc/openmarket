@@ -1,6 +1,6 @@
 package com.teno.openmarket.test.support;
 
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
@@ -36,6 +36,7 @@ public class BaseS3Test {
     @TestConfiguration
     static class TestS3Config {
         @Bean
+        @ConditionalOnProperty(name = "cloud.aws.credentials.access-key")
         public S3Client s3Client() {
             return S3Client.builder()
                     .endpointOverride(LOCALSTACK.getEndpointOverride(LocalStackContainer.Service.S3))
