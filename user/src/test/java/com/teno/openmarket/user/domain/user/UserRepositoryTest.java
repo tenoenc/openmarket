@@ -1,7 +1,7 @@
 package com.teno.openmarket.user.domain.user;
 
 import com.teno.openmarket.test.support.BaseRepositoryTest;
-import com.teno.openmarket.user.infra.jpa.UserRepositoryImpl;
+import com.teno.openmarket.user.infra.user.UserRepositoryImpl;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
