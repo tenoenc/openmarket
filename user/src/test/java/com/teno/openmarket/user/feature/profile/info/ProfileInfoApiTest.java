@@ -1,11 +1,8 @@
-package com.teno.openmarket.user.feature.profile;
+package com.teno.openmarket.user.feature.profile.info;
 
 import com.teno.openmarket.test.support.BaseControllerTest;
 import com.teno.openmarket.test.support.WithMockUserId;
 import com.teno.openmarket.user.config.TestUserSecurityConfig;
-import com.teno.openmarket.user.feature.profile.info.ProfileInfoApi;
-import com.teno.openmarket.user.feature.profile.info.ProfileInfoResponse;
-import com.teno.openmarket.user.feature.profile.info.ProfileInfoService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;

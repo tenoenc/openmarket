@@ -92,4 +92,9 @@ public class User extends BaseTimeEntity {
      */
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
+
+    public void updateProfile(String name, String phone) {
+        this.name = name;
+        this.phone = phone;
+    }
 }

@@ -1,11 +1,9 @@
-package com.teno.openmarket.user.feature.profile;
+package com.teno.openmarket.user.feature.profile.info;
 
 import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.exception.BusinessException;
 import com.teno.openmarket.user.domain.user.User;
 import com.teno.openmarket.user.domain.user.UserRepository;
-import com.teno.openmarket.user.feature.profile.info.ProfileInfoResponse;
-import com.teno.openmarket.user.feature.profile.info.ProfileInfoService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
