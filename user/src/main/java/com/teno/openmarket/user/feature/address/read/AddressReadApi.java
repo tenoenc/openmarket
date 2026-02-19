@@ -23,6 +23,14 @@ public class AddressReadApi {
 
     private final AddressReadService addressReadService;
 
+    /**
+     * 내 배송지 목록 조회 API
+     * <p>
+     * 현재 로그인한 사용자의 전체 배송지 목록을 조회합니다.
+     *
+     * @param userId {@code SecurityContext}에서 추출된 로그인 사용자의 식별자
+     * @return {@link ApiResponse} 배송지 정보 목록
+     */
     @GetMapping("/addresses")
     @Operation(summary = "내 배송지 목록 조회 API")
     @ApiErrorCodeExamples({GlobalErrorCode.USER_AUTHENTICATION_REQUIRED,})
@@ -33,6 +41,15 @@ public class AddressReadApi {
         return ApiResponse.success(ListWrapper.of(responses));
     }
 
+    /**
+     * 내 배송지 상세 조회 API
+     * <p>
+     * 특정 식별자에 해당하는 배송지 상세 정보를 조회합니다. 본인이 등록한 배송지만 조회 가능합니다.
+     *
+     * @param userId {@code SecurityContext}에서 추출된 로그인 사용자의 식별자
+     * @param addressId 조회할 배송지의 식별자 (경로 변수)
+     * @return {@link ApiResponse} 배송지 상세 정보
+     */
     @GetMapping("/addresses/{addressId}")
     @Operation(summary = "내 배송지 상세 조회 API")
     @ApiErrorCodeExamples({
