@@ -2,6 +2,7 @@ package com.teno.openmarket.common.integration;
 
 import com.teno.openmarket.common.security.JwtAuthenticationEntryPoint;
 import com.teno.openmarket.common.security.JwtAuthenticationFilter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
@@ -20,16 +21,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  */
 @TestConfiguration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class IntegrationTestCommonSecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-
-    public IntegrationTestCommonSecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter,
-                                               JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint) {
-        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
-    }
 
     /**
      * HTTP 보안 필터 체인 설정
