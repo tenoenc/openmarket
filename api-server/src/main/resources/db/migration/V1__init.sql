@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS term_agreements (
 
 
 -- ==========================================
--- 2. 상점 및 상품 (Store)
+-- 2. 상점 및 상품 (Shop)
 -- ==========================================
 
 CREATE TABLE IF NOT EXISTS shops (

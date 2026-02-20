@@ -6,7 +6,7 @@ dependencies {
     implementation project(':user')
     implementation project(':deal')
     implementation project(':order')
-    implementation project(':store')
+    implementation project(':shop')
     implementation project(':system')
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
