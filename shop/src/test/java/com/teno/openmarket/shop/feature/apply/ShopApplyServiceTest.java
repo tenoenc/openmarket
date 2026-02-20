@@ -1,6 +1,6 @@
 package com.teno.openmarket.shop.feature.apply;
 
-import com.teno.openmarket.core.security.exception.BusinessException;
+import com.teno.openmarket.common.exception.BusinessException;
 import com.teno.openmarket.shop.domain.exception.ShopErrorCode;
 import com.teno.openmarket.shop.domain.shop.Shop;
 import com.teno.openmarket.shop.domain.shop.ShopRepository;

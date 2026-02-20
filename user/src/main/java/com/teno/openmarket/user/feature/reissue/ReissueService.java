@@ -1,6 +1,6 @@
 package com.teno.openmarket.user.feature.reissue;
 
-import com.teno.openmarket.core.security.exception.BusinessException;
+import com.teno.openmarket.common.exception.BusinessException;
 import com.teno.openmarket.core.security.exception.SecurityErrorCode;
 import com.teno.openmarket.user.domain.token.RefreshToken;
 import com.teno.openmarket.user.domain.token.RefreshTokenRepository;

@@ -1,6 +1,6 @@
 package com.teno.openmarket.user.feature.login;
 
-import com.teno.openmarket.core.security.response.ApiResponse;
+import com.teno.openmarket.common.response.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

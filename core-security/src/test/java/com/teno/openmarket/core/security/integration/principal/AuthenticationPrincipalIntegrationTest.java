@@ -2,7 +2,7 @@ package com.teno.openmarket.core.security.integration.principal;
 
 import com.teno.openmarket.core.security.JwtTokenProvider;
 import com.teno.openmarket.core.security.integration.CoreSecurityIntegrationTest;
-import com.teno.openmarket.core.security.response.ApiResponse;
+import com.teno.openmarket.common.response.ApiResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,6 @@
 package com.teno.openmarket.user.feature.profile.update;
 
-import com.teno.openmarket.test.support.BaseControllerTest;
-import com.teno.openmarket.test.support.WithMockUserId;
-import com.teno.openmarket.user.config.TestUserSecurityConfig;
+import com.teno.openmarket.user.feature.UserRoleControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
@@ -16,8 +14,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Import({ProfileUpdateApi.class, TestUserSecurityConfig.class})
-public class ProfileUpdateApiTest extends BaseControllerTest {
+@Import(ProfileUpdateApi.class)
+public class ProfileUpdateApiTest extends UserRoleControllerTest {
 
     @MockitoBean
     private ProfileUpdateService profileUpdateService;
@@ -27,7 +25,6 @@ public class ProfileUpdateApiTest extends BaseControllerTest {
 
     @Test
     @DisplayName("유효한 수정 요청 시 프로필을 업데이트하고 결과를 반환해야 한다")
-    @WithMockUserId(1L)
     void should_UpdateProfile_When_RequestIsValid() throws Exception {
         // given
         ProfileUpdateRequest request = ProfileUpdateRequest.builder()

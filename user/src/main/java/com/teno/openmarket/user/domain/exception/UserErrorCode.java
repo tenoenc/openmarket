@@ -1,7 +1,7 @@
 package com.teno.openmarket.user.domain.exception;
 
-import com.teno.openmarket.core.security.error.ErrorAction;
-import com.teno.openmarket.core.security.error.ErrorCode;
+import com.teno.openmarket.common.error.ErrorAction;
+import com.teno.openmarket.common.error.ErrorCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

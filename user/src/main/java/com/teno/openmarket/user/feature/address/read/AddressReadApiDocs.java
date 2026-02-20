@@ -1,8 +1,8 @@
 package com.teno.openmarket.user.feature.address.read;
 
 import com.teno.openmarket.core.security.annotation.SecurityErrorDocs;
-import com.teno.openmarket.core.security.response.ApiResponse;
-import com.teno.openmarket.core.security.response.ListWrapper;
+import com.teno.openmarket.common.response.ApiResponse;
+import com.teno.openmarket.common.response.ListWrapper;
 import com.teno.openmarket.user.domain.exception.UserErrorCode;
 import com.teno.openmarket.user.domain.exception.UserErrorCodeExamples;
 import io.swagger.v3.oas.annotations.Operation;

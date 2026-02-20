@@ -1,6 +1,6 @@
 package com.teno.openmarket.user.domain.term;
 
-import com.teno.openmarket.core.security.entity.BaseCreatedTimeEntity;
+import com.teno.openmarket.common.entity.BaseCreatedTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -3,6 +3,8 @@ package com.teno.openmarket.user.config;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -16,18 +18,27 @@ import org.springframework.security.web.SecurityFilterChain;
 @TestConfiguration
 public class TestUserSecurityConfig {
 
-    // 테스트에서도 PasswordEncoder는 필요하므로 실제와 동일하게 등록
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    // 테스트 편의를 위해 모든 요청을 허용하는 필터 체인
     @Bean
     public SecurityFilterChain testFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
+            .securityMatcher("/api/v1/auth/**", "/api/v1/users/**")
+
+            .csrf(AbstractHttpConfigurer::disable)
+            .formLogin(AbstractHttpConfigurer::disable)
+            .httpBasic(AbstractHttpConfigurer::disable)
+            .sessionManagement(session ->
+                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            )
+
+            .authorizeHttpRequests(auth -> auth
+                    .requestMatchers(
+                        "/api/v1/auth/signup",
+                        "/api/v1/auth/login",
+                        "/api/v1/auth/reissue"
+                    ).permitAll()
+                    .anyRequest().authenticated()
+            );
+
         return http.build();
     }
 }

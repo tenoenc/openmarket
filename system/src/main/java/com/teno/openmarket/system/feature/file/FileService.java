@@ -1,7 +1,7 @@
 package com.teno.openmarket.system.feature.file;
 
-import com.teno.openmarket.core.security.error.GlobalErrorCode;
-import com.teno.openmarket.core.security.exception.BusinessException;
+import com.teno.openmarket.common.error.GlobalErrorCode;
+import com.teno.openmarket.common.exception.BusinessException;
 import com.teno.openmarket.system.domain.exception.SystemErrorCode;
 import com.teno.openmarket.system.domain.file.FileStorageRepository;
 import lombok.RequiredArgsConstructor;

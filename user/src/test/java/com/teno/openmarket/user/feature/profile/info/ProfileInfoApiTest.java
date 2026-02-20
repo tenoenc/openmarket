@@ -1,8 +1,6 @@
 package com.teno.openmarket.user.feature.profile.info;
 
-import com.teno.openmarket.test.support.BaseControllerTest;
-import com.teno.openmarket.test.support.WithMockUserId;
-import com.teno.openmarket.user.config.TestUserSecurityConfig;
+import com.teno.openmarket.user.feature.UserRoleControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
@@ -14,14 +12,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Import({ProfileInfoApi.class, TestUserSecurityConfig.class})
-public class ProfileInfoApiTest extends BaseControllerTest {
+@Import(ProfileInfoApi.class)
+public class ProfileInfoApiTest extends UserRoleControllerTest {
 
     @MockitoBean
     private ProfileInfoService profileInfoService;
 
     @Test
-    @WithMockUserId(1L)
     @DisplayName("내 정보 조회 API 호출 시 프로필 정보를 반환해야 한다")
     void should_ReturnProfileInfo_When_GetMyProfileApiCalled() throws Exception {
         // given

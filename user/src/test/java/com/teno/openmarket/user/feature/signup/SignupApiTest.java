@@ -1,10 +1,8 @@
 package com.teno.openmarket.user.feature.signup;
 
-import com.teno.openmarket.test.support.BaseControllerTest;
-import com.teno.openmarket.user.config.TestUserSecurityConfig;
+import com.teno.openmarket.user.feature.UserControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -20,8 +18,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Import({SignupApi.class, TestUserSecurityConfig.class})
-class SignupApiTest extends BaseControllerTest {
+@Import(SignupApi.class)
+class SignupApiTest extends UserControllerTest {
 
     @MockitoBean
     private SignupService signupService;

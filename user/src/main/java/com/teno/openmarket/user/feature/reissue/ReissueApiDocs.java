@@ -1,10 +1,10 @@
 package com.teno.openmarket.user.feature.reissue;
 
-import com.teno.openmarket.core.security.annotation.GlobalErrorCodeExamples;
-import com.teno.openmarket.core.security.error.GlobalErrorCode;
+import com.teno.openmarket.common.annotation.GlobalErrorCodeExamples;
+import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.core.security.exception.SecurityErrorCode;
 import com.teno.openmarket.core.security.exception.SecurityErrorCodeExamples;
-import com.teno.openmarket.core.security.response.ApiResponse;
+import com.teno.openmarket.common.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 

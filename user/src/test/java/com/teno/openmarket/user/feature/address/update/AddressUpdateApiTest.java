@@ -1,8 +1,6 @@
 package com.teno.openmarket.user.feature.address.update;
 
-import com.teno.openmarket.test.support.BaseControllerTest;
-import com.teno.openmarket.test.support.WithMockUserId;
-import com.teno.openmarket.user.config.TestUserSecurityConfig;
+import com.teno.openmarket.user.feature.UserRoleControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
@@ -17,8 +15,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Import({AddressUpdateApi.class, TestUserSecurityConfig.class})
-public class AddressUpdateApiTest extends BaseControllerTest {
+@Import(AddressUpdateApi.class)
+public class AddressUpdateApiTest extends UserRoleControllerTest {
 
     @MockitoBean
     private AddressUpdateService addressUpdateService;
@@ -27,7 +25,6 @@ public class AddressUpdateApiTest extends BaseControllerTest {
     private AddressUpdateMapper addressUpdateMapper;
 
     @Test
-    @WithMockUserId(1L)
     @DisplayName("유효한 요청으로 배송지 수정 API 호출 시 200 OK를 반환해야 한다")
     void should_ReturnSuccess_When_UpdateAddressApiCalled() throws Exception {
         // given

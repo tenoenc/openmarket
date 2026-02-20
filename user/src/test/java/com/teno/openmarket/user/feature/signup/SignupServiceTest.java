@@ -1,6 +1,6 @@
 package com.teno.openmarket.user.feature.signup;
 
-import com.teno.openmarket.core.security.exception.BusinessException;
+import com.teno.openmarket.common.exception.BusinessException;
 import com.teno.openmarket.user.domain.exception.UserErrorCode;
 import com.teno.openmarket.user.domain.term.Term;
 import com.teno.openmarket.user.domain.term.TermAgreement;

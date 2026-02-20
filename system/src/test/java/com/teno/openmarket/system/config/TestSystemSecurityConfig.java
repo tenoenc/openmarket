@@ -3,6 +3,8 @@ package com.teno.openmarket.system.config;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
@@ -14,12 +16,31 @@ import org.springframework.security.web.SecurityFilterChain;
 @TestConfiguration
 public class TestSystemSecurityConfig {
 
-    // 테스트 편의를 위해 모든 요청을 허용하는 필터 체인
     @Bean
     public SecurityFilterChain testFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
+            .securityMatcher(
+                "/api/v1/system/**",
+                "/api/v1/admin/**",
+                "/api/v1/internal/**",
+                "/api/v1/settlements/**"
+            )
+
+            .csrf(AbstractHttpConfigurer::disable)
+            .formLogin(AbstractHttpConfigurer::disable)
+            .httpBasic(AbstractHttpConfigurer::disable)
+            .sessionManagement(session ->
+                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            )
+
+            .authorizeHttpRequests(auth -> auth
+                    .requestMatchers(
+                        "/api/v1/system/health",
+                        "/api/v1/system/server-time"
+                    ).permitAll()
+                    .anyRequest().authenticated()
+            );
+
         return http.build();
     }
 }

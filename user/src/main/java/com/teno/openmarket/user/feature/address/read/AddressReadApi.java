@@ -1,7 +1,7 @@
 package com.teno.openmarket.user.feature.address.read;
 
-import com.teno.openmarket.core.security.response.ApiResponse;
-import com.teno.openmarket.core.security.response.ListWrapper;
+import com.teno.openmarket.common.response.ApiResponse;
+import com.teno.openmarket.common.response.ListWrapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;

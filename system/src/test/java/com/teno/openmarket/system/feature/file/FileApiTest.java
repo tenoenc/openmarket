@@ -1,7 +1,6 @@
 package com.teno.openmarket.system.feature.file;
 
-import com.teno.openmarket.system.config.TestSystemSecurityConfig;
-import com.teno.openmarket.test.support.BaseControllerTest;
+import com.teno.openmarket.system.feature.SystemUserRoleControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
@@ -16,8 +15,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Import({FileApi.class, TestSystemSecurityConfig.class})
-public class FileApiTest extends BaseControllerTest {
+@Import(FileApi.class)
+public class FileApiTest extends SystemUserRoleControllerTest {
 
     @MockitoBean
     private FileService fileService;
