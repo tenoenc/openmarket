@@ -18,11 +18,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "User")
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
-public class AddressUpdateApi {
+public class AddressUpdateApi implements AddressUpdateApiDocs {
 
     private final AddressUpdateService addressUpdateService;
     private final AddressUpdateMapper addressUpdateMapper;
@@ -37,11 +36,8 @@ public class AddressUpdateApi {
      * @param request 수정할 배송지 상세 정보
      * @return {@link ApiResponse} 성공 응답
      */
+    @Override
     @PutMapping("/addresses/{addressId}")
-    @Operation(summary = "배송지 수정 API")
-    @GlobalErrorCodeExamples(GlobalErrorCode.SYSTEM_INVALID_INPUT)
-    @SecurityErrorCodeExamples(SecurityErrorCode.SECURITY_AUTHENTICATION_REQUIRED)
-    @UserErrorCodeExamples(UserErrorCode.USER_ADDRESS_NOT_FOUND)
     public ApiResponse<Void> updateAddress(
         @AuthenticationPrincipal Long userId,
         @PathVariable Long addressId,

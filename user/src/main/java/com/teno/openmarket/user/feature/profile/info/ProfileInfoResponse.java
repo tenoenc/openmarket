@@ -20,6 +20,7 @@ public class ProfileInfoResponse {
      * <p>
      * 시스템 내부에서 회원을 고유하게 식별하는 ID (PK)입니다.
      */
+    @Schema(example = "1")
     private Long id;
 
     /**
@@ -27,11 +28,13 @@ public class ProfileInfoResponse {
      * <p>
      * 로그인 시 사용되는 계정 ID (Email)입니다.
      */
+    @Schema(example = "user@example.com")
     private String email;
 
     /**
      * 회원 실명
      */
+    @Schema(example = "홍길동")
     private String name;
 
     /**
@@ -39,5 +42,6 @@ public class ProfileInfoResponse {
      * <p>
      * 하이픈(-)이 포함된 회원의 연락처 형식입니다.
      */
+    @Schema(example = "010-1234-5678")
     private String phone;
 }

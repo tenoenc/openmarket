@@ -1,12 +1,6 @@
 package com.teno.openmarket.user.feature.address.create;
 
-import com.teno.openmarket.core.security.annotation.GlobalErrorCodeExamples;
-import com.teno.openmarket.core.security.error.GlobalErrorCode;
 import com.teno.openmarket.core.security.response.ApiResponse;
-import com.teno.openmarket.user.domain.exception.UserErrorCode;
-import com.teno.openmarket.user.domain.exception.UserErrorCodeExamples;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,11 +9,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "User")
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
-public class AddressCreateApi {
+public class AddressCreateApi implements AddressCreateApiDocs {
 
     private final AddressCreateService addressCreateService;
     private final AddressCreateMapper addressCreateMapper;
@@ -34,10 +27,8 @@ public class AddressCreateApi {
      * @param request 등록할 배송지 상세 정보
      * @return {@link ApiResponse} 성공 응답 (데이터 없음)
      */
+    @Override
     @PostMapping("/addresses")
-    @Operation(summary = "배송지 등록 API")
-    @GlobalErrorCodeExamples(GlobalErrorCode.SYSTEM_INVALID_INPUT)
-    @UserErrorCodeExamples(UserErrorCode.USER_ADDRESS_LIMIT)
     public ApiResponse<Void> createAddress(
         @AuthenticationPrincipal Long userId,
         @RequestBody @Valid AddressCreateRequest request

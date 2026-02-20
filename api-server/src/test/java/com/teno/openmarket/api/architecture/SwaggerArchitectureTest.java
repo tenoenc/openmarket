@@ -36,14 +36,31 @@ public class SwaggerArchitectureTest {
                 }
             };
 
-    // [규칙 1] API 설명 누락 방지
+    // [규칙 1-1] 컨트롤러는 반드시 ApiDocs 인터페이스를 구현해야 함
     @ArchTest
-    static final ArchRule controllers_should_have_operation_annotation = methods()
+    static final ArchRule controllers_should_implement_api_docs = classes()
+            .that().areAnnotatedWith(REST_CONTROLLER)
+            .and(not(reside_in_test_folder))
+            .should().implement(JavaClass.Predicates.simpleNameEndingWith("ApiDocs"))
+            .because("모든 컨트롤러는 문서화 책임을 분리하기 위해 '*ApiDocs' 인터페이스를 구현해야 합니다.");
+
+    // [규칙 1-2] API 명세 인터페이스에 문서화 어노테이션 필수
+    @ArchTest
+    static final ArchRule api_docs_should_have_operation_annotation = methods()
+            .that().arePublic()
+            .and().areDeclaredInClassesThat().haveSimpleNameEndingWith("ApiDocs")
+            .and().areDeclaredInClassesThat().areInterfaces()
+            .should().beAnnotatedWith(Operation.class)
+            .because("API 명세 인터페이스의 모든 메서드는 @Operation 애노테이션이 필수입니다.");
+
+    // [규칙 1-3] 컨트롤러 직접 문서화 금지 (어노테이션 지옥 방지)
+    @ArchTest
+    static final ArchRule controllers_should_not_have_operation_annotation = methods()
             .that().arePublic()
             .and().areDeclaredInClassesThat().areAnnotatedWith(REST_CONTROLLER)
             .and().areDeclaredInClassesThat(not(reside_in_test_folder))
-            .should().beAnnotatedWith(Operation.class)
-            .because("API 문서화를 위해 모든 컨트롤러 메서드는 @Operation 애노테이션이 필수입니다.");
+            .should().notBeAnnotatedWith(Operation.class)
+            .because("관심사 분리를 위해 컨트롤러 구현체 메서드에 직접 @Operation을 달면 안 됩니다. 문서화는 인터페이스에서 수행하세요.");
 
     // [규칙 2] 응답 통일성 강제
     @ArchTest

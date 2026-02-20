@@ -1,13 +1,7 @@
 package com.teno.openmarket.user.feature.address.read;
 
-import com.teno.openmarket.core.security.exception.SecurityErrorCode;
-import com.teno.openmarket.core.security.exception.SecurityErrorCodeExamples;
 import com.teno.openmarket.core.security.response.ApiResponse;
 import com.teno.openmarket.core.security.response.ListWrapper;
-import com.teno.openmarket.user.domain.exception.UserErrorCode;
-import com.teno.openmarket.user.domain.exception.UserErrorCodeExamples;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,11 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Tag(name = "User")
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
-public class AddressReadApi {
+public class AddressReadApi implements AddressReadApiDocs {
 
     private final AddressReadService addressReadService;
 
@@ -33,9 +26,8 @@ public class AddressReadApi {
      * @param userId {@code SecurityContext}에서 추출된 로그인 사용자의 식별자
      * @return {@link ApiResponse} 배송지 정보 목록
      */
+    @Override
     @GetMapping("/addresses")
-    @Operation(summary = "내 배송지 목록 조회 API")
-    @SecurityErrorCodeExamples(SecurityErrorCode.SECURITY_AUTHENTICATION_REQUIRED)
     public ApiResponse<ListWrapper<AddressInfoResponse>> getMyAddresses(
         @AuthenticationPrincipal Long userId
     ) {
@@ -52,10 +44,8 @@ public class AddressReadApi {
      * @param addressId 조회할 배송지의 식별자 (경로 변수)
      * @return {@link ApiResponse} 배송지 상세 정보
      */
+    @Override
     @GetMapping("/addresses/{addressId}")
-    @Operation(summary = "내 배송지 상세 조회 API")
-    @SecurityErrorCodeExamples(SecurityErrorCode.SECURITY_AUTHENTICATION_REQUIRED)
-    @UserErrorCodeExamples(UserErrorCode.USER_ADDRESS_NOT_FOUND)
     public ApiResponse<AddressInfoResponse> getMyAddressDetail(
         @AuthenticationPrincipal Long userId,
         @PathVariable Long addressId

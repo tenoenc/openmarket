@@ -1,12 +1,6 @@
 package com.teno.openmarket.user.feature.withdraw;
 
-import com.teno.openmarket.core.security.exception.SecurityErrorCode;
-import com.teno.openmarket.core.security.exception.SecurityErrorCodeExamples;
 import com.teno.openmarket.core.security.response.ApiResponse;
-import com.teno.openmarket.user.domain.exception.UserErrorCode;
-import com.teno.openmarket.user.domain.exception.UserErrorCodeExamples;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,11 +8,10 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "User")
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
-public class UserWithdrawApi {
+public class UserWithdrawApi implements UserWithdrawApiDocs {
 
     private final UserWithdrawFacade userWithdrawFacade;
 
@@ -32,10 +25,8 @@ public class UserWithdrawApi {
      * @param authHeader Authorization 헤더 (Bearer 토큰)
      * @return {@link ApiResponse} 데이터가 없는 성공 응답
      */
+    @Override
     @DeleteMapping("/me")
-    @Operation(summary = "회원 탈퇴 API")
-    @SecurityErrorCodeExamples(SecurityErrorCode.SECURITY_AUTHENTICATION_REQUIRED)
-    @UserErrorCodeExamples(UserErrorCode.USER_NOT_FOUND)
     public ApiResponse<Void> withdraw(
         @AuthenticationPrincipal Long userId,
         @RequestHeader("Authorization") String authHeader
