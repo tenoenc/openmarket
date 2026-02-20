@@ -86,4 +86,17 @@ public class UserAddress {
     @Column(name = "is_default", columnDefinition = "TINYINT(1) DEFAULT 0")
     @Builder.Default
     private Boolean isDefault = false;
+
+    /**
+     * 배송지 정보 수정
+     */
+    public void updateAddress(String addressName, String recipientName, String recipientPhone,
+                              String zipCode, String addressBase, String addressDetail) {
+        this.addressName = addressName;
+        this.recipientName = recipientName;
+        this.recipientPhone = recipientPhone;
+        this.zipCode = zipCode;
+        this.addressBase = addressBase;
+        this.addressDetail = addressDetail;
+    }
 }

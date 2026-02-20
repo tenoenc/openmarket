@@ -12,4 +12,6 @@ public interface UserAddressRepository {
     List<UserAddress> findAllByUserIdOrderByIsDefaultDescIdDesc(Long userId);
 
     Optional<UserAddress> findByIdAndUserId(Long id, Long userId);
+
+    void delete(UserAddress address);
 }
