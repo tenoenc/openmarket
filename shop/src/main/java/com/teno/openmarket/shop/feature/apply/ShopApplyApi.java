@@ -2,6 +2,8 @@ package com.teno.openmarket.shop.feature.apply;
 
 import com.teno.openmarket.core.security.annotation.GlobalErrorCodeExamples;
 import com.teno.openmarket.core.security.error.GlobalErrorCode;
+import com.teno.openmarket.core.security.exception.SecurityErrorCode;
+import com.teno.openmarket.core.security.exception.SecurityErrorCodeExamples;
 import com.teno.openmarket.core.security.response.ApiResponse;
 import com.teno.openmarket.shop.domain.exception.ShopErrorCode;
 import com.teno.openmarket.shop.domain.exception.ShopErrorCodeExamples;
@@ -36,10 +38,8 @@ public class ShopApplyApi {
      */
     @PostMapping("/apply")
     @Operation(summary = "상점 입점 신청 API")
-    @GlobalErrorCodeExamples({
-        GlobalErrorCode.SECURITY_AUTHENTICATION_REQUIRED,
-        GlobalErrorCode.SYSTEM_INVALID_INPUT,
-    })
+    @GlobalErrorCodeExamples(GlobalErrorCode.SYSTEM_INVALID_INPUT)
+    @SecurityErrorCodeExamples(SecurityErrorCode.SECURITY_AUTHENTICATION_REQUIRED)
     @ShopErrorCodeExamples({
         ShopErrorCode.SHOP_ALREADY_EXISTS,
         ShopErrorCode.SHOP_NAME_DUPLICATED

@@ -2,7 +2,7 @@ package com.teno.openmarket.core.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.teno.openmarket.core.security.error.ErrorCode;
-import com.teno.openmarket.core.security.error.GlobalErrorCode;
+import com.teno.openmarket.core.security.exception.SecurityErrorCode;
 import com.teno.openmarket.core.security.response.ApiResponse;
 import com.teno.openmarket.core.security.response.ResultType;
 import jakarta.servlet.ServletException;
@@ -31,7 +31,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException, ServletException {
         // 유효한 자격증명을 제공하지 않고 접근하려 할 때 401 Unauthorized 에러를 리턴
-        setErrorResponse(response, GlobalErrorCode.SECURITY_AUTHENTICATION_REQUIRED);
+        setErrorResponse(response, SecurityErrorCode.SECURITY_AUTHENTICATION_REQUIRED);
     }
 
     private void setErrorResponse(HttpServletResponse response, ErrorCode errorCode) throws IOException {

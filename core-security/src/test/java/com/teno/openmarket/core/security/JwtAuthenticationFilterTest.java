@@ -1,7 +1,7 @@
 package com.teno.openmarket.core.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.teno.openmarket.core.security.error.GlobalErrorCode;
+import com.teno.openmarket.core.security.exception.SecurityErrorCode;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -99,7 +99,7 @@ public class JwtAuthenticationFilterTest {
         verify(filterChain, never()).doFilter(request, response);
 
         // 3. 에러 응답 처리가 되어야 함
-        verify(response).setStatus(GlobalErrorCode.SECURITY_LOGOUT.getStatus().value());
+        verify(response).setStatus(SecurityErrorCode.SECURITY_LOGOUT.getStatus().value());
 
         // 4. JSON 응답 작성이 수행되어야 함
         verify(response).getWriter();

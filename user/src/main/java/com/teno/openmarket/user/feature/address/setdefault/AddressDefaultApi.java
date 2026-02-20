@@ -1,7 +1,7 @@
 package com.teno.openmarket.user.feature.address.setdefault;
 
-import com.teno.openmarket.core.security.annotation.GlobalErrorCodeExamples;
-import com.teno.openmarket.core.security.error.GlobalErrorCode;
+import com.teno.openmarket.core.security.exception.SecurityErrorCode;
+import com.teno.openmarket.core.security.exception.SecurityErrorCodeExamples;
 import com.teno.openmarket.core.security.response.ApiResponse;
 import com.teno.openmarket.user.domain.exception.UserErrorCode;
 import com.teno.openmarket.user.domain.exception.UserErrorCodeExamples;
@@ -33,7 +33,7 @@ public class AddressDefaultApi {
      */
     @PatchMapping("/addresses/{addressId}/default")
     @Operation(summary = "기본 배송지 설정 API")
-    @GlobalErrorCodeExamples(GlobalErrorCode.SECURITY_AUTHENTICATION_REQUIRED)
+    @SecurityErrorCodeExamples(SecurityErrorCode.SECURITY_AUTHENTICATION_REQUIRED)
     @UserErrorCodeExamples(UserErrorCode.USER_ADDRESS_NOT_FOUND)
     public ApiResponse<Void> setDefaultAddress(
             @AuthenticationPrincipal Long userId,

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.teno.openmarket.core.security.error.ErrorCode;
 import com.teno.openmarket.core.security.error.GlobalErrorCode;
 import com.teno.openmarket.core.security.exception.BusinessException;
+import com.teno.openmarket.core.security.exception.SecurityErrorCode;
 import com.teno.openmarket.core.security.response.ApiResponse;
 import com.teno.openmarket.core.security.response.ResultType;
 import jakarta.servlet.FilterChain;
@@ -46,7 +47,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 // 2-1. 블랙리스트(로그아웃) 여부 확인
                 if (tokenBlacklistValidator.existsByAccessToken(token)) {
                     // 이미 로그아웃된 토큰이므로 인증 거부
-                    throw new BusinessException(GlobalErrorCode.SECURITY_LOGOUT);
+                    throw new BusinessException(SecurityErrorCode.SECURITY_LOGOUT);
                 }
 
                 // 2-2. 정상 토큰이면 인증 객체 생성

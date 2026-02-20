@@ -1,8 +1,8 @@
 package com.teno.openmarket.user.feature.reissue;
 
 import com.teno.openmarket.core.security.JwtTokenProvider;
-import com.teno.openmarket.core.security.error.GlobalErrorCode;
 import com.teno.openmarket.core.security.exception.BusinessException;
+import com.teno.openmarket.core.security.exception.SecurityErrorCode;
 import com.teno.openmarket.user.domain.token.RefreshToken;
 import com.teno.openmarket.user.domain.token.RefreshTokenRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -99,6 +99,6 @@ public class ReissueServiceTest {
         // when & then
         assertThatThrownBy(() -> reissueService.reissue(command))
                 .isInstanceOf(BusinessException.class)
-                .hasFieldOrPropertyWithValue("errorCode", GlobalErrorCode.SECURITY_TOKEN_EXPIRED);
+                .hasFieldOrPropertyWithValue("errorCode", SecurityErrorCode.SECURITY_TOKEN_EXPIRED);
     }
 }

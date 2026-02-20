@@ -1,7 +1,7 @@
 package com.teno.openmarket.user.feature.address.delete;
 
-import com.teno.openmarket.core.security.annotation.GlobalErrorCodeExamples;
-import com.teno.openmarket.core.security.error.GlobalErrorCode;
+import com.teno.openmarket.core.security.exception.SecurityErrorCode;
+import com.teno.openmarket.core.security.exception.SecurityErrorCodeExamples;
 import com.teno.openmarket.core.security.response.ApiResponse;
 import com.teno.openmarket.user.domain.exception.UserErrorCode;
 import com.teno.openmarket.user.domain.exception.UserErrorCodeExamples;
@@ -38,7 +38,7 @@ public class AddressDeleteApi {
      */
     @DeleteMapping("/addresses/{addressId}")
     @Operation(summary = "배송지 삭제 API")
-    @GlobalErrorCodeExamples(GlobalErrorCode.SECURITY_AUTHENTICATION_REQUIRED)
+    @SecurityErrorCodeExamples(SecurityErrorCode.SECURITY_AUTHENTICATION_REQUIRED)
     @UserErrorCodeExamples({
         UserErrorCode.USER_ADDRESS_NOT_FOUND,
         UserErrorCode.USER_ADDRESS_DEFAULT

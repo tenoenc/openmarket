@@ -2,6 +2,8 @@ package com.teno.openmarket.user.feature.profile.update;
 
 import com.teno.openmarket.core.security.annotation.GlobalErrorCodeExamples;
 import com.teno.openmarket.core.security.error.GlobalErrorCode;
+import com.teno.openmarket.core.security.exception.SecurityErrorCode;
+import com.teno.openmarket.core.security.exception.SecurityErrorCodeExamples;
 import com.teno.openmarket.core.security.response.ApiResponse;
 import com.teno.openmarket.user.domain.exception.UserErrorCode;
 import com.teno.openmarket.user.domain.exception.UserErrorCodeExamples;
@@ -26,10 +28,8 @@ public class ProfileUpdateApi {
 
     @PutMapping("/me")
     @Operation(summary = "내 정보 수정 API")
-    @GlobalErrorCodeExamples({
-        GlobalErrorCode.SYSTEM_INVALID_INPUT,
-        GlobalErrorCode.SECURITY_AUTHENTICATION_REQUIRED
-    })
+    @GlobalErrorCodeExamples(GlobalErrorCode.SYSTEM_INVALID_INPUT)
+    @SecurityErrorCodeExamples(SecurityErrorCode.SECURITY_AUTHENTICATION_REQUIRED)
     @UserErrorCodeExamples(UserErrorCode.USER_NOT_FOUND)
     public ApiResponse<ProfileUpdateResponse> updateMyProfile(
         @AuthenticationPrincipal Long userId,
