@@ -1,8 +1,10 @@
 package com.teno.openmarket.user.feature.address.setdefault;
 
-import com.teno.openmarket.common.annotation.ApiErrorCodeExamples;
+import com.teno.openmarket.common.annotation.GlobalErrorCodeExamples;
 import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.response.ApiResponse;
+import com.teno.openmarket.user.domain.exception.UserErrorCode;
+import com.teno.openmarket.user.domain.exception.UserErrorCodeExamples;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -31,10 +33,8 @@ public class AddressDefaultApi {
      */
     @PatchMapping("/addresses/{addressId}/default")
     @Operation(summary = "기본 배송지 설정 API")
-    @ApiErrorCodeExamples({
-        GlobalErrorCode.USER_AUTHENTICATION_REQUIRED,
-        GlobalErrorCode.USER_ADDRESS_NOT_FOUND
-    })
+    @GlobalErrorCodeExamples(GlobalErrorCode.SECURITY_AUTHENTICATION_REQUIRED)
+    @UserErrorCodeExamples(UserErrorCode.USER_ADDRESS_NOT_FOUND)
     public ApiResponse<Void> setDefaultAddress(
             @AuthenticationPrincipal Long userId,
             @PathVariable Long addressId

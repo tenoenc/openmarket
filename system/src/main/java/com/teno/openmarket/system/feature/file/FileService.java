@@ -2,6 +2,7 @@ package com.teno.openmarket.system.feature.file;
 
 import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.exception.BusinessException;
+import com.teno.openmarket.system.domain.exception.SystemErrorCode;
 import com.teno.openmarket.system.domain.file.FileStorageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -63,7 +64,7 @@ public class FileService {
                     .storedFileName(storedFileName)
                     .build();
         } catch (IOException e) {
-            throw new BusinessException(GlobalErrorCode.SYSTEM_FILE_UPLOAD_FAILED);
+            throw new BusinessException(SystemErrorCode.SYSTEM_FILE_UPLOAD_FAILED);
         }
     }
 
@@ -74,19 +75,19 @@ public class FileService {
 
         // 1. 크기 검증
         if (file.getSize() > MAX_FILE_SIZE) {
-            throw new BusinessException(GlobalErrorCode.SYSTEM_FILE_SIZE_LIMIT);
+            throw new BusinessException(SystemErrorCode.SYSTEM_FILE_SIZE_LIMIT);
         }
 
         // 2. MIME Type 검증
         String contentType = file.getContentType();
         if (contentType == null || !contentType.startsWith("image/")) {
-            throw new BusinessException(GlobalErrorCode.SYSTEM_FILE_TYPE_ERROR);
+            throw new BusinessException(SystemErrorCode.SYSTEM_FILE_TYPE_ERROR);
         }
 
         // 3. 확장자 검증
         String extension = getExtension(file.getOriginalFilename());
         if (!ALLOWED_EXTENSIONS.contains(extension.toLowerCase())) {
-            throw new BusinessException(GlobalErrorCode.SYSTEM_FILE_TYPE_ERROR);
+            throw new BusinessException(SystemErrorCode.SYSTEM_FILE_TYPE_ERROR);
         }
     }
 

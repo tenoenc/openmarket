@@ -1,9 +1,9 @@
 package com.teno.openmarket.user.feature.address.delete;
 
-import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.exception.BusinessException;
 import com.teno.openmarket.user.domain.address.UserAddress;
 import com.teno.openmarket.user.domain.address.UserAddressRepository;
+import com.teno.openmarket.user.domain.exception.UserErrorCode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,7 +13,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -40,7 +39,7 @@ public class AddressDeleteServiceTest {
         // when & then
         assertThatThrownBy(() -> addressDeleteService.deleteAddress(addressId, userId))
                 .isInstanceOf(BusinessException.class)
-                .hasMessage(GlobalErrorCode.USER_ADDRESS_DEFAULT.getMessage());
+                .hasMessage(UserErrorCode.USER_ADDRESS_DEFAULT.getMessage());
     }
 
     @Test

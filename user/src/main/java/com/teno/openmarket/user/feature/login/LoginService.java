@@ -1,7 +1,7 @@
 package com.teno.openmarket.user.feature.login;
 
-import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.exception.BusinessException;
+import com.teno.openmarket.user.domain.exception.UserErrorCode;
 import com.teno.openmarket.user.domain.token.RefreshToken;
 import com.teno.openmarket.user.domain.token.RefreshTokenRepository;
 import com.teno.openmarket.user.domain.user.User;
@@ -41,17 +41,17 @@ public class LoginService {
      *
      * @param command 로그인 요청 명령 DTO (이메일, 평문 비밀번호)
      * @return {@link TokenResponse} Access Token, Refresh Token, 유효 시간 등을 포함한 응답 객체
-     * @throws BusinessException 자격 증명이 유효하지 않은 경우 ({@link GlobalErrorCode#USER_LOGIN_FAILED})
+     * @throws BusinessException 자격 증명이 유효하지 않은 경우 ({@link UserErrorCode#USER_LOGIN_FAILED})
      */
     @Transactional
     public TokenResponse login(LoginCommand command) {
         // 1. 사용자 조회
         User user = userRepository.findByEmail(command.getEmail())
-                .orElseThrow(() -> new BusinessException(GlobalErrorCode.USER_LOGIN_FAILED));
+                .orElseThrow(() -> new BusinessException(UserErrorCode.USER_LOGIN_FAILED));
 
         // 2. 비밀번호 검증
         if (!passwordEncoder.matches(command.getPassword(), user.getPassword())) {
-            throw new BusinessException(GlobalErrorCode.USER_LOGIN_FAILED);
+            throw new BusinessException(UserErrorCode.USER_LOGIN_FAILED);
         }
 
         // 3. 토큰 발급

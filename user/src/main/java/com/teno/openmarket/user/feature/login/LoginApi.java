@@ -1,8 +1,10 @@
 package com.teno.openmarket.user.feature.login;
 
-import com.teno.openmarket.common.annotation.ApiErrorCodeExamples;
+import com.teno.openmarket.common.annotation.GlobalErrorCodeExamples;
 import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.response.ApiResponse;
+import com.teno.openmarket.user.domain.exception.UserErrorCode;
+import com.teno.openmarket.user.domain.exception.UserErrorCodeExamples;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -33,10 +35,8 @@ public class LoginApi {
      */
     @PostMapping("/login")
     @Operation(summary = "로그인 요청")
-    @ApiErrorCodeExamples({
-        GlobalErrorCode.SYSTEM_INVALID_INPUT,
-        GlobalErrorCode.USER_LOGIN_FAILED
-    })
+    @GlobalErrorCodeExamples(GlobalErrorCode.SYSTEM_INVALID_INPUT)
+    @UserErrorCodeExamples(UserErrorCode.USER_LOGIN_FAILED)
     public ApiResponse<TokenResponse> login(@RequestBody @Valid LoginRequest request) {
         LoginCommand command = loginMapper.toCommand(request);
 

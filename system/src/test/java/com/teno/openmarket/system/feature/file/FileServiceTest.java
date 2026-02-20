@@ -1,7 +1,7 @@
 package com.teno.openmarket.system.feature.file;
 
-import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.exception.BusinessException;
+import com.teno.openmarket.system.domain.exception.SystemErrorCode;
 import com.teno.openmarket.system.domain.file.FileStorageRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -64,7 +64,7 @@ public class FileServiceTest {
         // when & then
         assertThatThrownBy(() -> fileService.uploadImage(file, "products"))
                 .isInstanceOf(BusinessException.class)
-                .hasMessage(GlobalErrorCode.SYSTEM_FILE_TYPE_ERROR.getMessage());
+                .hasMessage(SystemErrorCode.SYSTEM_FILE_TYPE_ERROR.getMessage());
     }
 
     @Test
@@ -78,7 +78,7 @@ public class FileServiceTest {
         // when & then
         assertThatThrownBy(() -> fileService.uploadImage(file, "banners"))
                 .isInstanceOf(BusinessException.class)
-                .hasMessage(GlobalErrorCode.SYSTEM_FILE_TYPE_ERROR.getMessage());
+                .hasMessage(SystemErrorCode.SYSTEM_FILE_TYPE_ERROR.getMessage());
     }
 
     @Test
@@ -93,6 +93,6 @@ public class FileServiceTest {
         // when & then
         assertThatThrownBy(() -> fileService.uploadImage(file, "products"))
                 .isInstanceOf(BusinessException.class)
-                .hasMessage(GlobalErrorCode.SYSTEM_FILE_SIZE_LIMIT.getMessage());
+                .hasMessage(SystemErrorCode.SYSTEM_FILE_SIZE_LIMIT.getMessage());
     }
 }

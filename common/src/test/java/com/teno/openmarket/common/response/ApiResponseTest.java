@@ -63,7 +63,7 @@ public class ApiResponseTest extends BaseControllerTest {
         // 비즈니스 예외 발생 테스트
         @GetMapping("/test/response/business-error")
         public ApiResponse<Void> testBusinessError() {
-            throw new BusinessException(GlobalErrorCode.DEAL_OUT_OF_STOCK);
+            throw new BusinessException(GlobalErrorCode.SYSTEM_ERROR);
         }
     }
 
@@ -124,10 +124,10 @@ public class ApiResponseTest extends BaseControllerTest {
     void should_ReturnCorrectErrorCode_When_BusinessExceptionThrown() throws Exception {
         mockMvc.perform(get("/test/response/business-error"))
                 .andDo(print())
-                .andExpect(status().isConflict())
+                .andExpect(status().isInternalServerError())
                 .andExpect(jsonPath("$.result").value("FAIL"))
-                .andExpect(jsonPath("$.errorCode").value("DEAL_OUT_OF_STOCK"))
-                .andExpect(jsonPath("$.message").value("재고가 모두 소진되었습니다."));
+                .andExpect(jsonPath("$.errorCode").value("SYSTEM_ERROR"))
+                .andExpect(jsonPath("$.message").value("서버 내부 오류가 발생했습니다."));
     }
 
     @Test

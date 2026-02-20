@@ -1,9 +1,9 @@
 package com.teno.openmarket.user.feature.address.create;
 
-import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.exception.BusinessException;
 import com.teno.openmarket.user.domain.address.UserAddress;
 import com.teno.openmarket.user.domain.address.UserAddressRepository;
+import com.teno.openmarket.user.domain.exception.UserErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,14 +23,14 @@ public class AddressCreateService {
      *
      * @param userId 배송지를 등록할 사용자의 고유 식별자
      * @param command 등록할 배송지 정보
-     * @throws BusinessException 등록된 배송지가 이미 5개 이상일 경우 ({@link GlobalErrorCode#USER_ADDRESS_LIMIT})
+     * @throws BusinessException 등록된 배송지가 이미 5개 이상일 경우 ({@link UserErrorCode#USER_ADDRESS_LIMIT})
      */
     @Transactional
     public void createAddress(Long userId, AddressCreateCommand command) {
         long currentCount = userAddressRepository.countByUserId(userId);
 
         if (currentCount >= MAX_ADDRESS_LIMIT) {
-            throw new BusinessException(GlobalErrorCode.USER_ADDRESS_LIMIT);
+            throw new BusinessException(UserErrorCode.USER_ADDRESS_LIMIT);
         }
 
         // 기존 배송지가 0개면 무조건 기본 배송지로 설정

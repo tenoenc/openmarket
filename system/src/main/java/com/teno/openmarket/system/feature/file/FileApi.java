@@ -1,8 +1,11 @@
 package com.teno.openmarket.system.feature.file;
 
-import com.teno.openmarket.common.annotation.ApiErrorCodeExamples;
+import com.teno.openmarket.common.annotation.GlobalErrorCodeExamples;
+import com.teno.openmarket.common.error.ErrorCode;
 import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.response.ApiResponse;
+import com.teno.openmarket.system.domain.exception.SystemErrorCode;
+import com.teno.openmarket.system.domain.exception.SystemErrorCodeExamples;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -33,11 +36,11 @@ public class FileApi {
      */
     @Operation(summary = "이미지 파일 업로드")
     @PostMapping(value = "/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @ApiErrorCodeExamples({
-        GlobalErrorCode.SYSTEM_FILE_UPLOAD_FAILED,
-        GlobalErrorCode.SYSTEM_INVALID_INPUT,
-        GlobalErrorCode.SYSTEM_FILE_SIZE_LIMIT,
-        GlobalErrorCode.SYSTEM_FILE_TYPE_ERROR
+    @GlobalErrorCodeExamples(GlobalErrorCode.SYSTEM_INVALID_INPUT)
+    @SystemErrorCodeExamples({
+        SystemErrorCode.SYSTEM_FILE_UPLOAD_FAILED,
+        SystemErrorCode.SYSTEM_FILE_SIZE_LIMIT,
+        SystemErrorCode.SYSTEM_FILE_TYPE_ERROR
     })
     public ApiResponse<FileUploadResponse> uploadImage(
         // @ModelAttribute를 사용하면 Swagger가 DTO의 필드(@Schema)를 읽어 자동으로 문서를 만들어줍니다.

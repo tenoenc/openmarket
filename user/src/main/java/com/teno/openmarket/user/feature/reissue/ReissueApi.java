@@ -1,6 +1,6 @@
 package com.teno.openmarket.user.feature.reissue;
 
-import com.teno.openmarket.common.annotation.ApiErrorCodeExamples;
+import com.teno.openmarket.common.annotation.GlobalErrorCodeExamples;
 import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,9 +31,9 @@ public class ReissueApi {
      */
     @PostMapping("/reissue")
     @Operation(summary = "토큰 재발급 요청")
-    @ApiErrorCodeExamples({
+    @GlobalErrorCodeExamples({
         GlobalErrorCode.SYSTEM_INVALID_INPUT,
-        GlobalErrorCode.USER_TOKEN_EXPIRED
+        GlobalErrorCode.SECURITY_TOKEN_EXPIRED
     })
     public ApiResponse<TokenResponse> reissue(@RequestBody @Valid ReissueRequest request) {
         ReissueCommand command = reissueMapper.toCommand(request);

@@ -1,7 +1,7 @@
 package com.teno.openmarket.user.feature.profile.update;
 
-import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.exception.BusinessException;
+import com.teno.openmarket.user.domain.exception.UserErrorCode;
 import com.teno.openmarket.user.domain.user.User;
 import com.teno.openmarket.user.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,12 +20,12 @@ public class ProfileUpdateService {
      * @param userId  수정할 사용자의 고유 식별자 (PK)
      * @param command 수정될 프로필 정보(이름, 전화번호)를 담은 객체
      * @return {@link ProfileUpdateResponse} 수정이 완료된 후의 사용자 정보
-     * @throws BusinessException 유저를 찾지 못할 경우 ({@link GlobalErrorCode#USER_NOT_FOUND})
+     * @throws BusinessException 유저를 찾지 못할 경우 ({@link UserErrorCode#USER_NOT_FOUND})
      */
     @Transactional
     public ProfileUpdateResponse updateProfile(Long userId, ProfileUpdateCommand command) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new BusinessException(GlobalErrorCode.USER_NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(UserErrorCode.USER_NOT_FOUND));
 
         user.updateProfile(command.getName(), command.getPhone());
 

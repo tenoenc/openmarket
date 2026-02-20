@@ -1,6 +1,4 @@
-package com.teno.openmarket.common.annotation;
-
-import com.teno.openmarket.common.error.GlobalErrorCode;
+package com.teno.openmarket.user.domain.exception;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -9,6 +7,6 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ApiErrorCodeExamples {
-    GlobalErrorCode[] value();
+public @interface UserErrorCodeExamples {
+    UserErrorCode[] value();
 }

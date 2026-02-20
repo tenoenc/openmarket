@@ -1,8 +1,10 @@
 package com.teno.openmarket.user.feature.profile.update;
 
-import com.teno.openmarket.common.annotation.ApiErrorCodeExamples;
+import com.teno.openmarket.common.annotation.GlobalErrorCodeExamples;
 import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.response.ApiResponse;
+import com.teno.openmarket.user.domain.exception.UserErrorCode;
+import com.teno.openmarket.user.domain.exception.UserErrorCodeExamples;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -24,11 +26,11 @@ public class ProfileUpdateApi {
 
     @PutMapping("/me")
     @Operation(summary = "내 정보 수정 API")
-    @ApiErrorCodeExamples({
+    @GlobalErrorCodeExamples({
         GlobalErrorCode.SYSTEM_INVALID_INPUT,
-        GlobalErrorCode.USER_NOT_FOUND,
-        GlobalErrorCode.USER_AUTHENTICATION_REQUIRED
+        GlobalErrorCode.SECURITY_AUTHENTICATION_REQUIRED
     })
+    @UserErrorCodeExamples(UserErrorCode.USER_NOT_FOUND)
     public ApiResponse<ProfileUpdateResponse> updateMyProfile(
         @AuthenticationPrincipal Long userId,
         @RequestBody @Valid ProfileUpdateRequest request

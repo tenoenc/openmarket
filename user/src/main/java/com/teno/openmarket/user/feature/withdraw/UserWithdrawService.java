@@ -1,7 +1,7 @@
 package com.teno.openmarket.user.feature.withdraw;
 
-import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.exception.BusinessException;
+import com.teno.openmarket.user.domain.exception.UserErrorCode;
 import com.teno.openmarket.user.domain.user.User;
 import com.teno.openmarket.user.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +20,11 @@ public class UserWithdrawService {
      * {@code is_deleted} 플래그가 true로 변경되며 {@code deleted_at}에 현재 시간이 기록됩니다.
      *
      * @param userId 탈퇴 처리할 사용자의 고유 식별자 (PK)
-     * @throws BusinessException 유저를 찾지 못할 경우 ({@link GlobalErrorCode#USER_NOT_FOUND})
+     * @throws BusinessException 유저를 찾지 못할 경우 ({@link UserErrorCode#USER_NOT_FOUND})
      */
     public void withdraw(Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new BusinessException(GlobalErrorCode.USER_NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(UserErrorCode.USER_NOT_FOUND));
 
         userRepository.delete(user);
     }

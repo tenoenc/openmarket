@@ -1,9 +1,9 @@
 package com.teno.openmarket.user.feature.address.read;
 
-import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.exception.BusinessException;
 import com.teno.openmarket.user.domain.address.UserAddress;
 import com.teno.openmarket.user.domain.address.UserAddressRepository;
+import com.teno.openmarket.user.domain.exception.UserErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,11 +43,11 @@ public class AddressReadService {
      * @param addressId 조회할 배송지의 고유 식별자
      * @param userId 조회를 요청한 사용자의 고유 식별자 (소유권 검증용)
      * @return 배송지 상세 정보 응답 DTO
-     * @throws BusinessException 본인의 배송지가 아니거나 존재하지 않을 경우 ({@link GlobalErrorCode#USER_ADDRESS_NOT_FOUND})
+     * @throws BusinessException 본인의 배송지가 아니거나 존재하지 않을 경우 ({@link UserErrorCode#USER_ADDRESS_NOT_FOUND})
      */
     public AddressInfoResponse getAddress(Long addressId, Long userId) {
         UserAddress address = userAddressRepository.findByIdAndUserId(addressId, userId)
-                .orElseThrow(() -> new BusinessException(GlobalErrorCode.USER_ADDRESS_NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(UserErrorCode.USER_ADDRESS_NOT_FOUND));
 
         return addressReadMapper.toResponse(address);
     }

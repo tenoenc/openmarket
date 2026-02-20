@@ -2,6 +2,7 @@ package com.teno.openmarket.shop.feature.apply;
 
 import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.exception.BusinessException;
+import com.teno.openmarket.shop.domain.exception.ShopErrorCode;
 import com.teno.openmarket.shop.domain.shop.Shop;
 import com.teno.openmarket.shop.domain.shop.ShopRepository;
 import com.teno.openmarket.shop.domain.shop.ShopStatus;
@@ -28,12 +29,12 @@ public class ShopApplyService {
     public void apply(Long userId, ShopApplyCommand command) {
         // 1. 이미 상점을 보유했거나 신청 중인지 검증
         if (shopRepository.existsByUserId(userId)) {
-            throw new BusinessException(GlobalErrorCode.SHOP_ALREADY_EXISTS);
+            throw new BusinessException(ShopErrorCode.SHOP_ALREADY_EXISTS);
         }
 
         // 2. 상점명 중복 검증 (DB Unique 제약조건 방어)
         if (shopRepository.existsByShopName(command.getShopName())) {
-            throw new BusinessException(GlobalErrorCode.SHOP_NAME_DUPLICATED);
+            throw new BusinessException(ShopErrorCode.SHOP_NAME_DUPLICATED);
         }
 
         // 3. 상태를 WAITING으로 상점 생성

@@ -1,7 +1,7 @@
 package com.teno.openmarket.user.feature.profile.info;
 
-import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.exception.BusinessException;
+import com.teno.openmarket.user.domain.exception.UserErrorCode;
 import com.teno.openmarket.user.domain.user.User;
 import com.teno.openmarket.user.domain.user.UserRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -60,6 +60,6 @@ public class ProfileInfoServiceTest {
         // when & then
         assertThatThrownBy(() -> profileInfoService.getProfile(userId))
                 .isInstanceOf(BusinessException.class)
-                .hasFieldOrPropertyWithValue("errorCode", GlobalErrorCode.USER_NOT_FOUND);
+                .hasFieldOrPropertyWithValue("errorCode", UserErrorCode.USER_NOT_FOUND);
     }
 }
