@@ -26,20 +26,20 @@ public enum GlobalErrorCode implements ErrorCode {
     SYSTEM_FILE_UPLOAD_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드 중 오류가 발생했습니다.", ErrorAction.DIALOG),
 
     // STORE (상점 및 상품)
-    STORE_NOT_FOUND(HttpStatus.NOT_FOUND, "업체를 찾을 수 없습니다.", ErrorAction.TOAST),
-    STORE_SUSPENDED(HttpStatus.FORBIDDEN, "운영 정책 위반으로 판매가 중지되었습니다.", ErrorAction.DIALOG),
-    STORE_ACCOUNT_EMPTY(HttpStatus.BAD_REQUEST, "정산 계좌 정보가 없습니다.", ErrorAction.TOAST),
-    STORE_ACCOUNT_VERIFY_FAILED(HttpStatus.BAD_REQUEST, "예금주 정보가 일치하지 않습니다.", ErrorAction.DIALOG),
-    STORE_NOT_OWNER(HttpStatus.FORBIDDEN, "관리 권한이 없습니다.", ErrorAction.DIALOG),
-    STORE_NAME_DUPLICATED(HttpStatus.CONFLICT, "이미 사용 중인 상점명입니다.", ErrorAction.TOAST),
-    STORE_STATUS_INVALID(HttpStatus.BAD_REQUEST, "재신청 가능한 상태가 아닙니다.", ErrorAction.TOAST),
-    STORE_NOT_ACTIVE(HttpStatus.BAD_REQUEST, "운영 중단된 상점입니다.", ErrorAction.DIALOG),
-    STORE_ALREADY_PROCESSED(HttpStatus.CONFLICT, "이미 처리된 상점입니다.", ErrorAction.TOAST),
-    STORE_APPLICANT_INVALID(HttpStatus.BAD_REQUEST, "신청자 계정 상태를 확인해주세요.", ErrorAction.TOAST),
-    STORE_PRODUCT_NOT_FOUND(HttpStatus.NOT_FOUND, "상품 정보를 찾을 수 없습니다.", ErrorAction.TOAST),
-    STORE_CATEGORY_NOT_LEAF(HttpStatus.BAD_REQUEST, "최하위 카테고리를 선택해주세요.", ErrorAction.TOAST),
-    STORE_IMAGE_LIMIT(HttpStatus.BAD_REQUEST, "이미지는 최대 10장까지 등록 가능합니다.", ErrorAction.TOAST),
-    STORE_PRODUCT_FROZEN(HttpStatus.CONFLICT, "진행 중인 타임딜이 있어 수정할 수 없습니다.", ErrorAction.DIALOG),
+    SHOP_NOT_FOUND(HttpStatus.NOT_FOUND, "업체를 찾을 수 없습니다.", ErrorAction.TOAST),
+    SHOP_SUSPENDED(HttpStatus.FORBIDDEN, "운영 정책 위반으로 판매가 중지되었습니다.", ErrorAction.DIALOG),
+    SHOP_ACCOUNT_EMPTY(HttpStatus.BAD_REQUEST, "정산 계좌 정보가 없습니다.", ErrorAction.TOAST),
+    SHOP_ACCOUNT_VERIFY_FAILED(HttpStatus.BAD_REQUEST, "예금주 정보가 일치하지 않습니다.", ErrorAction.DIALOG),
+    SHOP_NOT_OWNER(HttpStatus.FORBIDDEN, "관리 권한이 없습니다.", ErrorAction.DIALOG),
+    SHOP_NAME_DUPLICATED(HttpStatus.CONFLICT, "이미 사용 중인 상점명입니다.", ErrorAction.TOAST),
+    SHOP_STATUS_INVALID(HttpStatus.BAD_REQUEST, "재신청 가능한 상태가 아닙니다.", ErrorAction.TOAST),
+    SHOP_NOT_ACTIVE(HttpStatus.BAD_REQUEST, "운영 중단된 상점입니다.", ErrorAction.DIALOG),
+    SHOP_ALREADY_PROCESSED(HttpStatus.CONFLICT, "이미 처리된 상점입니다.", ErrorAction.TOAST),
+    SHOP_APPLICANT_INVALID(HttpStatus.BAD_REQUEST, "신청자 계정 상태를 확인해주세요.", ErrorAction.TOAST),
+    SHOP_PRODUCT_NOT_FOUND(HttpStatus.NOT_FOUND, "상품 정보를 찾을 수 없습니다.", ErrorAction.TOAST),
+    SHOP_CATEGORY_NOT_LEAF(HttpStatus.BAD_REQUEST, "최하위 카테고리를 선택해주세요.", ErrorAction.TOAST),
+    SHOP_IMAGE_LIMIT(HttpStatus.BAD_REQUEST, "이미지는 최대 10장까지 등록 가능합니다.", ErrorAction.TOAST),
+    SHOP_PRODUCT_FROZEN(HttpStatus.CONFLICT, "진행 중인 타임딜이 있어 수정할 수 없습니다.", ErrorAction.DIALOG),
 
     // ORDER (주문 및 결제)
     ORDER_PAYMENT_FAILED(HttpStatus.BAD_REQUEST, "결제에 실패했습니다.", ErrorAction.DIALOG),
@@ -78,7 +78,7 @@ public enum GlobalErrorCode implements ErrorCode {
     USER_ADDRESS_DEFAULT(HttpStatus.BAD_REQUEST, "기본 배송지는 삭제할 수 없습니다.", ErrorAction.TOAST),
     // [추가됨] (#52)
     USER_ADDRESS_NOT_FOUND(HttpStatus.NOT_FOUND, "배송지 정보를 찾을 수 없습니다.", ErrorAction.TOAST),
-    USER_HAS_ACTIVE_STORE(HttpStatus.BAD_REQUEST, "운영 중인 상점이 있어 탈퇴할 수 없습니다.", ErrorAction.DIALOG),
+    USER_HAS_ACTIVE_SHOP(HttpStatus.BAD_REQUEST, "운영 중인 상점이 있어 탈퇴할 수 없습니다.", ErrorAction.DIALOG),
     // [추가됨] (#14)
     USER_TERMS_REQUIRED(HttpStatus.BAD_REQUEST, "필수 약관에 모두 동의해야 합니다.", ErrorAction.TOAST),
     // [추가됨] (#17)
