@@ -40,6 +40,8 @@ public enum GlobalErrorCode implements ErrorCode {
     SHOP_CATEGORY_NOT_LEAF(HttpStatus.BAD_REQUEST, "최하위 카테고리를 선택해주세요.", ErrorAction.TOAST),
     SHOP_IMAGE_LIMIT(HttpStatus.BAD_REQUEST, "이미지는 최대 10장까지 등록 가능합니다.", ErrorAction.TOAST),
     SHOP_PRODUCT_FROZEN(HttpStatus.CONFLICT, "진행 중인 타임딜이 있어 수정할 수 없습니다.", ErrorAction.DIALOG),
+    // [추가됨] (#55) 유저가 이미 상점 개설을 신청했거나 운영 중인 경우
+    SHOP_ALREADY_EXISTS(HttpStatus.CONFLICT, "이미 상점 개설을 신청했거나 운영 중입니다.", ErrorAction.DIALOG),
 
     // ORDER (주문 및 결제)
     ORDER_PAYMENT_FAILED(HttpStatus.BAD_REQUEST, "결제에 실패했습니다.", ErrorAction.DIALOG),
