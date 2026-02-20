@@ -1,8 +1,7 @@
 package com.teno.openmarket.user.feature.logout;
 
 import com.teno.openmarket.core.security.JwtTokenProvider;
-import com.teno.openmarket.test.support.BaseControllerTest;
-import com.teno.openmarket.user.config.TestUserSecurityConfig;
+import com.teno.openmarket.user.feature.UserRoleControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
@@ -15,8 +14,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Import({LogoutApi.class, TestUserSecurityConfig.class})
-public class LogoutApiTest extends BaseControllerTest {
+@Import(LogoutApi.class)
+public class LogoutApiTest extends UserRoleControllerTest {
 
     @MockitoBean
     private LogoutService logoutService;

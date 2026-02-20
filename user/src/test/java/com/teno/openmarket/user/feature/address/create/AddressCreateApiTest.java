@@ -1,8 +1,6 @@
 package com.teno.openmarket.user.feature.address.create;
 
-import com.teno.openmarket.test.support.BaseControllerTest;
-import com.teno.openmarket.test.support.WithMockUserId;
-import com.teno.openmarket.user.config.TestUserSecurityConfig;
+import com.teno.openmarket.user.feature.UserRoleControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
@@ -17,8 +15,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Import({AddressCreateApi.class, TestUserSecurityConfig.class})
-public class AddressCreateApiTest extends BaseControllerTest {
+@Import(AddressCreateApi.class)
+public class AddressCreateApiTest extends UserRoleControllerTest {
 
     @MockitoBean
     private AddressCreateService addressCreateService;
@@ -27,7 +25,6 @@ public class AddressCreateApiTest extends BaseControllerTest {
     private AddressCreateMapper addressCreateMapper;
 
     @Test
-    @WithMockUserId(1L)
     @DisplayName("유효한 배송지 정보가 주어지면 배송지를 등록하고 200 OK를 반환해야 한다")
     void should_ReturnSuccess_When_ValidAddressRequest() throws Exception {
         // given

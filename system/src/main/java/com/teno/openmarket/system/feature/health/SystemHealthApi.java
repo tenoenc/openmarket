@@ -1,6 +1,6 @@
 package com.teno.openmarket.system.feature.health;
 
-import com.teno.openmarket.core.security.response.ApiResponse;
+import com.teno.openmarket.common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

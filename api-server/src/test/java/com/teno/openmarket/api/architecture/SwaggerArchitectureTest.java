@@ -1,6 +1,6 @@
 package com.teno.openmarket.api.architecture;
 
-import com.teno.openmarket.core.security.response.ApiResponse;
+import com.teno.openmarket.common.response.ApiResponse;
 import com.tngtech.archunit.base.DescribedPredicate;
 import com.tngtech.archunit.core.domain.JavaClass;
 import com.tngtech.archunit.junit.AnalyzeClasses;

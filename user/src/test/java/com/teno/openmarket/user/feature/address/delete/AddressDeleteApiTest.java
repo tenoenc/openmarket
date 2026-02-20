@@ -1,8 +1,6 @@
 package com.teno.openmarket.user.feature.address.delete;
 
-import com.teno.openmarket.test.support.BaseControllerTest;
-import com.teno.openmarket.test.support.WithMockUserId;
-import com.teno.openmarket.user.config.TestUserSecurityConfig;
+import com.teno.openmarket.user.feature.UserRoleControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
@@ -13,14 +11,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Import({AddressDeleteApi.class, TestUserSecurityConfig.class})
-public class AddressDeleteApiTest extends BaseControllerTest {
+@Import(AddressDeleteApi.class)
+public class AddressDeleteApiTest extends UserRoleControllerTest {
 
     @MockitoBean
     private AddressDeleteService addressDeleteService;
 
     @Test
-    @WithMockUserId(1L)
     @DisplayName("배송지 삭제 API 호출 시 200 OK를 반환해야 한다")
     void should_ReturnSuccess_When_DeleteAddressApiCalled() throws Exception {
         // given

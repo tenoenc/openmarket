@@ -1,7 +1,6 @@
 package com.teno.openmarket.user.feature.reissue;
 
-import com.teno.openmarket.test.support.BaseControllerTest;
-import com.teno.openmarket.user.config.TestUserSecurityConfig;
+import com.teno.openmarket.user.feature.UserControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -17,8 +16,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest
-@Import({ReissueApi.class, TestUserSecurityConfig.class})
-class ReissueApiTest extends BaseControllerTest {
+@Import(ReissueApi.class)
+class ReissueApiTest extends UserControllerTest {
 
     @MockitoBean
     private ReissueService reissueService;

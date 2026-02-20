@@ -1,6 +1,6 @@
 package com.teno.openmarket.user.feature.address.create;
 
-import com.teno.openmarket.core.security.exception.BusinessException;
+import com.teno.openmarket.common.exception.BusinessException;
 import com.teno.openmarket.user.domain.address.UserAddress;
 import com.teno.openmarket.user.domain.address.UserAddressRepository;
 import com.teno.openmarket.user.domain.exception.UserErrorCode;

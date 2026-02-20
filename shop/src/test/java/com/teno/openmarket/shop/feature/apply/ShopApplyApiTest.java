@@ -1,8 +1,6 @@
 package com.teno.openmarket.shop.feature.apply;
 
-import com.teno.openmarket.shop.config.TestShopSecurityConfig;
-import com.teno.openmarket.test.support.BaseControllerTest;
-import com.teno.openmarket.test.support.WithMockUserId;
+import com.teno.openmarket.shop.feature.ShopUserRoleControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
@@ -17,8 +15,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Import({ShopApplyApi.class, TestShopSecurityConfig.class})
-public class ShopApplyApiTest extends BaseControllerTest {
+@Import(ShopApplyApi.class)
+public class ShopApplyApiTest extends ShopUserRoleControllerTest {
 
     @MockitoBean
     private ShopApplyService shopApplyService;
@@ -27,7 +25,6 @@ public class ShopApplyApiTest extends BaseControllerTest {
     private ShopApplyMapper shopApplyMapper;
 
     @Test
-    @WithMockUserId(1L)
     @DisplayName("유효한 요청으로 입점 신청 API 호출 시 200 OK를 반환해야 한다")
     void should_ReturnSuccess_When_ShopApplyApiCalled() throws Exception {
         // given

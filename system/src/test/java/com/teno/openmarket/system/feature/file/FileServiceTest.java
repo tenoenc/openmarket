@@ -1,6 +1,6 @@
 package com.teno.openmarket.system.feature.file;
 
-import com.teno.openmarket.core.security.exception.BusinessException;
+import com.teno.openmarket.common.exception.BusinessException;
 import com.teno.openmarket.system.domain.exception.SystemErrorCode;
 import com.teno.openmarket.system.domain.file.FileStorageRepository;
 import org.junit.jupiter.api.DisplayName;

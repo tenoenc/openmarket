@@ -1,7 +1,6 @@
 package com.teno.openmarket.system.feature.time;
 
-import com.teno.openmarket.system.config.TestSystemSecurityConfig;
-import com.teno.openmarket.test.support.BaseControllerTest;
+import com.teno.openmarket.system.feature.SystemControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
@@ -14,8 +13,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Import({TimeApi.class, TestSystemSecurityConfig.class})
-public class TimeApiTest extends BaseControllerTest {
+@Import(TimeApi.class)
+public class TimeApiTest extends SystemControllerTest {
 
     @MockitoBean
     private TimeService timeService;

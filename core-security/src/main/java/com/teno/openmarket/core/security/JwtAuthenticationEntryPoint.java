@@ -1,10 +1,10 @@
 package com.teno.openmarket.core.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.teno.openmarket.core.security.error.ErrorCode;
+import com.teno.openmarket.common.error.ErrorCode;
 import com.teno.openmarket.core.security.exception.SecurityErrorCode;
-import com.teno.openmarket.core.security.response.ApiResponse;
-import com.teno.openmarket.core.security.response.ResultType;
+import com.teno.openmarket.common.response.ApiResponse;
+import com.teno.openmarket.common.response.ResultType;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

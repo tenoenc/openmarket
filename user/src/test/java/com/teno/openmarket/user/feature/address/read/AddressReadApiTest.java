@@ -1,8 +1,7 @@
 package com.teno.openmarket.user.feature.address.read;
 
-import com.teno.openmarket.test.support.BaseControllerTest;
 import com.teno.openmarket.test.support.WithMockUserId;
-import com.teno.openmarket.user.config.TestUserSecurityConfig;
+import com.teno.openmarket.user.feature.UserRoleControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
@@ -15,14 +14,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Import({AddressReadApi.class, TestUserSecurityConfig.class})
-public class AddressReadApiTest extends BaseControllerTest {
+@Import(AddressReadApi.class)
+public class AddressReadApiTest extends UserRoleControllerTest {
 
     @MockitoBean
     private AddressReadService addressReadService;
 
     @Test
-    @WithMockUserId(1L)
     @DisplayName("배송지 목록 조회 API 호출 시 목록을 반환해야 한다")
     void should_ReturnAddressList_When_GetAddressedApiCalled() throws Exception {
         AddressInfoResponse response = AddressInfoResponse.builder()

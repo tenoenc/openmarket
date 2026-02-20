@@ -1,8 +1,6 @@
 package com.teno.openmarket.user.feature.withdraw;
 
-import com.teno.openmarket.test.support.BaseControllerTest;
-import com.teno.openmarket.test.support.WithMockUserId;
-import com.teno.openmarket.user.config.TestUserSecurityConfig;
+import com.teno.openmarket.user.feature.UserRoleControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
@@ -13,15 +11,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Import({UserWithdrawApi.class, TestUserSecurityConfig.class})
-public class UserWithdrawApiTest extends BaseControllerTest {
+@Import(UserWithdrawApi.class)
+public class UserWithdrawApiTest extends UserRoleControllerTest {
 
     @MockitoBean
     private UserWithdrawFacade userWithdrawFacade;
 
     @Test
     @DisplayName("회원 탈퇴 API 호출 시 200 OK를 반환하고 Facade 로직을 호출해야 한다")
-    @WithMockUserId(1L)
     void should_ReturnSuccess_When_WithdrawApiCalled() throws Exception {
         // given
         String authHeader = "Bearer valid_access_token";
