@@ -1,12 +1,6 @@
 package com.teno.openmarket.user.feature.address.setdefault;
 
-import com.teno.openmarket.core.security.exception.SecurityErrorCode;
-import com.teno.openmarket.core.security.exception.SecurityErrorCodeExamples;
 import com.teno.openmarket.core.security.response.ApiResponse;
-import com.teno.openmarket.user.domain.exception.UserErrorCode;
-import com.teno.openmarket.user.domain.exception.UserErrorCodeExamples;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -14,11 +8,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "User")
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
-public class AddressDefaultApi {
+public class AddressDefaultApi implements AddressDefaultApiDocs {
 
     private final AddressDefaultService addressDefaultService;
 
@@ -31,13 +24,11 @@ public class AddressDefaultApi {
      * @param addressId 기본 배송지로 설정할 배송지의 식별자 (경로 변수)
      * @return {@link ApiResponse} 성공 응답
      */
+    @Override
     @PatchMapping("/addresses/{addressId}/default")
-    @Operation(summary = "기본 배송지 설정 API")
-    @SecurityErrorCodeExamples(SecurityErrorCode.SECURITY_AUTHENTICATION_REQUIRED)
-    @UserErrorCodeExamples(UserErrorCode.USER_ADDRESS_NOT_FOUND)
     public ApiResponse<Void> setDefaultAddress(
-            @AuthenticationPrincipal Long userId,
-            @PathVariable Long addressId
+        @AuthenticationPrincipal Long userId,
+        @PathVariable Long addressId
     ) {
         addressDefaultService.setDefaultAddress(addressId, userId);
         return ApiResponse.success();

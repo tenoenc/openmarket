@@ -1,12 +1,6 @@
 package com.teno.openmarket.user.feature.signup;
 
-import com.teno.openmarket.core.security.annotation.GlobalErrorCodeExamples;
-import com.teno.openmarket.core.security.error.GlobalErrorCode;
 import com.teno.openmarket.core.security.response.ApiResponse;
-import com.teno.openmarket.user.domain.exception.UserErrorCode;
-import com.teno.openmarket.user.domain.exception.UserErrorCodeExamples;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,11 +8,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "Auth", description = "회원 인증 및 인가 API")
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
-public class SignupApi {
+public class SignupApi implements SignupApiDocs {
 
     private final SignupService signupService;
     private final SignupMapper signupMapper;
@@ -32,13 +25,8 @@ public class SignupApi {
      * @param request 회원 가입에 필요한 필수 정보
      * @return {@link ApiResponse} 성공 시 별도의 데이터 페이로드 없이 {@code 200 OK} 결과만 반환
      */
+    @Override
     @PostMapping("/signup")
-    @Operation(summary = "회원 가입 요청")
-    @GlobalErrorCodeExamples(GlobalErrorCode.SYSTEM_INVALID_INPUT)
-    @UserErrorCodeExamples({
-        UserErrorCode.USER_ALREADY_EXISTS,
-        UserErrorCode.USER_TERMS_REQUIRED
-    })
     public ApiResponse<Void> signup(@RequestBody @Valid SignupRequest request) {
         SignupCommand command = signupMapper.toCommand(request);
 

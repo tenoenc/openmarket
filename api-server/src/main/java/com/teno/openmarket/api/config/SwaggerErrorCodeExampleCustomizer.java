@@ -1,7 +1,9 @@
 package com.teno.openmarket.api.config;
 
 import com.teno.openmarket.core.security.annotation.GlobalErrorCodeExamples;
+import com.teno.openmarket.core.security.annotation.SecurityErrorDocs;
 import com.teno.openmarket.core.security.error.ErrorCode;
+import com.teno.openmarket.core.security.exception.SecurityErrorCode;
 import com.teno.openmarket.core.security.response.ResultType;
 import com.teno.openmarket.deal.domain.exception.DealErrorCodeExamples;
 import com.teno.openmarket.order.domain.exception.OrderErrorCodeExamples;
@@ -15,6 +17,7 @@ import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import org.springdoc.core.customizers.OperationCustomizer;
+import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 
@@ -60,6 +63,14 @@ public class SwaggerErrorCodeExampleCustomizer implements OperationCustomizer {
         DealErrorCodeExamples deal = handlerMethod.getMethodAnnotation(DealErrorCodeExamples.class);
         if (deal != null) {
             allErrorCodes.addAll(Arrays.asList(deal.value()));
+        }
+
+        boolean requiresAuth = AnnotatedElementUtils.hasAnnotation(handlerMethod.getMethod(), SecurityErrorDocs.class)
+                || AnnotatedElementUtils.hasAnnotation(handlerMethod.getBeanType(), SecurityErrorDocs.class);
+
+        if (requiresAuth) {
+            allErrorCodes.add(SecurityErrorCode.SECURITY_LOGOUT);
+            allErrorCodes.add(SecurityErrorCode.SECURITY_AUTHENTICATION_REQUIRED);
         }
 
         Map<Integer, List<ErrorCode>> errorCodesByStatus = allErrorCodes.stream()

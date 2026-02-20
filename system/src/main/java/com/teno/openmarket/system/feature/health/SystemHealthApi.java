@@ -1,18 +1,15 @@
 package com.teno.openmarket.system.feature.health;
 
 import com.teno.openmarket.core.security.response.ApiResponse;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "System", description = "시스템 관리 API")
 @RestController
 @RequestMapping("/api/v1/system")
 @RequiredArgsConstructor
-public class SystemHealthApi {
+public class SystemHealthApi implements SystemHealthApiDocs {
 
     private final SystemHealthService systemHealthService;
 
@@ -28,8 +25,8 @@ public class SystemHealthApi {
      *
      * @return {@link ApiResponse} 시스템의 통합 상태(UP/DOWN) 및 각 인프라별 연결 상태(DB, Redis, Kafka)
      */
+    @Override
     @GetMapping("/health")
-    @Operation(summary = "서버 상태 확인 (Health Check)")
     public ApiResponse<SystemHealthResponse> checkHealth() {
         // 캐싱된 결과를 즉시 반환
         return ApiResponse.success(systemHealthService.getHealthStatus());

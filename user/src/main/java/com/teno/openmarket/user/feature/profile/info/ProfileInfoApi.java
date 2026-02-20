@@ -1,23 +1,16 @@
 package com.teno.openmarket.user.feature.profile.info;
 
-import com.teno.openmarket.core.security.exception.SecurityErrorCode;
-import com.teno.openmarket.core.security.exception.SecurityErrorCodeExamples;
 import com.teno.openmarket.core.security.response.ApiResponse;
-import com.teno.openmarket.user.domain.exception.UserErrorCode;
-import com.teno.openmarket.user.domain.exception.UserErrorCodeExamples;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "User", description = "회원 관리 API")
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
-public class ProfileInfoApi {
+public class ProfileInfoApi implements ProfileInfoApiDocs {
 
     private final ProfileInfoService profileInfoService;
 
@@ -30,12 +23,8 @@ public class ProfileInfoApi {
      * @param userId SecurityContext에서 추출된 로그인 사용자의 고유 식별자
      * @return {@link ApiResponse} 사용자의 프로필 상세 정보
      */
+    @Override
     @GetMapping("/me")
-    @Operation(summary = "내 정보 조회 API")
-    @SecurityErrorCodeExamples(SecurityErrorCode.SECURITY_AUTHENTICATION_REQUIRED)
-    @UserErrorCodeExamples({
-        UserErrorCode.USER_NOT_FOUND,
-    })
     public ApiResponse<ProfileInfoResponse> getMyProfile(
         @AuthenticationPrincipal Long userId
     ) {

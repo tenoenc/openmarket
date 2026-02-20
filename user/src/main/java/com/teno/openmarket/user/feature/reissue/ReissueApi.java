@@ -1,13 +1,6 @@
 package com.teno.openmarket.user.feature.reissue;
 
-import com.teno.openmarket.core.security.annotation.GlobalErrorCodeExamples;
-import com.teno.openmarket.core.security.error.ErrorCode;
-import com.teno.openmarket.core.security.error.GlobalErrorCode;
-import com.teno.openmarket.core.security.exception.SecurityErrorCode;
-import com.teno.openmarket.core.security.exception.SecurityErrorCodeExamples;
 import com.teno.openmarket.core.security.response.ApiResponse;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,11 +8,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "Auth")
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
-public class ReissueApi {
+public class ReissueApi implements ReissueApiDocs {
     private final ReissueService reissueService;
     private final ReissueMapper reissueMapper;
 
@@ -32,10 +24,8 @@ public class ReissueApi {
      * @param request 유효한 Refresh Token을 포함한 요청 객체
      * @return {@link ApiResponse} 갱신된 Access/Refresh Token 정보
      */
+    @Override
     @PostMapping("/reissue")
-    @Operation(summary = "토큰 재발급 요청")
-    @GlobalErrorCodeExamples(GlobalErrorCode.SYSTEM_INVALID_INPUT)
-    @SecurityErrorCodeExamples(SecurityErrorCode.SECURITY_TOKEN_EXPIRED)
     public ApiResponse<TokenResponse> reissue(@RequestBody @Valid ReissueRequest request) {
         ReissueCommand command = reissueMapper.toCommand(request);
 
