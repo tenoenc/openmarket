@@ -1,7 +1,7 @@
 package com.teno.openmarket.user.feature.profile.info;
 
-import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.exception.BusinessException;
+import com.teno.openmarket.user.domain.exception.UserErrorCode;
 import com.teno.openmarket.user.domain.user.User;
 import com.teno.openmarket.user.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,11 +22,11 @@ public class ProfileInfoService {
      *
      * @param userId 조회할 사용자의 고유 식별자 (PK)
      * @return 비밀번호가 제외된 프로필 응답 객체
-     * @throws BusinessException 유저를 찾지 못할 경우 ({@link GlobalErrorCode#USER_NOT_FOUND})
+     * @throws BusinessException 유저를 찾지 못할 경우 ({@link UserErrorCode#USER_NOT_FOUND})
      */
     public ProfileInfoResponse getProfile(Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new BusinessException(GlobalErrorCode.USER_NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(UserErrorCode.USER_NOT_FOUND));
 
         return ProfileInfoResponse.builder()
                 .id(user.getId())

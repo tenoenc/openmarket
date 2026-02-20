@@ -1,8 +1,10 @@
 package com.teno.openmarket.user.feature.withdraw;
 
-import com.teno.openmarket.common.annotation.ApiErrorCodeExamples;
+import com.teno.openmarket.common.annotation.GlobalErrorCodeExamples;
 import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.response.ApiResponse;
+import com.teno.openmarket.user.domain.exception.UserErrorCode;
+import com.teno.openmarket.user.domain.exception.UserErrorCodeExamples;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -32,10 +34,8 @@ public class UserWithdrawApi {
      */
     @DeleteMapping("/me")
     @Operation(summary = "회원 탈퇴 API")
-    @ApiErrorCodeExamples({
-        GlobalErrorCode.USER_NOT_FOUND,
-        GlobalErrorCode.USER_AUTHENTICATION_REQUIRED
-    })
+    @GlobalErrorCodeExamples(GlobalErrorCode.SECURITY_AUTHENTICATION_REQUIRED)
+    @UserErrorCodeExamples(UserErrorCode.USER_NOT_FOUND)
     public ApiResponse<Void> withdraw(
         @AuthenticationPrincipal Long userId,
         @RequestHeader("Authorization") String authHeader

@@ -1,14 +1,14 @@
 package com.teno.openmarket.user.feature.signup;
 
-import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.exception.BusinessException;
+import com.teno.openmarket.user.domain.exception.UserErrorCode;
 import com.teno.openmarket.user.domain.term.Term;
 import com.teno.openmarket.user.domain.term.TermAgreement;
 import com.teno.openmarket.user.domain.term.TermAgreementRepository;
 import com.teno.openmarket.user.domain.term.TermRepository;
+import com.teno.openmarket.user.domain.user.Role;
 import com.teno.openmarket.user.domain.user.User;
 import com.teno.openmarket.user.domain.user.UserRepository;
-import com.teno.openmarket.user.domain.user.Role;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -98,7 +98,7 @@ public class SignupServiceTest {
         assertThatThrownBy(() -> signupService.signup(command))
                 .isInstanceOf(BusinessException.class)
                 .extracting("errorCode")
-                .isEqualTo(GlobalErrorCode.USER_ALREADY_EXISTS);
+                .isEqualTo(UserErrorCode.USER_ALREADY_EXISTS);
     }
 
     @Test
@@ -120,7 +120,7 @@ public class SignupServiceTest {
         // when & then
         assertThatThrownBy(() -> signupService.signup(command))
                 .isInstanceOf(BusinessException.class)
-                .hasFieldOrPropertyWithValue("errorCode", GlobalErrorCode.USER_TERMS_REQUIRED);
+                .hasFieldOrPropertyWithValue("errorCode", UserErrorCode.USER_TERMS_REQUIRED);
     }
 
     @Test

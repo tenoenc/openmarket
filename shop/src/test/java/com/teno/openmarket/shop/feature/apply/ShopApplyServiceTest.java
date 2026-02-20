@@ -1,7 +1,7 @@
 package com.teno.openmarket.shop.feature.apply;
 
-import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.exception.BusinessException;
+import com.teno.openmarket.shop.domain.exception.ShopErrorCode;
 import com.teno.openmarket.shop.domain.shop.Shop;
 import com.teno.openmarket.shop.domain.shop.ShopRepository;
 import com.teno.openmarket.shop.domain.shop.ShopStatus;
@@ -69,6 +69,6 @@ public class ShopApplyServiceTest {
         // when & then
         assertThatThrownBy(() -> shopApplyService.apply(userId, command))
                 .isInstanceOf(BusinessException.class)
-                .hasMessage(GlobalErrorCode.SHOP_ALREADY_EXISTS.getMessage());
+                .hasMessage(ShopErrorCode.SHOP_ALREADY_EXISTS.getMessage());
     }
 }

@@ -1,8 +1,10 @@
 package com.teno.openmarket.user.feature.signup;
 
-import com.teno.openmarket.common.annotation.ApiErrorCodeExamples;
+import com.teno.openmarket.common.annotation.GlobalErrorCodeExamples;
 import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.response.ApiResponse;
+import com.teno.openmarket.user.domain.exception.UserErrorCode;
+import com.teno.openmarket.user.domain.exception.UserErrorCodeExamples;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -32,10 +34,10 @@ public class SignupApi {
      */
     @PostMapping("/signup")
     @Operation(summary = "회원 가입 요청")
-    @ApiErrorCodeExamples({
-        GlobalErrorCode.SYSTEM_INVALID_INPUT,
-        GlobalErrorCode.USER_TERMS_REQUIRED,
-        GlobalErrorCode.USER_ALREADY_EXISTS
+    @GlobalErrorCodeExamples(GlobalErrorCode.SYSTEM_INVALID_INPUT)
+    @UserErrorCodeExamples({
+        UserErrorCode.USER_ALREADY_EXISTS,
+        UserErrorCode.USER_TERMS_REQUIRED
     })
     public ApiResponse<Void> signup(@RequestBody @Valid SignupRequest request) {
         SignupCommand command = signupMapper.toCommand(request);

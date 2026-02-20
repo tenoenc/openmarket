@@ -100,6 +100,6 @@ public class ReissueServiceTest {
         // when & then
         assertThatThrownBy(() -> reissueService.reissue(command))
                 .isInstanceOf(BusinessException.class)
-                .hasFieldOrPropertyWithValue("errorCode", GlobalErrorCode.USER_TOKEN_EXPIRED);
+                .hasFieldOrPropertyWithValue("errorCode", GlobalErrorCode.SECURITY_TOKEN_EXPIRED);
     }
 }

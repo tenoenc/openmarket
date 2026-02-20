@@ -46,7 +46,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 // 2-1. 블랙리스트(로그아웃) 여부 확인
                 if (tokenBlacklistValidator.existsByAccessToken(token)) {
                     // 이미 로그아웃된 토큰이므로 인증 거부
-                    throw new BusinessException(GlobalErrorCode.USER_LOGOUT);
+                    throw new BusinessException(GlobalErrorCode.SECURITY_LOGOUT);
                 }
 
                 // 2-2. 정상 토큰이면 인증 객체 생성

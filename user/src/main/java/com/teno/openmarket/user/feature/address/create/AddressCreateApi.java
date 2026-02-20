@@ -1,8 +1,10 @@
 package com.teno.openmarket.user.feature.address.create;
 
-import com.teno.openmarket.common.annotation.ApiErrorCodeExamples;
+import com.teno.openmarket.common.annotation.GlobalErrorCodeExamples;
 import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.response.ApiResponse;
+import com.teno.openmarket.user.domain.exception.UserErrorCode;
+import com.teno.openmarket.user.domain.exception.UserErrorCodeExamples;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -34,10 +36,8 @@ public class AddressCreateApi {
      */
     @PostMapping("/addresses")
     @Operation(summary = "배송지 등록 API")
-    @ApiErrorCodeExamples({
-        GlobalErrorCode.SYSTEM_INVALID_INPUT,
-        GlobalErrorCode.USER_ADDRESS_LIMIT
-    })
+    @GlobalErrorCodeExamples(GlobalErrorCode.SYSTEM_INVALID_INPUT)
+    @UserErrorCodeExamples(UserErrorCode.USER_ADDRESS_LIMIT)
     public ApiResponse<Void> createAddress(
         @AuthenticationPrincipal Long userId,
         @RequestBody @Valid AddressCreateRequest request

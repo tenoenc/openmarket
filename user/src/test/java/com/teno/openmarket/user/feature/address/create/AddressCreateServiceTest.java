@@ -1,9 +1,9 @@
 package com.teno.openmarket.user.feature.address.create;
 
-import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.exception.BusinessException;
 import com.teno.openmarket.user.domain.address.UserAddress;
 import com.teno.openmarket.user.domain.address.UserAddressRepository;
+import com.teno.openmarket.user.domain.exception.UserErrorCode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -79,7 +79,7 @@ public class AddressCreateServiceTest {
         // when & then
         assertThatThrownBy(() -> addressCreateService.createAddress(userId, command))
                 .isInstanceOf(BusinessException.class)
-                .hasMessage(GlobalErrorCode.USER_ADDRESS_LIMIT.getMessage());
+                .hasMessage(UserErrorCode.USER_ADDRESS_LIMIT.getMessage());
 
     }
 

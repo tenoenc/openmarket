@@ -1,14 +1,14 @@
 package com.teno.openmarket.user.feature.signup;
 
-import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.exception.BusinessException;
+import com.teno.openmarket.user.domain.exception.UserErrorCode;
 import com.teno.openmarket.user.domain.term.Term;
 import com.teno.openmarket.user.domain.term.TermAgreement;
 import com.teno.openmarket.user.domain.term.TermAgreementRepository;
 import com.teno.openmarket.user.domain.term.TermRepository;
+import com.teno.openmarket.user.domain.user.Role;
 import com.teno.openmarket.user.domain.user.User;
 import com.teno.openmarket.user.domain.user.UserRepository;
-import com.teno.openmarket.user.domain.user.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -38,7 +38,7 @@ public class SignupService {
     public Long signup(SignupCommand command) {
         // 1. 이메일 중복 검사
         if (userRepository.existsByEmail(command.getEmail())) {
-            throw new BusinessException(GlobalErrorCode.USER_ALREADY_EXISTS);
+            throw new BusinessException(UserErrorCode.USER_ALREADY_EXISTS);
         }
 
         // 2. 약관 검증 (필수 약관 동의 여부 체크)
@@ -69,7 +69,7 @@ public class SignupService {
         if (agreedTermIds == null || agreedTermIds.isEmpty()) {
             // 시스템에 필수 약관이 존재하는데 동의를 안 했다면
             if (!termRepository.findAllByIsRequiredTrue().isEmpty()) {
-                throw new BusinessException(GlobalErrorCode.USER_TERMS_REQUIRED);
+                throw new BusinessException(UserErrorCode.USER_TERMS_REQUIRED);
             }
             return;
         }
@@ -82,7 +82,7 @@ public class SignupService {
                 .allMatch(term -> agreedTermIdSet.contains(term.getId()));
 
         if (!isAllMandatoryAgreed) {
-            throw new BusinessException(GlobalErrorCode.USER_TERMS_REQUIRED);
+            throw new BusinessException(UserErrorCode.USER_TERMS_REQUIRED);
         }
     }
 

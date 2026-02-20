@@ -1,9 +1,11 @@
 package com.teno.openmarket.user.feature.address.read;
 
-import com.teno.openmarket.common.annotation.ApiErrorCodeExamples;
+import com.teno.openmarket.common.annotation.GlobalErrorCodeExamples;
 import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.response.ApiResponse;
 import com.teno.openmarket.common.response.ListWrapper;
+import com.teno.openmarket.user.domain.exception.UserErrorCode;
+import com.teno.openmarket.user.domain.exception.UserErrorCodeExamples;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +35,7 @@ public class AddressReadApi {
      */
     @GetMapping("/addresses")
     @Operation(summary = "내 배송지 목록 조회 API")
-    @ApiErrorCodeExamples({GlobalErrorCode.USER_AUTHENTICATION_REQUIRED,})
+    @GlobalErrorCodeExamples({GlobalErrorCode.SECURITY_AUTHENTICATION_REQUIRED,})
     public ApiResponse<ListWrapper<AddressInfoResponse>> getMyAddresses(
         @AuthenticationPrincipal Long userId
     ) {
@@ -52,10 +54,8 @@ public class AddressReadApi {
      */
     @GetMapping("/addresses/{addressId}")
     @Operation(summary = "내 배송지 상세 조회 API")
-    @ApiErrorCodeExamples({
-        GlobalErrorCode.USER_AUTHENTICATION_REQUIRED,
-        GlobalErrorCode.USER_ADDRESS_NOT_FOUND
-    })
+    @GlobalErrorCodeExamples(GlobalErrorCode.SECURITY_AUTHENTICATION_REQUIRED)
+    @UserErrorCodeExamples(UserErrorCode.USER_ADDRESS_NOT_FOUND)
     public ApiResponse<AddressInfoResponse> getMyAddressDetail(
         @AuthenticationPrincipal Long userId,
         @PathVariable Long addressId

@@ -1,8 +1,10 @@
 package com.teno.openmarket.user.feature.address.delete;
 
-import com.teno.openmarket.common.annotation.ApiErrorCodeExamples;
+import com.teno.openmarket.common.annotation.GlobalErrorCodeExamples;
 import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.response.ApiResponse;
+import com.teno.openmarket.user.domain.exception.UserErrorCode;
+import com.teno.openmarket.user.domain.exception.UserErrorCodeExamples;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -36,10 +38,10 @@ public class AddressDeleteApi {
      */
     @DeleteMapping("/addresses/{addressId}")
     @Operation(summary = "배송지 삭제 API")
-    @ApiErrorCodeExamples({
-        GlobalErrorCode.USER_AUTHENTICATION_REQUIRED,
-        GlobalErrorCode.USER_ADDRESS_NOT_FOUND,
-        GlobalErrorCode.USER_ADDRESS_DEFAULT
+    @GlobalErrorCodeExamples(GlobalErrorCode.SECURITY_AUTHENTICATION_REQUIRED)
+    @UserErrorCodeExamples({
+        UserErrorCode.USER_ADDRESS_NOT_FOUND,
+        UserErrorCode.USER_ADDRESS_DEFAULT
     })
     public ApiResponse<Void> deletedAddress(
         @AuthenticationPrincipal Long userId,

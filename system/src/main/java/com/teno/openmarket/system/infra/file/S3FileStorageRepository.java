@@ -1,7 +1,7 @@
 package com.teno.openmarket.system.infra.file;
 
-import com.teno.openmarket.common.error.GlobalErrorCode;
 import com.teno.openmarket.common.exception.BusinessException;
+import com.teno.openmarket.system.domain.exception.SystemErrorCode;
 import com.teno.openmarket.system.domain.file.FileStorageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +40,7 @@ public class S3FileStorageRepository implements FileStorageRepository {
             return String.format("https://%s.s3.%s.amazonaws.com/%s", bucket, region, fileName);
         } catch (Exception e) {
             log.error("S3 upload failed: {}", fileName, e);
-            throw new BusinessException(GlobalErrorCode.SYSTEM_FILE_UPLOAD_FAILED);
+            throw new BusinessException(SystemErrorCode.SYSTEM_FILE_UPLOAD_FAILED);
         }
     }
 }
