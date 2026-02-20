@@ -99,4 +99,11 @@ public class UserAddress {
         this.addressBase = addressBase;
         this.addressDetail = addressDetail;
     }
+
+    /**
+     * 기본 배송지 변경
+     */
+    public void changeDefaultStatus(boolean isDefault) {
+        this.isDefault = isDefault;
+    }
 }

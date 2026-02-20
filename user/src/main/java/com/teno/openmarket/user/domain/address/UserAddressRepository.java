@@ -14,4 +14,6 @@ public interface UserAddressRepository {
     Optional<UserAddress> findByIdAndUserId(Long id, Long userId);
 
     void delete(UserAddress address);
+
+    Optional<UserAddress> findByUserIdAndIsDefaultTrue(Long userId);
 }

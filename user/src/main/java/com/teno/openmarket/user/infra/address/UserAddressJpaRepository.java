@@ -12,4 +12,6 @@ public interface UserAddressJpaRepository extends JpaRepository<UserAddress, Lon
     List<UserAddress> findAllByUserIdOrderByIsDefaultDescIdDesc(Long userId);
 
     Optional<UserAddress> findByIdAndUserId(Long id, Long userId);
+
+    Optional<UserAddress> findByUserIdAndIsDefaultTrue(Long userId);
 }
