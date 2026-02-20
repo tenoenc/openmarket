@@ -38,4 +38,9 @@ public class UserAddressRepositoryImpl implements UserAddressRepository {
     public void delete(UserAddress address) {
         jpaRepository.delete(address);
     }
+
+    @Override
+    public Optional<UserAddress> findByUserIdAndIsDefaultTrue(Long userId) {
+        return jpaRepository.findByUserIdAndIsDefaultTrue(userId);
+    }
 }
