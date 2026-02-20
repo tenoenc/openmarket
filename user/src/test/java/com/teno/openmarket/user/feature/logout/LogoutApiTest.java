@@ -1,8 +1,8 @@
 package com.teno.openmarket.user.feature.logout;
 
+import com.teno.openmarket.core.security.JwtTokenProvider;
 import com.teno.openmarket.test.support.BaseControllerTest;
 import com.teno.openmarket.user.config.TestUserSecurityConfig;
-import com.teno.openmarket.common.security.JwtTokenProvider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;

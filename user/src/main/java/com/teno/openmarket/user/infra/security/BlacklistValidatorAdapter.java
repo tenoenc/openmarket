@@ -1,6 +1,6 @@
 package com.teno.openmarket.user.infra.security;
 
-import com.teno.openmarket.common.security.TokenBlacklistValidator;
+import com.teno.openmarket.core.security.TokenBlacklistValidator;
 import com.teno.openmarket.user.domain.token.TokenBlacklistRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

@@ -1,9 +1,9 @@
 package com.teno.openmarket.user.infra.security;
 
-import com.teno.openmarket.common.security.JwtAuthenticationEntryPoint;
-import com.teno.openmarket.common.security.JwtAuthenticationFilter;
-import com.teno.openmarket.common.security.JwtTokenProvider;
-import com.teno.openmarket.common.security.TokenBlacklistValidator;
+import com.teno.openmarket.core.security.JwtAuthenticationEntryPoint;
+import com.teno.openmarket.core.security.JwtAuthenticationFilter;
+import com.teno.openmarket.core.security.JwtTokenProvider;
+import com.teno.openmarket.core.security.TokenBlacklistValidator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,6 +3,7 @@ jar { enabled = false }
 
 dependencies {
     implementation project(':common')
+    implementation project(':core-security')
     implementation project(':user')
     implementation project(':deal')
     implementation project(':order')
