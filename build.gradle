@@ -96,6 +96,7 @@ configure(subprojects.findAll { it.name in ['deal', 'order'] }) {
 
     dependencies {
         implementation project(':common')
+        implementation project(':core-security')
 
         implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     }

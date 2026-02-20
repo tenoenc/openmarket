@@ -1,8 +1,8 @@
 package com.teno.openmarket.user.feature.profile.info;
 
-import com.teno.openmarket.common.annotation.GlobalErrorCodeExamples;
-import com.teno.openmarket.common.error.GlobalErrorCode;
-import com.teno.openmarket.common.response.ApiResponse;
+import com.teno.openmarket.core.security.exception.SecurityErrorCode;
+import com.teno.openmarket.core.security.exception.SecurityErrorCodeExamples;
+import com.teno.openmarket.core.security.response.ApiResponse;
 import com.teno.openmarket.user.domain.exception.UserErrorCode;
 import com.teno.openmarket.user.domain.exception.UserErrorCodeExamples;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,9 +32,7 @@ public class ProfileInfoApi {
      */
     @GetMapping("/me")
     @Operation(summary = "내 정보 조회 API")
-    @GlobalErrorCodeExamples({
-        GlobalErrorCode.SECURITY_AUTHENTICATION_REQUIRED
-    })
+    @SecurityErrorCodeExamples(SecurityErrorCode.SECURITY_AUTHENTICATION_REQUIRED)
     @UserErrorCodeExamples({
         UserErrorCode.USER_NOT_FOUND,
     })

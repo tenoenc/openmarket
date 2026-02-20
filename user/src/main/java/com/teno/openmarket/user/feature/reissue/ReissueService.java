@@ -1,10 +1,10 @@
 package com.teno.openmarket.user.feature.reissue;
 
-import com.teno.openmarket.common.error.GlobalErrorCode;
-import com.teno.openmarket.common.exception.BusinessException;
+import com.teno.openmarket.core.security.exception.BusinessException;
+import com.teno.openmarket.core.security.exception.SecurityErrorCode;
 import com.teno.openmarket.user.domain.token.RefreshToken;
 import com.teno.openmarket.user.domain.token.RefreshTokenRepository;
-import com.teno.openmarket.common.security.JwtTokenProvider;
+import com.teno.openmarket.core.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +37,7 @@ public class ReissueService {
      *
      * @param command 재발급 요청 정보를 담은 커맨드 객체
      * @return {@link TokenResponse} 갱신된 Access Token, Refresh Token 및 유효 시간을 포함한 응답
-     * @throws BusinessException 토큰이 유효하지 않거나, 이미 사용된 경우 ({@link GlobalErrorCode#SECURITY_TOKEN_EXPIRED})
+     * @throws BusinessException 토큰이 유효하지 않거나, 이미 사용된 경우 ({@link SecurityErrorCode#SECURITY_TOKEN_EXPIRED})
      */
     @Transactional
     public TokenResponse reissue(ReissueCommand command) {
@@ -45,13 +45,13 @@ public class ReissueService {
 
         // 1. 토큰 자체의 유효성 검사 (서명, 만료 여부 등)
         if (!jwtTokenProvider.validateToken(requestToken)) {
-            throw new BusinessException(GlobalErrorCode.SECURITY_TOKEN_EXPIRED);
+            throw new BusinessException(SecurityErrorCode.SECURITY_TOKEN_EXPIRED);
         }
 
         // 2. Redis에 저장된 토큰인지 조회
         // 조회되지 않는다면? -> 이미 사용되었거나(RTR), 만료되어 삭제된 토큰 -> 재사용 공격 의심
         RefreshToken storedToken = refreshTokenRepository.findByToken(requestToken)
-                .orElseThrow(() -> new BusinessException(GlobalErrorCode.SECURITY_TOKEN_EXPIRED));
+                .orElseThrow(() -> new BusinessException(SecurityErrorCode.SECURITY_TOKEN_EXPIRED));
 
         // 3. 기존 토큰 폐기 (1회용 사용 보장)
         refreshTokenRepository.delete(storedToken);

@@ -1,10 +1,10 @@
 package com.teno.openmarket.user.feature.reissue;
 
-import com.teno.openmarket.common.error.GlobalErrorCode;
-import com.teno.openmarket.common.exception.BusinessException;
+import com.teno.openmarket.core.security.JwtTokenProvider;
+import com.teno.openmarket.core.security.exception.BusinessException;
+import com.teno.openmarket.core.security.exception.SecurityErrorCode;
 import com.teno.openmarket.user.domain.token.RefreshToken;
 import com.teno.openmarket.user.domain.token.RefreshTokenRepository;
-import com.teno.openmarket.common.security.JwtTokenProvider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,7 +17,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -100,6 +99,6 @@ public class ReissueServiceTest {
         // when & then
         assertThatThrownBy(() -> reissueService.reissue(command))
                 .isInstanceOf(BusinessException.class)
-                .hasFieldOrPropertyWithValue("errorCode", GlobalErrorCode.SECURITY_TOKEN_EXPIRED);
+                .hasFieldOrPropertyWithValue("errorCode", SecurityErrorCode.SECURITY_TOKEN_EXPIRED);
     }
 }

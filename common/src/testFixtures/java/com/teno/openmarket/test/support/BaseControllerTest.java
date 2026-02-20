@@ -1,10 +1,10 @@
 package com.teno.openmarket.test.support;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.teno.openmarket.common.config.JacksonConfig;
-import com.teno.openmarket.common.exception.GlobalExceptionHandler;
-import com.teno.openmarket.common.filter.MdcLoggingFilter;
-import com.teno.openmarket.common.response.GlobalResponseAdvice;
+import com.teno.openmarket.core.security.config.JacksonConfig;
+import com.teno.openmarket.core.security.exception.GlobalExceptionHandler;
+import com.teno.openmarket.core.security.filter.MdcLoggingFilter;
+import com.teno.openmarket.core.security.response.GlobalResponseAdvice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;

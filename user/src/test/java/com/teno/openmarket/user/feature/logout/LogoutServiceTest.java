@@ -1,9 +1,9 @@
 package com.teno.openmarket.user.feature.logout;
 
+import com.teno.openmarket.core.security.JwtTokenProvider;
 import com.teno.openmarket.user.domain.token.BlacklistedToken;
 import com.teno.openmarket.user.domain.token.RefreshTokenRepository;
 import com.teno.openmarket.user.domain.token.TokenBlacklistRepository;
-import com.teno.openmarket.common.security.JwtTokenProvider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

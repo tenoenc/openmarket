@@ -1,8 +1,8 @@
 package com.teno.openmarket.api.config;
 
-import com.teno.openmarket.common.annotation.GlobalErrorCodeExamples;
-import com.teno.openmarket.common.error.ErrorCode;
-import com.teno.openmarket.common.response.ResultType;
+import com.teno.openmarket.core.security.annotation.GlobalErrorCodeExamples;
+import com.teno.openmarket.core.security.error.ErrorCode;
+import com.teno.openmarket.core.security.response.ResultType;
 import com.teno.openmarket.deal.domain.exception.DealErrorCodeExamples;
 import com.teno.openmarket.order.domain.exception.OrderErrorCodeExamples;
 import com.teno.openmarket.shop.domain.exception.ShopErrorCodeExamples;

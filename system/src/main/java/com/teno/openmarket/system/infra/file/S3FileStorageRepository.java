@@ -1,6 +1,6 @@
 package com.teno.openmarket.system.infra.file;
 
-import com.teno.openmarket.common.exception.BusinessException;
+import com.teno.openmarket.core.security.exception.BusinessException;
 import com.teno.openmarket.system.domain.exception.SystemErrorCode;
 import com.teno.openmarket.system.domain.file.FileStorageRepository;
 import lombok.RequiredArgsConstructor;

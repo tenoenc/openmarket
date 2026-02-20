@@ -1,9 +1,8 @@
 package com.teno.openmarket.system.feature.file;
 
-import com.teno.openmarket.common.annotation.GlobalErrorCodeExamples;
-import com.teno.openmarket.common.error.ErrorCode;
-import com.teno.openmarket.common.error.GlobalErrorCode;
-import com.teno.openmarket.common.response.ApiResponse;
+import com.teno.openmarket.core.security.annotation.GlobalErrorCodeExamples;
+import com.teno.openmarket.core.security.error.GlobalErrorCode;
+import com.teno.openmarket.core.security.response.ApiResponse;
 import com.teno.openmarket.system.domain.exception.SystemErrorCode;
 import com.teno.openmarket.system.domain.exception.SystemErrorCodeExamples;
 import io.swagger.v3.oas.annotations.Operation;

@@ -1,12 +1,12 @@
 package com.teno.openmarket.user.feature.login;
 
-import com.teno.openmarket.common.exception.BusinessException;
+import com.teno.openmarket.core.security.exception.BusinessException;
 import com.teno.openmarket.user.domain.exception.UserErrorCode;
 import com.teno.openmarket.user.domain.token.RefreshToken;
 import com.teno.openmarket.user.domain.token.RefreshTokenRepository;
 import com.teno.openmarket.user.domain.user.User;
 import com.teno.openmarket.user.domain.user.UserRepository;
-import com.teno.openmarket.common.security.JwtTokenProvider;
+import com.teno.openmarket.core.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

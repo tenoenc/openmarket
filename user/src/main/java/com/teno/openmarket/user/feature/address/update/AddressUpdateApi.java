@@ -1,8 +1,10 @@
 package com.teno.openmarket.user.feature.address.update;
 
-import com.teno.openmarket.common.annotation.GlobalErrorCodeExamples;
-import com.teno.openmarket.common.error.GlobalErrorCode;
-import com.teno.openmarket.common.response.ApiResponse;
+import com.teno.openmarket.core.security.annotation.GlobalErrorCodeExamples;
+import com.teno.openmarket.core.security.error.GlobalErrorCode;
+import com.teno.openmarket.core.security.exception.SecurityErrorCode;
+import com.teno.openmarket.core.security.exception.SecurityErrorCodeExamples;
+import com.teno.openmarket.core.security.response.ApiResponse;
 import com.teno.openmarket.user.domain.exception.UserErrorCode;
 import com.teno.openmarket.user.domain.exception.UserErrorCodeExamples;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,10 +39,8 @@ public class AddressUpdateApi {
      */
     @PutMapping("/addresses/{addressId}")
     @Operation(summary = "배송지 수정 API")
-    @GlobalErrorCodeExamples({
-        GlobalErrorCode.SECURITY_AUTHENTICATION_REQUIRED,
-        GlobalErrorCode.SYSTEM_INVALID_INPUT
-    })
+    @GlobalErrorCodeExamples(GlobalErrorCode.SYSTEM_INVALID_INPUT)
+    @SecurityErrorCodeExamples(SecurityErrorCode.SECURITY_AUTHENTICATION_REQUIRED)
     @UserErrorCodeExamples(UserErrorCode.USER_ADDRESS_NOT_FOUND)
     public ApiResponse<Void> updateAddress(
         @AuthenticationPrincipal Long userId,

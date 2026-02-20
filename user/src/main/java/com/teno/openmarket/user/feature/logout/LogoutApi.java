@@ -1,6 +1,6 @@
 package com.teno.openmarket.user.feature.logout;
 
-import com.teno.openmarket.common.response.ApiResponse;
+import com.teno.openmarket.core.security.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;

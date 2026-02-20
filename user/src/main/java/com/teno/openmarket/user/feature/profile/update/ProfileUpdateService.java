@@ -1,6 +1,6 @@
 package com.teno.openmarket.user.feature.profile.update;
 
-import com.teno.openmarket.common.exception.BusinessException;
+import com.teno.openmarket.core.security.exception.BusinessException;
 import com.teno.openmarket.user.domain.exception.UserErrorCode;
 import com.teno.openmarket.user.domain.user.User;
 import com.teno.openmarket.user.domain.user.UserRepository;

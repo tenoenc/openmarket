@@ -10,6 +10,8 @@ include 'api-server'
 // '도메인 불가지론적 표준 규약 및 공용 라이브러리' 계층
 include 'common'
 
+include 'core-security'
+
 // 비즈니스 도메인 모듈
 include 'user'
 include 'deal'

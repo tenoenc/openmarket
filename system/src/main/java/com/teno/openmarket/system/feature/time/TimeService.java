@@ -1,6 +1,6 @@
 package com.teno.openmarket.system.feature.time;
 
-import com.teno.openmarket.common.exception.BusinessException;
+import com.teno.openmarket.core.security.exception.BusinessException;
 import com.teno.openmarket.system.domain.time.TimeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
