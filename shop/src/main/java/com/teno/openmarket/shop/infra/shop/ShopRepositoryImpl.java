@@ -5,6 +5,8 @@ import com.teno.openmarket.shop.domain.shop.ShopRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 @RequiredArgsConstructor
 public class ShopRepositoryImpl implements ShopRepository {
@@ -24,5 +26,10 @@ public class ShopRepositoryImpl implements ShopRepository {
     @Override
     public boolean existsByShopName(String shopName) {
         return jpaRepository.existsByShopName(shopName);
+    }
+
+    @Override
+    public Optional<Shop> findById(Long id) {
+        return jpaRepository.findById(id);
     }
 }

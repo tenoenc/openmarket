@@ -102,4 +102,22 @@ public class User extends BaseTimeEntity {
         this.name = name;
         this.phone = phone;
     }
+
+    /**
+     * 판매자 권한으로 승격합니다.
+     * <p>
+     * 이미 판매자이거나 상위 권한(관리자)인 경우 상태를 변경하지 않습니다.
+     */
+    public void upgradeToSeller() {
+        // 관리자는 이미 모든 권한을 대리할 수 있으므로 강등시키지 않음
+        if (this.role == Role.ROLE_ADMIN) {
+            return;
+        }
+        // 이미 판매자 권한인 경우 멱등성 보장을 위해 무시
+        if (this.role == Role.ROLE_SELLER) {
+            return;
+        }
+
+        this.role = Role.ROLE_SELLER;
+    }
 }

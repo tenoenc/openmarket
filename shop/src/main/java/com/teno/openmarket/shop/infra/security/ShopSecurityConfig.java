@@ -60,7 +60,7 @@ public class ShopSecurityConfig {
             );
         // 6. URL별 권한 설정
         http.authorizeHttpRequests(auth -> auth
-            // .requestMatchers().permitAll()
+            .requestMatchers("/api/v1/admin/**").hasAuthority("ROLE_ADMIN")
             .anyRequest().authenticated()
         );
 

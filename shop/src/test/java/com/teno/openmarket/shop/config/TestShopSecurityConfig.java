@@ -2,6 +2,7 @@ package com.teno.openmarket.shop.config;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -33,6 +34,7 @@ public class TestShopSecurityConfig {
             )
 
             .authorizeHttpRequests(auth -> auth
+                    .requestMatchers("/api/v1/admin/**").hasAuthority("ROLE_ADMIN")
                     .anyRequest().authenticated()
             );
 

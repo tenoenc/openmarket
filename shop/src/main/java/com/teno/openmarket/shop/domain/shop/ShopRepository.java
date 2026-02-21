@@ -9,4 +9,6 @@ public interface ShopRepository {
     boolean existsByUserId(Long userId);
 
     boolean existsByShopName(String shopName);
+
+    Optional<Shop> findById(Long id);
 }

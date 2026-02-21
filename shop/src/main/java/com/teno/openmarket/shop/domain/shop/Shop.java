@@ -1,6 +1,8 @@
 package com.teno.openmarket.shop.domain.shop;
 
 import com.teno.openmarket.common.entity.BaseTimeEntity;
+import com.teno.openmarket.common.exception.BusinessException;
+import com.teno.openmarket.shop.domain.exception.ShopErrorCode;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -116,5 +118,26 @@ public class Shop extends BaseTimeEntity {
         this.accountNumber = accountNumber;
         this.accountHolder = accountHolder;
         this.status = status != null ? status : ShopStatus.WAITING;
+    }
+
+    /**
+     * 상점 입점 승인
+     */
+    public void approve() {
+        if (this.status != ShopStatus.WAITING) {
+            throw new BusinessException(ShopErrorCode.SHOP_NOT_WAITING_STATUS);
+        }
+        this.status = ShopStatus.ACTIVE;
+    }
+
+    /**
+     * 상점 입점 반려
+     */
+    public void reject(String rejectReason) {
+        if (this.status != ShopStatus.WAITING) {
+            throw new BusinessException(ShopErrorCode.SHOP_NOT_WAITING_STATUS);
+        }
+        this.status = ShopStatus.REJECTED;
+        this.rejectReason = rejectReason;
     }
 }
